@@ -28,5 +28,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.cosre7.pms.application'
+    mainClass = 'com.cosre7.pms.App'
 }
