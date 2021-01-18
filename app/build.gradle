@@ -13,6 +13,11 @@ plugins {
     id 'eclipse'
 }
 
+eclipse {
+    project {
+        name = "myproject-01"
+    }
+}
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
@@ -29,4 +34,10 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'com.cosre7.pms.App'
+}
+
+// 자바 소스를 컴파일 할 때 적용할 옵션
+tasks.withType(JavaCompile) {
+    // $javac -encoding UTF-8 ...
+    options.encoding = 'UTF-8';
 }
