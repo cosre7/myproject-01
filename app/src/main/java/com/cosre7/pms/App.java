@@ -16,26 +16,11 @@ public class App {
   static void addDiet() {
     System.out.println("[식단일지 작성]");
 
-    System.out.print("날짜 > ");
-    date[size] = Date.valueOf(keyboardScan.nextLine());
-
-    System.out.print("시간 > ");
-    time[size] = keyboardScan.nextLine();
-
-    System.out.print("먹은 음식 > ");
-    food[size] = keyboardScan.nextLine();
-
-    System.out.print("포만감 정도(1~5) > ");
-    status[size] = keyboardScan.nextInt();     
-
-    keyboardScan.nextLine();
-
-    System.out.println("종류");
-    System.out.println("1: 식단");
-    System.out.println("2: 치팅");
-    System.out.print("> ");
-    choice[size] = keyboardScan.nextInt();
-    keyboardScan.nextLine();
+    date[size] = promptDate("날짜 > ");
+    time[size] = promptString("시간 > ");
+    food[size] = promptString("먹은 음식 > ");
+    status[size] = promptInt("포만감 정도 (1~5) > ");     
+    choice[size] = promptInt("종류\n1: 식단\n2: 치팅\n> ");
     size++;
   }
 
@@ -85,28 +70,11 @@ public class App {
   static void addTraining() {
     System.out.println("[운동일지 작성]");
 
-    System.out.print("날짜 > ");
-    date2[size3] = Date.valueOf(keyboardScan.nextLine());
-
-    System.out.print("운동 리스트 > ");
-    list[size3] = keyboardScan.nextLine();
-
-    System.out.println("종류1");
-    System.out.println("1: 상체");
-    System.out.println("2: 하체");
-    System.out.println("3: 전신");
-    System.out.print("> ");
-    body[size3] = Integer.valueOf(keyboardScan.nextLine());
-
-    System.out.println("종류2");
-    System.out.println("1: 근력");
-    System.out.println("2: 유산소");
-    System.out.print("> ");
-    training[size3] = Integer.valueOf(keyboardScan.nextLine());
-
-    System.out.print("운동 강도 (1~5) > ");
-    intensity[size3] = keyboardScan.nextInt();
-    keyboardScan.nextLine();
+    date2[size3] = promptDate("날짜 > ");
+    list[size3] = promptString("운동 리스트 > ");
+    body[size3] = promptInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
+    training[size3] = promptInt("종류2\n1: 근력\n2: 유산소\n> ");
+    intensity[size3] = promptInt("운동 강도 (1~5) > ");
     size3++;
   }
 
@@ -168,24 +136,12 @@ public class App {
   static void addIndex() {
     System.out.println("[신체지수 작성]");
 
-    System.out.print("날짜 > ");
-    date3[size2] = Date.valueOf(keyboardScan.nextLine());
-
-    System.out.print("몸무게 > ");
-    weight[size2] = keyboardScan.nextDouble();
-
-    System.out.print("가슴 둘레 > ");
-    bust[size2] = keyboardScan.nextDouble();
-
-    System.out.print("허리 둘레 > ");
-    waist[size2] = keyboardScan.nextDouble();
-
-    System.out.print("허벅지 둘레 > ");
-    thigh[size2] = keyboardScan.nextDouble();
-
-    System.out.print("종아리 둘레 > ");
-    calf[size2] = keyboardScan.nextDouble();
-    keyboardScan.nextLine();
+    date3[size2] = promptDate("날짜 > ");
+    weight[size2] = promptDouble("몸무게 > ");
+    bust[size2] = promptDouble("가슴 둘레 > ");
+    waist[size2] = promptDouble("허리 둘레 > ");
+    thigh[size2] = promptDouble("허벅지 둘레 > ");
+    calf[size2] = promptDouble("종아리 둘레 > ");
 
     size2++;
   }
@@ -239,6 +195,25 @@ public class App {
       }
       System.out.println();
     }
-    keyboardScan.close();
+    keyboardScan.close();    
+  }
+  static String promptString (String title) {
+    System.out.print(title);
+    return keyboardScan.nextLine();
+  }
+
+  static Date promptDate (String title) {
+    String str = promptString(title);
+    return Date.valueOf(str);    
+  }
+
+  static int promptInt (String title) {
+    String str = promptString(title);
+    return Integer.valueOf(str);
+  }
+
+  static double promptDouble (String title) {
+    String str = promptString(title);
+    return Double.parseDouble(str);
   }
 }
