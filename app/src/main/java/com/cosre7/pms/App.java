@@ -73,11 +73,28 @@ public class App {
               label = "훌륭해요!";
               break;
             case 2:
-              label = "좀 더 노력하세요";   
+              label = "치팅이라니..";   
               break;
           }
+          String statusLabel = null;
+          switch (status[i]) {
+            case 1:
+              statusLabel = "나는 아직 배고프다..";
+              break;
+            case 2:
+              statusLabel = "배가 반정도 찬 느낌";
+              break;
+            case 3:
+              statusLabel = "적당해요";
+              break;
+            case 4:
+              statusLabel = "조금 과했나..";
+              break;
+            case 5:
+              statusLabel = "터질 것 같아요";
+          }
           System.out.printf("%s, %s, %s, %s, %s\n", 
-              date[i], time[i], food[i], status[i], label);
+              date[i], time[i], food[i], statusLabel, label);
         }
       } else if (input.equalsIgnoreCase("/training/add")) {
         System.out.println("[운동 일지 작성]");
@@ -127,8 +144,25 @@ public class App {
               trainingLabel = "유산소 운동";
               break;
           }
-          System.out.printf("%s, %s, %s, %s, %d\n", 
-              date2[i], list[i], bodyLabel, trainingLabel, intensity[i]);
+          String intensityLabel = null;
+          switch (intensity[i]) {
+            case 1:
+              intensityLabel = "껌이에요";
+              break;
+            case 2:
+              intensityLabel = "한 듯 안한 듯";
+              break;
+            case 3:
+              intensityLabel = "적당해요";
+              break;
+            case 4:
+              intensityLabel = "근육통 예상";
+              break;
+            case 5:
+              intensityLabel = "헬이에요";
+          }
+          System.out.printf("%s, %s, %s, %s, %s\n", 
+              date2[i], list[i], bodyLabel, trainingLabel, intensityLabel);
         }
       } else if (input.equalsIgnoreCase("/index/add")) {
         System.out.println("[신체 지수 작성]");
