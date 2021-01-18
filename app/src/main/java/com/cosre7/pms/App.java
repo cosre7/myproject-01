@@ -69,7 +69,7 @@ public class App {
         case 5:
           statusLabel = "터질 것 같아요";
       }
-      System.out.printf("%s, %s, %s, %s, %s\n", 
+      System.out.printf("날짜: %s\n시간: %s시\n먹은 음식: %s\n포만감: %s\n결론: %s\n", 
           date[i], time[i], food[i], statusLabel, label);
     }
   }
@@ -94,6 +94,7 @@ public class App {
     System.out.println("종류1");
     System.out.println("1: 상체");
     System.out.println("2: 하체");
+    System.out.println("3: 전신");
     System.out.print("> ");
     body[size3] = Integer.valueOf(keyboardScan.nextLine());
 
@@ -121,6 +122,8 @@ public class App {
         case 2:
           bodyLabel = "하체 운동";
           break;
+        default :
+          bodyLabel = "전신 운동";
       }
       String trainingLabel = null;
       switch (training[i]) {
@@ -148,7 +151,7 @@ public class App {
         case 5:
           intensityLabel = "헬이에요";
       }
-      System.out.printf("%s, %s, %s, %s, %s\n", 
+      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n운동 강도: %s\n", 
           date2[i], list[i], bodyLabel, trainingLabel, intensityLabel);
     }
   }
@@ -191,8 +194,8 @@ public class App {
     System.out.println("[신체지수 목록]");
 
     for (int i = 0; i < size2; i++) {
-      System.out.printf("%s, %.2f, %.2f, %.2f, %.2f, %.2f\n", 
-          date[i], weight[i], bust[i], waist[i], thigh[i], calf[i]);
+      System.out.printf("날짜: %s\n몸무게: %.2f\n가슴 둘레: %.2f\n허리 둘레: %.2f\n허벅지 둘레: %.2f\n종아리 둘레: %.2f\n", 
+          date3[i], weight[i], bust[i], waist[i], thigh[i], calf[i]);
     }
   }
 
