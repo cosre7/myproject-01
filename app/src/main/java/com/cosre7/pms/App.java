@@ -33,6 +33,14 @@ public class App {
     int size2 = 0;
 
     while (true) {
+      System.out.println("[명령어]");
+      System.out.println("식단일지 작성 : /diet/add");
+      System.out.println("식단일지 목록 : /diet/list");
+      System.out.println("운동일지 작성 : /training/add");
+      System.out.println("운동일지 목록 : /training/list");
+      System.out.println("신체지수 작성 : /index/add");
+      System.out.println("신체지수 목록 : /index/list");
+      System.out.println();
       System.out.print("명령> ");
       String input = keyboardScan.nextLine();
 
@@ -40,7 +48,7 @@ public class App {
           input.equalsIgnoreCase("quit")) {
         break;
       } else if (input.equalsIgnoreCase("/diet/add")) {
-        System.out.println("[식단 일지 작성]");
+        System.out.println("[식단일지 작성]");
 
         System.out.print("날짜 > ");
         date[size] = Date.valueOf(keyboardScan.nextLine());
@@ -64,7 +72,7 @@ public class App {
         keyboardScan.nextLine();
         size++;
       } else if (input.equalsIgnoreCase("/diet/list")) {
-        System.out.println("[식단 일지 목록]");
+        System.out.println("[식단일지 목록]");
 
         for(int i = 0; i < size; i++) {
           String label = null;
@@ -97,7 +105,7 @@ public class App {
               date[i], time[i], food[i], statusLabel, label);
         }
       } else if (input.equalsIgnoreCase("/training/add")) {
-        System.out.println("[운동 일지 작성]");
+        System.out.println("[운동일지 작성]");
 
         System.out.print("날짜 > ");
         date2[size3] = Date.valueOf(keyboardScan.nextLine());
@@ -123,7 +131,7 @@ public class App {
         size3++;
 
       } else if (input.equalsIgnoreCase("/training/list")) {
-        System.out.println("[운동 일지 목록]");
+        System.out.println("[운동일지 목록]");
 
         for (int i = 0; i < size3; i++) {
           String bodyLabel = null;
@@ -165,7 +173,7 @@ public class App {
               date2[i], list[i], bodyLabel, trainingLabel, intensityLabel);
         }
       } else if (input.equalsIgnoreCase("/index/add")) {
-        System.out.println("[신체 지수 작성]");
+        System.out.println("[신체지수 작성]");
 
         System.out.print("날짜 > ");
         date3[size2] = Date.valueOf(keyboardScan.nextLine());
@@ -188,7 +196,7 @@ public class App {
 
         size2++;
       } else if (input.equalsIgnoreCase("/index/list")) {
-        System.out.println("[신체 지수 목록]");
+        System.out.println("[신체지수 목록]");
 
         for (int i = 0; i < size2; i++) {
           System.out.printf("%s, %.2f, %.2f, %.2f, %.2f, %.2f\n", 
