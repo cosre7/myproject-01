@@ -1,6 +1,7 @@
-package com.cosre7.pms;
+package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import com.cosre7.util.Prompt;
 
 public class IndexHandler {
 
@@ -16,7 +17,7 @@ public class IndexHandler {
   static Index[] indexes = new Index[LENGTH]; 
   static int size = 0;
 
-  static void add() {
+  public static void add() {
     System.out.println("[신체지수 작성]");
 
     Index i = new Index();
@@ -31,7 +32,7 @@ public class IndexHandler {
     indexes[size++] = i;
   }
 
-  static void list() {
+  public static void list() {
     System.out.println("[신체지수 목록]");
 
     for (int j = 0; j < size; j++) {

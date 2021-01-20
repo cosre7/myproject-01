@@ -1,6 +1,7 @@
-package com.cosre7.pms;
+package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
@@ -15,7 +16,7 @@ public class DietHandler {
   static Diet[] diets = new Diet[LENGTH];
   static int size = 0;
 
-  static void add() {
+  public static void add() {
     System.out.println("[식단일지 작성]");
 
     Diet d = new Diet();
@@ -27,7 +28,7 @@ public class DietHandler {
     diets[size++] = d;
   }
 
-  static void list() {
+  public static void list() {
     System.out.println("[식단일지 목록]");
 
     for(int i = 0; i < size; i++) {

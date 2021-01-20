@@ -1,5 +1,10 @@
 package com.cosre7.pms;
 
+import com.cosre7.pms.handler.DietHandler;
+import com.cosre7.pms.handler.IndexHandler;
+import com.cosre7.pms.handler.TrainingHandler;
+import com.cosre7.util.Prompt;
+
 public class App {
 
   public static void main(String[] args) {
@@ -42,6 +47,7 @@ public class App {
       }
       System.out.println();
     }
+    System.out.println("사용해주셔서 감사합니다.");
     Prompt.close();    
   }
 

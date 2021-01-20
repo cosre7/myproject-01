@@ -1,6 +1,7 @@
-package com.cosre7.pms;
+package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
@@ -16,7 +17,7 @@ public class TrainingHandler {
   static Training[] trainings = new Training[LENGTH];
   static int size = 0;
 
-  static void add() {
+  public static void add() {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
@@ -31,7 +32,7 @@ public class TrainingHandler {
     trainings[size++] = t;
   }
 
-  static void list() {
+  public static void list() {
     System.out.println("[운동일지 목록]");
 
     for (int i = 0; i < size; i++) {
@@ -73,7 +74,7 @@ public class TrainingHandler {
         case 5:
           intensityLabel = "헬이에요";
       }
-      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %f\n운동 강도: %s\n", 
+      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.2f\n운동 강도: %s\n", 
           t.date, t.list, bodyLabel, trainingLabel, t.runTime, intensityLabel);
     }
   }
