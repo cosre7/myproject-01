@@ -22,7 +22,15 @@ public class DietHandler {
     Diet d = new Diet();
     d.date = Prompt.inputDate("날짜 > ");
     d.time = Prompt.inputString("시간 > ");
-    d.food = Prompt.inputString("먹은 음식 > ");
+    while (true) {
+      d.food = Prompt.inputString("먹은 음식(취소: 빈 문자열) > ");
+      if (d.food.length() == 0) {
+        System.out.println("식단일지 작성을 취소합니다.");
+        return;
+      }
+      break;
+    }
+
     d.status = Prompt.inputInt("포만감 정도 (1~5) > ");     
     d.choice = Prompt.inputInt("종류\n1: 식단\n2: 치팅\n> ");
     diets[size++] = d;
