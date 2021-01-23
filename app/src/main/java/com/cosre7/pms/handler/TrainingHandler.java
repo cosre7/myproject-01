@@ -23,7 +23,15 @@ public class TrainingHandler {
     Training t = new Training();
 
     t.date = Prompt.inputDate("날짜 > ");
-    t.list = Prompt.inputString("운동 리스트 > ");
+    while (true) {
+      t.list = Prompt.inputString("운동 리스트(취소: 빈 문자열) > ");
+      if (t.list.length() == 0) {
+        System.out.println("운동일지 작성을 종료합니다");
+        return;
+      }
+      break;
+    }
+
     t.body = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
     t.training = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n> ");
     t.runTime = Prompt.inputDouble("소요시간 > ");
