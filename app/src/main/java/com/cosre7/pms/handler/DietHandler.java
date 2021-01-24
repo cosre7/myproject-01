@@ -22,17 +22,30 @@ public class DietHandler {
     Diet d = new Diet();
     d.date = Prompt.inputDate("날짜 > ");
     d.time = Prompt.inputString("시간 > ");
+
+    d.food = "";
     while (true) {
-      d.food = Prompt.inputString("먹은 음식(취소: 빈 문자열) > ");
-      if (d.food.length() == 0) {
-        System.out.println("식단일지 작성을 취소합니다.");
-        return;
+      String eat = Prompt.inputString("먹은 음식(완료: 빈 문자열) > ");
+
+      if (eat.length() == 0) {
+        break;
+      } else {
+        if (!d.food.isEmpty()) {
+          d.food += ", ";
+        }
+        d.food += eat;
       }
-      break;
     }
 
-    d.status = Prompt.inputInt("포만감 정도 (1~5) > ");     
-    d.choice = Prompt.inputInt("종류\n1: 식단\n2: 치팅\n> ");
+    d.status = Prompt.inputInt("포만감 정도 (1~5) > ");  
+    while (true) {
+      d.choice = Prompt.inputInt("종류\n1: 식단\n2: 치팅\n> ");
+      if (d.choice == 1 || d.choice == 2) {
+        break;
+      } else {
+        System.out.println("다시 입력해주세요");
+      }
+    }
     diets[size++] = d;
   }
 

@@ -23,17 +23,38 @@ public class TrainingHandler {
     Training t = new Training();
 
     t.date = Prompt.inputDate("날짜 > ");
+
+    t.list = "";
     while (true) {
-      t.list = Prompt.inputString("운동 리스트(취소: 빈 문자열) > ");
-      if (t.list.length() == 0) {
-        System.out.println("운동일지 작성을 종료합니다");
-        return;
+      String exercise = Prompt.inputString("운동 리스트(완료: 빈 문자열) > ");
+      if (exercise.length() == 0) {
+        break;
+      } else {
+        if (!t.list.isEmpty()) {
+          t.list += ", ";
+        } 
+        t.list += exercise;
+
       }
-      break;
     }
 
-    t.body = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
-    t.training = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n> ");
+    while (true) {
+      t.body = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
+      if (t.body == 1 || t.body == 2 || t.body == 3) {
+        break;
+      } else {
+        System.out.println("다시 입력해주세요");
+      }
+    }
+
+    while (true) {
+      t.training = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n> ");
+      if (t.training == 1 || t.training == 2) {
+        break;
+      } else {
+        System.out.println("다시 입력해주세요");
+      }
+    }
     t.runTime = Prompt.inputDouble("소요시간 > ");
     t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
 
@@ -82,8 +103,8 @@ public class TrainingHandler {
         case 5:
           intensityLabel = "헬이에요";
       }
-      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.2f\n운동 강도: %s\n", 
-          t.date, t.list, bodyLabel, trainingLabel, t.runTime, intensityLabel);
+      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
+          t.date, t.list, bodyLabel, trainingLabel, t.runTime, intensityLabel, t.intensity);
     }
   }
 
