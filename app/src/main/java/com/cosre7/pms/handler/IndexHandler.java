@@ -1,23 +1,15 @@
 package com.cosre7.pms.handler;
 
-import java.sql.Date;
+import com.cosre7.pms.domain.Index;
 import com.cosre7.util.Prompt;
 
 public class IndexHandler {
 
-  static class Index {
-    Date date;
-    double weight;
-    double bust;
-    double waist;
-    double thigh;
-    double calf;
-  }
   static final int LENGTH = 100;
-  static Index[] indexes = new Index[LENGTH]; 
-  static int size = 0;
+  Index[] indexes = new Index[LENGTH]; 
+  int size = 0;
 
-  public static void add() {
+  public void add() {
     System.out.println("[신체지수 작성]");
 
     Index i = new Index();
@@ -29,14 +21,14 @@ public class IndexHandler {
     i.thigh = Prompt.inputDouble("허벅지 둘레 > ");
     i.calf = Prompt.inputDouble("종아리 둘레 > ");
 
-    indexes[size++] = i;
+    this.indexes[this.size++] = i;
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[신체지수 목록]");
 
-    for (int j = 0; j < size; j++) {
-      Index i = indexes[j];
+    for (int j = 0; j < this.size; j++) {
+      Index i = this.indexes[j];
       System.out.printf("날짜: %s\n몸무게: %.2f\n가슴 둘레: %.2f\n허리 둘레: %.2f\n허벅지 둘레: %.2f\n종아리 둘레: %.2f\n", 
           i.date, i.weight, i.bust, i.waist, i.thigh, i.calf);
     }

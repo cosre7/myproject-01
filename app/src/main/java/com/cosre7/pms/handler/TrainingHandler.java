@@ -1,23 +1,15 @@
 package com.cosre7.pms.handler;
 
-import java.sql.Date;
+import com.cosre7.pms.domain.Training;
 import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  static class Training {
-    Date date;
-    String list;
-    int body;
-    int training;
-    int intensity;
-    double runTime;
-  }
   static final int LENGTH = 100;
-  static Training[] trainings = new Training[LENGTH];
-  static int size = 0;
+  Training[] trainings = new Training[LENGTH];
+  int size = 0;
 
-  public static void add() {
+  public void add() {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
@@ -58,14 +50,14 @@ public class TrainingHandler {
     t.runTime = Prompt.inputDouble("소요시간 > ");
     t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
 
-    trainings[size++] = t;
+    this.trainings[this.size++] = t;
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[운동일지 목록]");
 
-    for (int i = 0; i < size; i++) {
-      Training t = trainings[i];
+    for (int i = 0; i < this.size; i++) {
+      Training t = this.trainings[i];
       String bodyLabel = null;
       switch (t.body) {
         case 1:

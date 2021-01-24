@@ -1,5 +1,6 @@
 package com.cosre7.pms;
 
+import com.cosre7.pms.handler.BoardHandler;
 import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.IndexHandler;
 import com.cosre7.pms.handler.TrainingHandler;
@@ -8,6 +9,11 @@ import com.cosre7.util.Prompt;
 public class App {
 
   public static void main(String[] args) {
+
+    DietHandler dietList = new DietHandler();
+    TrainingHandler trainingList = new TrainingHandler();
+    IndexHandler indexList = new IndexHandler();
+    BoardHandler boardList = new BoardHandler();
 
     while (true) {
       System.out.println("[명령어]");
@@ -25,25 +31,32 @@ public class App {
           input.equalsIgnoreCase("quit")) {
         break;
       } else if (input.equalsIgnoreCase("/diet/add")) {
-        DietHandler.add();
+        dietList.add();
 
       } else if (input.equalsIgnoreCase("/diet/list")) {
-        DietHandler.list();
+        dietList.list();
 
       } else if (input.equalsIgnoreCase("/training/add")) {
-        TrainingHandler.add();
+        trainingList.add();
 
       } else if (input.equalsIgnoreCase("/training/list")) {
-        TrainingHandler.list();
+        trainingList.list();
 
       } else if (input.equalsIgnoreCase("/index/add")) {
-        IndexHandler.add();
+        indexList.add();
 
       } else if (input.equalsIgnoreCase("/index/list")) {
-        IndexHandler.list();
+        indexList.list();
+
+      } else if (input.equalsIgnoreCase("/board/add")) {
+        boardList.add();
+
+      } else if (input.equalsIgnoreCase("/board/list")) {
+        boardList.list();
 
       } else {
         System.out.println("실행할 수 없는 명령입니다.");
+
       }
       System.out.println();
     }

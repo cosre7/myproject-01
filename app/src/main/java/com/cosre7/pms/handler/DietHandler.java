@@ -1,22 +1,15 @@
 package com.cosre7.pms.handler;
 
-import java.sql.Date;
+import com.cosre7.pms.domain.Diet;
 import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  static class Diet {
-    Date date;
-    String time;
-    String food;
-    int status;
-    int choice;
-  }
   static final int LENGTH  = 100;
-  static Diet[] diets = new Diet[LENGTH];
-  static int size = 0;
+  Diet[] diets = new Diet[LENGTH];
+  int size = 0;
 
-  public static void add() {
+  public void add() {
     System.out.println("[식단일지 작성]");
 
     Diet d = new Diet();
@@ -46,14 +39,14 @@ public class DietHandler {
         System.out.println("다시 입력해주세요");
       }
     }
-    diets[size++] = d;
+    this.diets[this.size++] = d;
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[식단일지 목록]");
 
-    for(int i = 0; i < size; i++) {
-      Diet d = diets[i];
+    for(int i = 0; i < this.size; i++) {
+      Diet d = this.diets[i];
       String label = null;
       switch (d.choice) {
         case 1:
