@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Index {
   public Date date;
+  public double height;
   public double weight;
   public double bust;
   public double waist;

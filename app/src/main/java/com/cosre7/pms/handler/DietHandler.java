@@ -68,7 +68,7 @@ public class DietHandler {
           statusLabel = "적당해요";
           break;
         case 4:
-          statusLabel = "조금 과했나..";
+          statusLabel = "조금 과해요";
           break;
         case 5:
           statusLabel = "터질 것 같아요";

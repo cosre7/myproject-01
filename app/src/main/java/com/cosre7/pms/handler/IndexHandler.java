@@ -15,11 +15,12 @@ public class IndexHandler {
     Index i = new Index();
 
     i.date = Prompt.inputDate("날짜 > ");
-    i.weight = Prompt.inputDouble("몸무게 > ");
-    i.bust = Prompt.inputDouble("가슴 둘레 > ");
-    i.waist = Prompt.inputDouble("허리 둘레 > ");
-    i.thigh = Prompt.inputDouble("허벅지 둘레 > ");
-    i.calf = Prompt.inputDouble("종아리 둘레 > ");
+    i.height = Prompt.inputDouble("키(cm) > ");
+    i.weight = Prompt.inputDouble("몸무게(kg) > ");
+    i.bust = Prompt.inputDouble("가슴 둘레(cm) > ");
+    i.waist = Prompt.inputDouble("허리 둘레(cm) > ");
+    i.thigh = Prompt.inputDouble("허벅지 둘레(cm) > ");
+    i.calf = Prompt.inputDouble("종아리 둘레(cm) > ");
 
     this.indexes[this.size++] = i;
   }
@@ -29,8 +30,8 @@ public class IndexHandler {
 
     for (int j = 0; j < this.size; j++) {
       Index i = this.indexes[j];
-      System.out.printf("날짜: %s\n몸무게: %.2f\n가슴 둘레: %.2f\n허리 둘레: %.2f\n허벅지 둘레: %.2f\n종아리 둘레: %.2f\n", 
-          i.date, i.weight, i.bust, i.waist, i.thigh, i.calf);
+      System.out.printf("날짜: %s\n키: %.2f (cm)\n몸무게: %.2f (kg)\n가슴 둘레: %.2f (cm)\n허리 둘레: %.2f (cm)\n허벅지 둘레: %.2f (cm)\n종아리 둘레: %.2f (cm)\n", 
+          i.date, i.height, i.weight, i.bust, i.waist, i.thigh, i.calf);
     }
   }
 

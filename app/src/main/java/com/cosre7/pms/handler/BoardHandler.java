@@ -31,6 +31,7 @@ public class BoardHandler {
       System.out.printf("번호: %d\n제목: %s\n작성자: %s\n등록일: %s\n조회수: %d",
           b.no, b.title, b.writer, b.registeredDate, b.viewCount);
     }
+    System.out.println();
   }
 
 }

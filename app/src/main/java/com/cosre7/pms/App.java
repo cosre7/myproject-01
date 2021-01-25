@@ -23,6 +23,8 @@ public class App {
       System.out.println("운동일지 목록 : /training/list");
       System.out.println("신체지수 작성 : /index/add");
       System.out.println("신체지수 목록 : /index/list");
+      System.out.println("게시글 작성 : /board/add");
+      System.out.println("게시글 목록 : /board/list");
       System.out.println();
       System.out.print("명령> ");
       String input = Prompt.keyboardScan.nextLine();
@@ -60,7 +62,7 @@ public class App {
       }
       System.out.println();
     }
-    System.out.println("사용해주셔서 감사합니다.");
+    System.out.println("당신의 건강을 응원합니다.");
     Prompt.close();    
   }
 
