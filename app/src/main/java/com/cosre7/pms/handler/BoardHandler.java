@@ -14,10 +14,16 @@ public class BoardHandler {
     System.out.println("[게시글 작성]");
 
     Board b = new Board();
-
-    b.no = Prompt.inputInt("번호 > ");
+    while (true) {
+      b.category = Prompt.inputString("카테고리를 선택해주세요\n1: 추천 식재료\n2: 추천 레시피\n3: 추천 외식메뉴\n> ");
+      if (b.category.equals("1") || b.category.equals("2") || b.category.equals("3")) {
+        break;
+      } else {
+        System.out.println("다시 입력해주세요");
+      }
+    }
     b.title = Prompt.inputString("제목 > ");
-    b.writer = Prompt.inputString("작성자 > ");
+    b.content = Prompt.inputString("내용 > ");
     b.registeredDate = new Date(System.currentTimeMillis());
 
     this.boards[this.size++] = b;
@@ -28,8 +34,19 @@ public class BoardHandler {
 
     for (int i = 0; i < this.size; i++) {
       Board b = this.boards[i];
-      System.out.printf("번호: %d\n제목: %s\n작성자: %s\n등록일: %s\n조회수: %d",
-          b.no, b.title, b.writer, b.registeredDate, b.viewCount);
+      String boardLabel = null;
+      switch (b.category) {
+        case "1":
+          boardLabel = "추천 식재료";
+          break;
+        case "2":
+          boardLabel = "추천 레시피";
+          break;
+        case "3":
+          boardLabel = "추천 외식메뉴";
+      }
+      System.out.printf("[%s] %s\n등록일: %s 추천수: %d\n",
+          boardLabel, b.title, b.registeredDate, b.likeCount);
     }
     System.out.println();
   }
