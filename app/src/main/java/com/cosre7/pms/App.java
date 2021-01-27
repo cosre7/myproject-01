@@ -19,8 +19,8 @@ public class App {
       System.out.println("[명령어]");
       System.out.println("식단일지 작성 : /diet/add");
       System.out.println("식단일지 목록 : /diet/list");
-      System.out.println("게시글 작성 : /board/add");
-      System.out.println("게시글 목록 : /board/list");
+      System.out.println("추천 게시글 작성 : /board/add");
+      System.out.println("추천 게시글 목록 : /board/list");
       System.out.println("운동일지 작성 : /training/add");
       System.out.println("운동일지 목록 : /training/list");
       System.out.println("신체지수 작성 : /index/add");
