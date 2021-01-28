@@ -99,6 +99,7 @@ public class TrainingHandler {
       }
       System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
           t.date, t.list, bodyLabel, trainingLabel, t.runTime, intensityLabel, t.intensity);
+      System.out.println();
     }
   }
 

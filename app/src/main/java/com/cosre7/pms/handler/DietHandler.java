@@ -75,6 +75,8 @@ public class DietHandler {
       }
       System.out.printf("날짜: %s\n시간: %s시\n먹은 음식: %s\n포만감: %s\n결론: %s\n", 
           d.date, d.time, d.food, statusLabel, label);
+      System.out.println();
+
     }
   }
 

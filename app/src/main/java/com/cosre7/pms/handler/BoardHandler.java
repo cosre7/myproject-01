@@ -23,7 +23,7 @@ public class BoardHandler {
       }
     }
     b.title = Prompt.inputString("제목 > ");
-    b.content = Prompt.inputString("내용 > ");
+    b.content = Prompt.inputString("내용 > ");                            
     b.registeredDate = new Date(System.currentTimeMillis());
 
     this.boards[this.size++] = b;
@@ -47,8 +47,8 @@ public class BoardHandler {
       }
       System.out.printf("[%s] %s\n등록일: %s 추천수: %d\n",
           boardLabel, b.title, b.registeredDate, b.likeCount);
+      System.out.println();
     }
-    System.out.println();
   }
 
 }

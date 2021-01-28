@@ -32,6 +32,7 @@ public class IndexHandler {
       Index i = this.indexes[j];
       System.out.printf("날짜: %s\n키: %.2f (cm)\n몸무게: %.2f (kg)\n가슴 둘레: %.2f (cm)\n허리 둘레: %.2f (cm)\n허벅지 둘레: %.2f (cm)\n종아리 둘레: %.2f (cm)\n", 
           i.date, i.height, i.weight, i.bust, i.waist, i.thigh, i.calf);
+      System.out.println();
     }
   }
 
