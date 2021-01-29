@@ -3,6 +3,7 @@ package com.cosre7.pms;
 import com.cosre7.pms.handler.BoardHandler;
 import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.IndexHandler;
+import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
 
@@ -14,14 +15,16 @@ public class App {
     TrainingHandler trainingHandler = new TrainingHandler();
     IndexHandler indexHandler = new IndexHandler();
     BoardHandler boardHandler = new BoardHandler();
+    MemberHandler memberHandler = new MemberHandler();
 
     loop:
       while (true) {
         System.out.println("--메인---------------------");
-        System.out.println("1. 식단일지");
-        System.out.println("2. 운동일지");
-        System.out.println("3. 신체지수");
-        System.out.println("4. 추천 게시글");
+        System.out.println("1. 회원");
+        System.out.println("2. 식단일지");
+        System.out.println("3. 운동일지");
+        System.out.println("4. 신체지수");
+        System.out.println("5. 추천 게시글");
         System.out.println("0. 종료");
 
         String input = Prompt.inputString("메인> ");
@@ -29,15 +32,17 @@ public class App {
 
         switch (input) {
           case "1":
+            memberHandler.service();
+          case "2":
             dietHandler.service();
             break;
-          case "2":
+          case "3":
             //            trainingHandler.service();
             break;
-          case "3":
+          case "4":
             //            indexHandler.service();
             break;
-          case "4":
+          case "5":
             //            boardHandler.service();
             break;
           case "0":
