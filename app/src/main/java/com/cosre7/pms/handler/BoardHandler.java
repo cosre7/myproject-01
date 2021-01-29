@@ -14,6 +14,7 @@ public class BoardHandler {
     System.out.println("[게시글 작성]");
 
     Board b = new Board();
+
     while (true) {
       b.category = Prompt.inputString("카테고리를 선택해주세요\n1: 추천 식재료\n2: 추천 레시피\n3: 추천 외식메뉴\n> ");
       if (b.category.equals("1") || b.category.equals("2") || b.category.equals("3")) {

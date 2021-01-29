@@ -8,4 +8,5 @@ public class Diet {
   public String food;
   public int status;
   public int choice;
+  public int no;
 }
