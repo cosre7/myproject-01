@@ -40,7 +40,10 @@ public class MemberHandler {
     for (int i = 0; i < size; i++) {
       Member m = members[i];
       System.out.printf("%d, %s, %s, %s\n",
-          m.no, m.name, m.tel, m.registeredDate);
+          m.no, 
+          m.name, 
+          m.tel, 
+          m.registeredDate);
     }
   }
 

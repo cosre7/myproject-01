@@ -14,6 +14,8 @@ public class IndexHandler {
 
     Index i = new Index();
 
+    i.no = Prompt.inputInt("번호 > ");
+    i.name = Prompt.inputString("이름 > ");
     i.date = Prompt.inputDate("날짜 > ");
     i.height = Prompt.inputDouble("키(cm) > ");
     i.weight = Prompt.inputDouble("몸무게(kg) > ");
@@ -30,8 +32,16 @@ public class IndexHandler {
 
     for (int j = 0; j < this.size; j++) {
       Index i = this.indexes[j];
-      System.out.printf("날짜: %s\n키: %.2f (cm)\n몸무게: %.2f (kg)\n가슴 둘레: %.2f (cm)\n허리 둘레: %.2f (cm)\n허벅지 둘레: %.2f (cm)\n종아리 둘레: %.2f (cm)\n", 
-          i.date, i.height, i.weight, i.bust, i.waist, i.thigh, i.calf);
+      System.out.printf("번호: %d\n이름: %s\n날짜: %s\n키: %.2f (cm)\n몸무게: %.2f (kg)\n가슴 둘레: %.2f (cm)\n허리 둘레: %.2f (cm)\n허벅지 둘레: %.2f (cm)\n종아리 둘레: %.2f (cm)\n", 
+          i.no, 
+          i.name,
+          i.date, 
+          i.height, 
+          i.weight, 
+          i.bust, 
+          i.waist, 
+          i.thigh, 
+          i.calf);
       System.out.println();
     }
   }
