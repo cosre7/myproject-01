@@ -17,7 +17,7 @@ public class TrainingHandler {
     t.no = Prompt.inputInt("번호 > ");
     while (true) {
       String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
-      if (isMember(name)) {
+      if (MemberHandler.exist(name)) {
         t.name = name;
         break;
       }
@@ -118,14 +118,4 @@ public class TrainingHandler {
       System.out.println();
     }
   }
-
-  static boolean isMember(String name) {
-    for (int i = 0; i < MemberHandler.size; i++) {
-      if (name.equals(MemberHandler.members[i].name)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 }
