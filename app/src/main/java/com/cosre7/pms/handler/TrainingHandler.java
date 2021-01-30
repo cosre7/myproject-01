@@ -17,6 +17,10 @@ public class TrainingHandler {
     t.no = Prompt.inputInt("번호 > ");
     while (true) {
       String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
+      if (name.length() == 0) {
+        System.out.println("운동일지 작성을 취소합니다.");
+        return;
+      }
       if (MemberHandler.exist(name)) {
         t.name = name;
         break;
@@ -115,7 +119,6 @@ public class TrainingHandler {
           t.runTime, 
           intensityLabel, 
           t.intensity);
-      System.out.println();
     }
   }
 }
