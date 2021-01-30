@@ -16,14 +16,9 @@ public class TrainingHandler {
 
     t.no = Prompt.inputInt("번호 > ");
     while (true) {
-      String name = Prompt.inputString("이름 > ");
-      for (int i = 0; i < MemberHandler.size; i++) {
-        if (name.equals(MemberHandler.members[i].name)) {
-          t.name = name;
-          break;
-        }
-      }
-      if (t.name != null) {
+      String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
+      if (isMember(name)) {
+        t.name = name;
         break;
       }
       System.out.println("등록된 회원이 아닙니다.");
@@ -40,7 +35,6 @@ public class TrainingHandler {
           t.list += ", ";
         } 
         t.list += exercise;
-
       }
     }
 
@@ -123,6 +117,15 @@ public class TrainingHandler {
           t.intensity);
       System.out.println();
     }
+  }
+
+  static boolean isMember(String name) {
+    for (int i = 0; i < MemberHandler.size; i++) {
+      if (name.equals(MemberHandler.members[i].name)) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
