@@ -14,6 +14,20 @@ public class TrainingHandler {
 
     Training t = new Training();
 
+    t.no = Prompt.inputInt("번호 > ");
+    while (true) {
+      String name = Prompt.inputString("이름 > ");
+      for (int i = 0; i < MemberHandler.size; i++) {
+        if (name.equals(MemberHandler.members[i].name)) {
+          t.name = name;
+          break;
+        }
+      }
+      if (t.name != null) {
+        break;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+    }
     t.date = Prompt.inputDate("날짜 > ");
 
     t.list = "";
@@ -97,8 +111,16 @@ public class TrainingHandler {
         case 5:
           intensityLabel = "조상님을 뵈었어요";
       }
-      System.out.printf("날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
-          t.date, t.list, bodyLabel, trainingLabel, t.runTime, intensityLabel, t.intensity);
+      System.out.printf("번호: %d\n이름: %s\n날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
+          t.no,
+          t.name,
+          t.date, 
+          t.list, 
+          bodyLabel, 
+          trainingLabel, 
+          t.runTime, 
+          intensityLabel, 
+          t.intensity);
       System.out.println();
     }
   }
