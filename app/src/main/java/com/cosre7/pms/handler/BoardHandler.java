@@ -91,4 +91,30 @@ public class BoardHandler {
     }
   }
 
+  public void update() {
+    System.out.println("[게시글 변경]");
+
+    int no = Prompt.inputInt("번호 > ");
+
+    for (int i = 0; i < this.size; i++) {
+      Board board = this.boards[i];
+      if (board.no == no) {
+        String title = Prompt.inputString(String.format("제목(%s) > ",board.title));
+        String content = Prompt.inputString(String.format("내용(%s) > ", board.content));
+
+        String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+
+        if (input.equalsIgnoreCase("Y")) {
+          board.title = title;
+          board.content = content;
+          System.out.println("게시글을 변경하였습니다.");
+        } else {
+          System.out.println("게시글 변경을 취소하였습니다.");
+        }
+        return;
+      }
+    }
+    System.out.println("해당 번호의 게시글이 없습니다.");
+  }
+
 }
