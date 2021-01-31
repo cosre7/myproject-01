@@ -48,6 +48,10 @@ public class BoardHandler {
 
     for (int i = 0; i < this.size; i++) {
       Board b = this.boards[i];
+
+      if (b == null)
+        continue;
+
       String boardLabel = null;
       switch (b.category) {
         case "1":
@@ -83,12 +87,14 @@ public class BoardHandler {
         case "3":
           boardLabel = "추천 외식메뉴";
       }
-      if (board.no == no) {
+      if (board != null && board.no == no) {
         System.out.printf("[%s] %s\n", board.title);
         System.out.printf("내용: %s\n", board.content);
         System.out.printf("등록일: %s\n", board.registeredDate);
+        return;
       }
     }
+    System.out.println("해당 번호의 게시글이 없습니다.");
   }
 
   public void update() {
@@ -98,7 +104,7 @@ public class BoardHandler {
 
     for (int i = 0; i < this.size; i++) {
       Board board = this.boards[i];
-      if (board.no == no) {
+      if (board != null && board.no == no) {
         String title = Prompt.inputString(String.format("제목(%s) > ",board.title));
         String content = Prompt.inputString(String.format("내용(%s) > ", board.content));
 
@@ -124,12 +130,13 @@ public class BoardHandler {
 
     for (int i = 0; i < this.size; i++) {
       Board board = this.boards[i];
-      if (board.no == no) {
+      if (board != null && board.no == no) {
         String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
 
         if (input.equalsIgnoreCase("Y")) {
           this.boards[i] = null;
           System.out.println("게시글을 삭제하였습니다.");
+
         } else {
           System.out.println("게시글 삭제를 취소하였습니다.");
         }
