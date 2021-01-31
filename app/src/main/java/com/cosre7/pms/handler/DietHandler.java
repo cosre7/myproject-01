@@ -54,6 +54,20 @@ public class DietHandler {
     System.out.println("[식단일지 작성]");
 
     Diet d = new Diet();
+
+    d.no = Prompt.inputInt("번호 > ");
+    while (true) {
+      String name = Prompt.inputString("이름(취소: 빈 문자열) ");
+      if (name.length() == 0) {
+        System.out.println("식단일지 작성을 취소합니다.");
+        return;
+      }
+      if (MemberHandler.exist(name)) {
+        d.name = name;
+        break;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+    }
     d.date = Prompt.inputDate("날짜 > ");
     d.time = Prompt.inputString("시간 > ");
 
@@ -90,8 +104,8 @@ public class DietHandler {
     for(int i = 0; i < this.size; i++) {
       Diet d = this.diets[i];
 
-      System.out.printf("[%d] 날짜: %s 시간: %s시\n", 
-          d.no, d.date, d.time, d.food);
+      System.out.printf("[%d] %s\n날짜: %s 시간: %s시\n", 
+          d.no, d.name, d.date, d.time);
     }
   }
 
@@ -100,11 +114,10 @@ public class DietHandler {
 
     for(int i = 0; i < this.size; i++) {
       Diet d = this.diets[i];
-      System.out.printf("[%d] 날짜: %s 시간: %s시\n", 
-          d.no, d.date, d.time);
+      System.out.printf("[%d] %s\n날짜: %s 시간: %s시\n%s", 
+          d.no, d.name, d.date, d.time, d.food);
     }
 
-    int no = Prompt.inputInt("번호 > ");
     System.out.println();
 
     for(int i = 0; i < this.size; i++) {
