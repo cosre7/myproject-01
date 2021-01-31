@@ -15,6 +15,19 @@ public class BoardHandler {
 
     Board b = new Board();
 
+    b.no = Prompt.inputInt("번호 > ");
+    while (true) {
+      String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
+      if (name.length() == 0) {
+        System.out.println("게시글 작성을 취소합니다.");
+        return;
+      }
+      if (MemberHandler.exist(name)) {
+        b.name = name;
+        break;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+    }
     while (true) {
       b.category = Prompt.inputString("카테고리를 선택해주세요\n1: 추천 식재료\n2: 추천 레시피\n3: 추천 외식메뉴\n> ");
       if (b.category.equals("1") || b.category.equals("2") || b.category.equals("3")) {

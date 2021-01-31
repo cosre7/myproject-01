@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Board {
   public int no;
+  public String name;
   public String category;
   public String title;
   public String content;

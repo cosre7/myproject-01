@@ -165,7 +165,6 @@ public class DietHandler {
 
   public void update() {
     System.out.println("[식단 일지 변경]");
-    int no = Prompt.inputInt("번호 > ");
 
     for(int i = 0; i < this.size; i++) {
       Diet d = this.diets[i];
