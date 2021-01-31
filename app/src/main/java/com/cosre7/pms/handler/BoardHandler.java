@@ -59,9 +59,35 @@ public class BoardHandler {
         case "3":
           boardLabel = "추천 외식메뉴";
       }
-      System.out.printf("[%s] %s\n등록일: %s 추천수: %d\n",
-          boardLabel, b.title, b.registeredDate, b.likeCount);
+      System.out.printf("%d - [%s] %s\n등록일: %s 추천수: %d\n",
+          b.no, boardLabel, b.title, b.registeredDate, b.likeCount);
       System.out.println();
+    }
+  }
+
+  public void detail() {
+    System.out.println("[게시글 상세보기]");
+
+    int no = Prompt.inputInt("번호 > ");
+
+    for (int i = 0; i < this.size; i++) {
+      Board board = this.boards[i];
+      String boardLabel = null;
+      switch (board.category) {
+        case "1":
+          boardLabel = "추천 식재료";
+          break;
+        case "2":
+          boardLabel = "추천 레시피";
+          break;
+        case "3":
+          boardLabel = "추천 외식메뉴";
+      }
+      if (board.no == no) {
+        System.out.printf("[%s] %s\n", board.title);
+        System.out.printf("내용: %s\n", board.content);
+        System.out.printf("등록일: %s\n", board.registeredDate);
+      }
     }
   }
 
