@@ -1,18 +1,10 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import com.cosre7.pms.domain.Member;
 import com.cosre7.util.Prompt;
 
 public class MemberHandler {
-
-  static class Member {
-    int no;
-    String name;
-    String password;
-    String photo;
-    String tel;
-    Date registeredDate;
-  }
 
   static final int LENGTH = 100;
   static Member[] members = new Member[LENGTH];
