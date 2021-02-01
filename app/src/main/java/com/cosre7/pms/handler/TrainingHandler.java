@@ -6,9 +6,15 @@ import com.cosre7.util.Prompt;
 public class TrainingHandler {
 
   static final int LENGTH = 100;
-  public MemberHandler memberList;
+
+  MemberHandler memberList;
+
   Training[] trainings = new Training[LENGTH];
   int size = 0;
+
+  public TrainingHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
+  }
 
   public void add() {
     System.out.println("[운동일지 작성]");

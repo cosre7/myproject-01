@@ -11,46 +11,57 @@ public class App {
 
   public static void main(String[] args) {
 
-    DietHandler dietHandler = new DietHandler();
-    TrainingHandler trainingHandler = new TrainingHandler();
-    IndexHandler indexHandler = new IndexHandler();
-    BoardHandler boardHandler = new BoardHandler();
-    MemberHandler memberHandler = new MemberHandler();
+    MemberHandler memberList = new MemberHandler();
+    DietHandler dietList = new DietHandler(memberList);
+    TrainingHandler trainingList = new TrainingHandler(memberList);
+    IndexHandler indexList = new IndexHandler(memberList);
+    BoardHandler boardList = new BoardHandler(memberList);
 
     loop:
       while (true) {
-        System.out.println("--메인---------------------");
-        System.out.println("1. 회원");
-        System.out.println("2. 식단일지");
-        System.out.println("3. 운동일지");
-        System.out.println("4. 신체지수");
-        System.out.println("5. 추천 게시글");
-        System.out.println("0. 종료");
 
         String input = Prompt.inputString("메인> ");
         System.out.println();
 
         switch (input) {
-          case "1":
-            memberHandler.service();
-          case "2":
-            dietHandler.service();
+          case "/member/add":
+            memberList.add();
             break;
-          case "3":
-            //            trainingHandler.service();
+          case "/member/list":
+            memberList.list();
             break;
-          case "4":
-            //            indexHandler.service();
+          case "/diet/add":
+            dietList.add();
             break;
-          case "5":
-            //            boardHandler.service();
+          case "/diet/list":
+            dietList.list();
             break;
-          case "0":
+          case "/training/add":
+            trainingList.add();
+            break;
+          case "/training/list":
+            trainingList.list();
+            break;
+          case "/index/add":
+            indexList.add();
+            break;
+          case "/index/list":
+            indexList.list();
+            break;
+          case "/board/add":
+            boardList.add();
+            break;
+          case "/board/list":
+            boardList.list();
+            break;
+          case "quit":
+          case "exit":
             System.out.println("당신의 건강을 응원합니다.");
             break loop;
           default:
             System.out.println("올바른 번호를 선택해주세요.");
         }
+        System.out.println();
       }
     Prompt.close();    
   }

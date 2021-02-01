@@ -7,10 +7,14 @@ public class IndexHandler {
 
   static final int LENGTH = 100;
 
-  public MemberHandler memberList;
+  MemberHandler memberList;
 
   Index[] indexes = new Index[LENGTH]; 
   int size = 0;
+
+  public IndexHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
+  }
 
   public void add() {
     System.out.println("[신체지수 작성]");
@@ -25,7 +29,7 @@ public class IndexHandler {
         System.out.println("신체지수 작성을 취소합니다.");
         return;
       }
-      if (memberList.exist(name)) {
+      if (this.memberList.exist(name)) {
         i.name = name;
         break;
       }
