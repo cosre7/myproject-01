@@ -6,7 +6,7 @@ import com.cosre7.util.Prompt;
 public class TrainingHandler {
 
   static final int LENGTH = 100;
-  MemberHandler memberList;
+  public MemberHandler memberList;
   Training[] trainings = new Training[LENGTH];
   int size = 0;
 

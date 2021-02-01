@@ -7,10 +7,13 @@ import com.cosre7.util.Prompt;
 public class BoardHandler {
 
   static final int LENGTH = 100;
+
+  public MemberHandler memberList;
+
   Board[] boards = new Board[LENGTH];
   int size = 0;
 
-  public void add(MemberHandler memberList) {
+  public void add() {
     System.out.println("[게시글 작성]");
 
     Board b = new Board();

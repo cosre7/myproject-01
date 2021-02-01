@@ -8,6 +8,7 @@ public class IndexHandler {
   static final int LENGTH = 100;
 
   public MemberHandler memberList;
+
   Index[] indexes = new Index[LENGTH]; 
   int size = 0;
 
