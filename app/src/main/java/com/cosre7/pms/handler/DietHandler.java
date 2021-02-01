@@ -7,48 +7,11 @@ import com.cosre7.util.Prompt;
 public class DietHandler {
 
   static final int LENGTH  = 100;
+
+  public MemberHandler memberList;
+
   Diet[] diets = new Diet[LENGTH];
   int size = 0;
-  int no = 1;
-
-  public void service() {
-    loop:
-      while (true) {
-        System.out.println("--메인 / 식단일지---------------------");
-        System.out.println("1. 작성");
-        System.out.println("2. 목록");
-        System.out.println("3. 상세보기");
-        System.out.println("4. 변경");
-        System.out.println("5. 삭제");
-        System.out.println("0. 이전 메뉴");
-
-        String input = Prompt.inputString("식단일지> ");
-        System.out.println();
-
-        switch (input) {
-          case "1":
-            this.add();
-            break;
-          case "2":
-            this.list();
-            break;
-          case "3":
-            this.detail();
-            break;
-          case "4":
-            this.update();
-            break;
-          case "5":
-            //            this.delete();
-            break;
-          case "0":
-            break loop;
-          default:
-            System.out.println("올바른 번호를 선택해주세요.");
-        }
-        System.out.println();
-      }    
-  }
 
   public void add() {
     System.out.println("[식단일지 작성]");
@@ -62,7 +25,7 @@ public class DietHandler {
         System.out.println("식단일지 작성을 취소합니다.");
         return;
       }
-      if (MemberHandler.exist(name)) {
+      if (memberList.exist(name)) {
         d.name = name;
         break;
       }
@@ -95,7 +58,6 @@ public class DietHandler {
       }
     }
     this.diets[this.size++] = d;
-    d.no = no++;
   }
 
   public void list() {

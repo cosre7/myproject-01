@@ -6,10 +6,12 @@ import com.cosre7.util.Prompt;
 public class IndexHandler {
 
   static final int LENGTH = 100;
+
+  public MemberHandler memberList;
   Index[] indexes = new Index[LENGTH]; 
   int size = 0;
 
-  public void add(MemberHandler memberList) {
+  public void add() {
     System.out.println("[신체지수 작성]");
 
     Index i = new Index();

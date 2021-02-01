@@ -6,10 +6,11 @@ import com.cosre7.util.Prompt;
 public class TrainingHandler {
 
   static final int LENGTH = 100;
+  MemberHandler memberList;
   Training[] trainings = new Training[LENGTH];
   int size = 0;
 
-  public void add(MemberHandler memberList) {
+  public void add() {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
@@ -21,7 +22,7 @@ public class TrainingHandler {
         System.out.println("운동일지 작성을 취소합니다.");
         return;
       }
-      if (memberList.exist(name)) {
+      if (this.memberList.exist(name)) {
         t.name = name;
         break;
       }
