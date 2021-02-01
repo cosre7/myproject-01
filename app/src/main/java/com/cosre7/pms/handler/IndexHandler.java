@@ -9,7 +9,7 @@ public class IndexHandler {
   Index[] indexes = new Index[LENGTH]; 
   int size = 0;
 
-  public void add() {
+  public void add(MemberHandler memberList) {
     System.out.println("[신체지수 작성]");
 
     Index i = new Index();
@@ -20,13 +20,15 @@ public class IndexHandler {
       String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
       if (name.length() == 0) {
         System.out.println("신체지수 작성을 취소합니다.");
+        return;
       }
-      if (MemberHandler.exist(name)) {
+      if (memberList.exist(name)) {
         i.name = name;
         break;
       }
       System.out.println("등록된 회원이 아닙니다.");
     }
+
     i.date = Prompt.inputDate("날짜 > ");
     i.height = Prompt.inputDouble("키(cm) > ");
     i.weight = Prompt.inputDouble("몸무게(kg) > ");

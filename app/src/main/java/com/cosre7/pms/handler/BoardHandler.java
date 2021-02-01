@@ -10,7 +10,7 @@ public class BoardHandler {
   Board[] boards = new Board[LENGTH];
   int size = 0;
 
-  public void add() {
+  public void add(MemberHandler memberList) {
     System.out.println("[게시글 작성]");
 
     Board b = new Board();
@@ -22,7 +22,7 @@ public class BoardHandler {
         System.out.println("게시글 작성을 취소합니다.");
         return;
       }
-      if (MemberHandler.exist(name)) {
+      if (memberList.exist(name)) {
         b.name = name;
         break;
       }

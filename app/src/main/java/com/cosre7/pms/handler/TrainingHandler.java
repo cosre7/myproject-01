@@ -9,7 +9,7 @@ public class TrainingHandler {
   Training[] trainings = new Training[LENGTH];
   int size = 0;
 
-  public void add() {
+  public void add(MemberHandler memberList) {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
@@ -21,7 +21,7 @@ public class TrainingHandler {
         System.out.println("운동일지 작성을 취소합니다.");
         return;
       }
-      if (MemberHandler.exist(name)) {
+      if (memberList.exist(name)) {
         t.name = name;
         break;
       }
