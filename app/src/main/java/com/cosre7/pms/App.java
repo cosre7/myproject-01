@@ -30,11 +30,29 @@ public class App {
           case "/member/list":
             memberList.list();
             break;
+          case "/member/detail":
+            memberList.detail();
+            break;
+          case "/member/update":
+            memberList.update();
+            break;
+          case "/member/delete":
+            memberList.delete();
+            break;
           case "/diet/add":
             dietList.add();
             break;
           case "/diet/list":
             dietList.list();
+            break;
+          case "/diet/detail":
+            dietList.detail();
+            break;
+          case "/diet/update":
+            dietList.update();
+            break;
+          case "/diet/delete":
+            dietList.delete();
             break;
           case "/training/add":
             trainingList.add();
@@ -42,17 +60,44 @@ public class App {
           case "/training/list":
             trainingList.list();
             break;
+          case "/training/detail":
+            trainingList.detail();
+            break;
+          case "/training/update":
+            trainingList.update();
+            break;
+          case "/training/delete":
+            trainingList.delete();
+            break;
           case "/index/add":
             indexList.add();
             break;
           case "/index/list":
             indexList.list();
             break;
+          case "/index/detail":
+            indexList.detail();
+            break;
+          case "/index/update":
+            indexList.update();
+            break;
+          case "/index/delete":
+            indexList.delete();
+            break;
           case "/board/add":
             boardList.add();
             break;
           case "/board/list":
             boardList.list();
+            break;
+          case "/board/detail":
+            boardList.detail();
+            break;
+          case "/board/update":
+            boardList.update();
+            break;
+          case "/board/delete":
+            boardList.delete();
             break;
           case "quit":
           case "exit":

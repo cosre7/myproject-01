@@ -1,5 +1,6 @@
 package com.cosre7.pms.handler;
 
+import java.sql.Date;
 import com.cosre7.pms.domain.Training;
 import com.cosre7.util.Prompt;
 
@@ -59,8 +60,8 @@ public class TrainingHandler {
     }
 
     while (true) {
-      t.training = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n3: 혼합\n> ");
-      if (t.training == 1 || t.training == 2 || t.training == 3) {
+      t.type = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n3: 혼합\n> ");
+      if (t.type == 1 || t.type == 2 || t.type == 3) {
         break;
       } else {
         System.out.println("다시 입력해주세요");
@@ -89,7 +90,7 @@ public class TrainingHandler {
           bodyLabel = "전신 운동";
       }
       String trainingLabel = null;
-      switch (t.training) {
+      switch (t.type) {
         case 1:
           trainingLabel = "근력 운동";
           break;
@@ -127,5 +128,197 @@ public class TrainingHandler {
           intensityLabel, 
           t.intensity);
     }
+  }
+
+  public void detail() {
+    System.out.println("[운동일지 상세보기]");
+
+    int no = Prompt.inputInt("번호 > ");
+
+    Training training = findByNo(no);
+    if (training == null) {
+      System.out.println("해당 번호의 운동일지가 없습니다.");
+      return;
+    }
+
+    // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
+    System.out.printf("[%d] %s\n", training.no, training.name);
+    System.out.printf("- 운동리스트 - \n %s\n", training.list);
+
+    String bodyLabel = null;
+    switch (training.body) {
+      case 1:
+        bodyLabel = "상체";
+        break;
+      case 2:
+        bodyLabel = "하체";
+        break;
+      default :
+        bodyLabel = "전신";
+    }
+    String trainingLabel = null;
+    switch (training.type) {
+      case 1:
+        trainingLabel = "근력";
+        break;
+      case 2:
+        trainingLabel = "유산소";
+        break;
+      case 3:
+        trainingLabel = "혼합";
+    }
+    System.out.printf("%s | %s\n", bodyLabel, trainingLabel);
+
+    String intensityLabel = null;
+    switch (training.intensity) {
+      case 1:
+        intensityLabel = "껌이에요";
+        break;
+      case 2:
+        intensityLabel = "한 듯 안한 듯";
+        break;
+      case 3:
+        intensityLabel = "적당해요";
+        break;
+      case 4:
+        intensityLabel = "근육통 예상";
+        break;
+      case 5:
+        intensityLabel = "조상님을 뵈었어요";
+    }
+    System.out.printf("소요시간: %s 시간\n", training.runTime);
+    System.out.printf("[%d] %s\n", training.intensity, intensityLabel);
+  }
+
+  public void update() {
+    System.out.println("[운동일지 변경]");
+
+    int no = Prompt.inputInt("번호 > ");
+
+    Training training = findByNo(no);
+    if (training == null) {
+      System.out.println("해당 번호의 운동일지가 없습니다.");
+      return;
+    }
+
+    // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
+    String name = null;
+    while (true) {
+      name = Prompt.inputString(String.format("이름(%s, 취소: 빈 문자열) > ", training.name));
+      if(name.length() == 0) {
+        System.out.println("운동일지 변경을 취소합니다.");
+        return;
+      } else if (this.memberList.exist(name)) {
+        break;
+      } else {
+        System.out.println("등록된 회원이 아닙니다.");
+      }
+    }
+    Date date = Prompt.inputDate(String.format("날짜(%s) > ", training.date));
+    String list = Prompt.inputString(String.format("운동리스트 > ", training.list));
+
+    String bodyLabel = null;
+    switch (training.body) {
+      case 1:
+        bodyLabel = "상체";
+        break;
+      case 2:
+        bodyLabel = "하체";
+        break;
+      default :
+        bodyLabel = "전신";
+    }
+    int body = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.body, bodyLabel));
+
+    String trainingLabel = null;
+    switch (training.type) {
+      case 1:
+        trainingLabel = "근력";
+        break;
+      case 2:
+        trainingLabel = "유산소";
+        break;
+      case 3:
+        trainingLabel = "혼합";
+    }
+    int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.type, trainingLabel));
+    double time = Prompt.inputDouble(String.format("소요시간(%.2f 시간) > ", training.runTime));
+
+    String intensityLabel = null;
+    switch (training.intensity) {
+      case 1:
+        intensityLabel = "껌이에요";
+        break;
+      case 2:
+        intensityLabel = "한 듯 안한 듯";
+        break;
+      case 3:
+        intensityLabel = "적당해요";
+        break;
+      case 4:
+        intensityLabel = "근육통 예상";
+        break;
+      case 5:
+        intensityLabel = "조상님을 뵈었어요";
+    }
+    int intensity = Prompt.inputInt(String.format("운동강도(%d) > ", training.intensity));
+
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) > ");
+
+    if (input.equalsIgnoreCase("Y")) {
+      training.name = name;
+      training.date = date;
+      training.list = list;
+      training.body = body;
+      training.type = type;
+      training.runTime = time;
+      training.intensity = intensity;
+      System.out.println("운동일지를 변경하였습니다.");
+    } else {
+      System.out.println("운동일지 변경을 취소하였습니다.");
+    }
+  }
+
+  public void delete() {
+    System.out.println("[운동일지 변경]");
+
+    int no = Prompt.inputInt("번호 > ");
+
+    int i = indexOf(no);
+    if (i == -1) {
+      System.out.println("해당 번호의 운동일지가 없습니다.");
+      return;
+    }
+
+    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
+
+    if (input.equalsIgnoreCase("Y")) {
+      for (int x = i + 1; x < this.size; x++) {
+        this.trainings[x - 1] = this.trainings[x];
+      }
+      trainings[--this.size] = null;
+
+      System.out.println("운동일지를 삭제하였습니다.");
+    } else {
+      System.out.println("삭제를 취소하였습니다.");
+    }
+  }
+
+  int indexOf(int trainingNo) {
+    for (int i = 0; i < this.size; i++) {
+      Training training = this.trainings[i];
+      if (training.no == trainingNo) {
+        return i;
+      } 
+    }
+    return -1;
+  }
+
+  Training findByNo(int trainingNo) {
+    int i = indexOf(trainingNo);
+    if (i == -1)
+      return null;
+    else
+      return this.trainings[i];
   }
 }

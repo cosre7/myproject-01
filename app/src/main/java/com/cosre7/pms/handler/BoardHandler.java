@@ -6,11 +6,11 @@ import com.cosre7.util.Prompt;
 
 public class BoardHandler {
 
-  static final int LENGTH = 100;
+  static final int DEFAULT_CAPACITY = 100;
 
   MemberHandler memberList;
 
-  Board[] boards = new Board[LENGTH];
+  Board[] boards = new Board[DEFAULT_CAPACITY];
   int size = 0;
 
   public BoardHandler(MemberHandler memberHandler) {
@@ -48,6 +48,8 @@ public class BoardHandler {
     b.registeredDate = new Date(System.currentTimeMillis());
 
     this.boards[this.size++] = b;
+
+    System.out.println("게시글을 등록하였습니다.");
   }
 
   public void list() {
@@ -103,7 +105,6 @@ public class BoardHandler {
     System.out.printf("[%s] %s\n", boardLabel, board.title);
     System.out.printf("> %s\n", board.content);
     System.out.printf("%s - %s\n", board.name, board.registeredDate);
-    return;
   }
 
   public void update() {
@@ -143,7 +144,6 @@ public class BoardHandler {
     } else {
       System.out.println("게시글 변경을 취소하였습니다.");
     }
-    return;
   }
 
   public void delete() {
@@ -159,19 +159,27 @@ public class BoardHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      this.boards[i] = null;
+      for (int x = i + 1; x < this.size; x++) {
+        this.boards[x - 1] = this.boards[x];
+      }
+      boards[--this.size] = null;
+
       System.out.println("게시글을 삭제하였습니다.");
 
     } else {
       System.out.println("게시글 삭제를 취소하였습니다.");
     }
-    return;
   }
 
   int indexOf(int boardNo) {
+    // 어차피 i == -1이면 해당 게시글이 없다고 검증 중
+    // -> 배열 중간에 비어있는 항목이 없게 된다
+    // => 항목을 삭제할 때 뒷 항목의 값을 앞으로 당기는 형식으로
+    //    삭제 방법을 바꿨기 때문에 가능
+
     for (int i = 0; i < this.size; i++) {
       Board board = this.boards[i];
-      if (board != null && board.no == boardNo) {
+      if (board.no == boardNo) {
         return i;
       }
     }
