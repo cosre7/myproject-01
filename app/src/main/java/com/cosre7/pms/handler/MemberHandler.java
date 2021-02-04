@@ -6,8 +6,8 @@ import com.cosre7.util.Prompt;
 
 public class MemberHandler {
 
-  static final int LENGTH = 100;
-  static Member[] members = new Member[LENGTH];
+  static final int DEFAULT_CAPACITY = 100;
+  static Member[] members = new Member[DEFAULT_CAPACITY];
   static int size = 0;
 
   public static void add() {
@@ -136,7 +136,4 @@ public class MemberHandler {
     else
       return this.members[i];
   }
-
-
-
 }

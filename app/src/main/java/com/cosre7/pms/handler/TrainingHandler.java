@@ -6,11 +6,11 @@ import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  static final int LENGTH = 100;
+  static final int DEFAULT_CAPACITY = 100;
 
   MemberHandler memberList;
 
-  Training[] trainings = new Training[LENGTH];
+  Training[] trainings = new Training[DEFAULT_CAPACITY];
   int size = 0;
 
   public TrainingHandler(MemberHandler memberHandler) {
@@ -21,19 +21,11 @@ public class TrainingHandler {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
-
     t.no = Prompt.inputInt("번호 > ");
-    while (true) {
-      String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
-      if (name.length() == 0) {
-        System.out.println("운동일지 작성을 취소합니다.");
-        return;
-      }
-      if (this.memberList.exist(name)) {
-        t.name = name;
-        break;
-      }
-      System.out.println("등록된 회원이 아닙니다.");
+    t.name = inputMember("이름(취소: 빈 문자열) > ");
+    if (t.name == null) {
+      System.out.println("운동일지 작성을 취소합니다.");
+      return;
     }
     t.date = Prompt.inputDate("날짜 > ");
 
@@ -51,8 +43,8 @@ public class TrainingHandler {
     }
 
     while (true) {
-      t.body = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
-      if (t.body == 1 || t.body == 2 || t.body == 3) {
+      t.kind = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
+      if (t.kind == 1 || t.kind == 2 || t.kind == 3) {
         break;
       } else {
         System.out.println("다시 입력해주세요");
@@ -78,54 +70,15 @@ public class TrainingHandler {
 
     for (int i = 0; i < this.size; i++) {
       Training t = this.trainings[i];
-      String bodyLabel = null;
-      switch (t.body) {
-        case 1:
-          bodyLabel = "상체 운동";
-          break;
-        case 2:
-          bodyLabel = "하체 운동";
-          break;
-        default :
-          bodyLabel = "전신 운동";
-      }
-      String trainingLabel = null;
-      switch (t.type) {
-        case 1:
-          trainingLabel = "근력 운동";
-          break;
-        case 2:
-          trainingLabel = "유산소 운동";
-          break;
-        case 3:
-          trainingLabel = "혼합 운동";
-      }
-      String intensityLabel = null;
-      switch (t.intensity) {
-        case 1:
-          intensityLabel = "껌이에요";
-          break;
-        case 2:
-          intensityLabel = "한 듯 안한 듯";
-          break;
-        case 3:
-          intensityLabel = "적당해요";
-          break;
-        case 4:
-          intensityLabel = "근육통 예상";
-          break;
-        case 5:
-          intensityLabel = "조상님을 뵈었어요";
-      }
       System.out.printf("번호: %d\n이름: %s\n날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
           t.no,
           t.name,
           t.date, 
           t.list, 
-          bodyLabel, 
-          trainingLabel, 
+          getKindLabel(t.kind), 
+          getTypeLabel(t.type), 
           t.runTime, 
-          intensityLabel, 
+          getIntensityLabel(t.intensity), 
           t.intensity);
     }
   }
@@ -144,50 +97,9 @@ public class TrainingHandler {
     // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
     System.out.printf("[%d] %s\n", training.no, training.name);
     System.out.printf("- 운동리스트 - \n %s\n", training.list);
-
-    String bodyLabel = null;
-    switch (training.body) {
-      case 1:
-        bodyLabel = "상체";
-        break;
-      case 2:
-        bodyLabel = "하체";
-        break;
-      default :
-        bodyLabel = "전신";
-    }
-    String trainingLabel = null;
-    switch (training.type) {
-      case 1:
-        trainingLabel = "근력";
-        break;
-      case 2:
-        trainingLabel = "유산소";
-        break;
-      case 3:
-        trainingLabel = "혼합";
-    }
-    System.out.printf("%s | %s\n", bodyLabel, trainingLabel);
-
-    String intensityLabel = null;
-    switch (training.intensity) {
-      case 1:
-        intensityLabel = "껌이에요";
-        break;
-      case 2:
-        intensityLabel = "한 듯 안한 듯";
-        break;
-      case 3:
-        intensityLabel = "적당해요";
-        break;
-      case 4:
-        intensityLabel = "근육통 예상";
-        break;
-      case 5:
-        intensityLabel = "조상님을 뵈었어요";
-    }
+    System.out.printf("%s | %s\n", getKindLabel(training.kind), getTypeLabel(training.type));
     System.out.printf("소요시간: %s 시간\n", training.runTime);
-    System.out.printf("[%d] %s\n", training.intensity, intensityLabel);
+    System.out.printf("[%d] %s\n", training.intensity, getIntensityLabel(training.intensity));
   }
 
   public void update() {
@@ -216,52 +128,10 @@ public class TrainingHandler {
     }
     Date date = Prompt.inputDate(String.format("날짜(%s) > ", training.date));
     String list = Prompt.inputString(String.format("운동리스트 > ", training.list));
-
-    String bodyLabel = null;
-    switch (training.body) {
-      case 1:
-        bodyLabel = "상체";
-        break;
-      case 2:
-        bodyLabel = "하체";
-        break;
-      default :
-        bodyLabel = "전신";
-    }
-    int body = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.body, bodyLabel));
-
-    String trainingLabel = null;
-    switch (training.type) {
-      case 1:
-        trainingLabel = "근력";
-        break;
-      case 2:
-        trainingLabel = "유산소";
-        break;
-      case 3:
-        trainingLabel = "혼합";
-    }
-    int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.type, trainingLabel));
+    int kind = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.kind, getKindLabel(training.kind)));
+    int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.type, getTypeLabel(training.type)));
     double time = Prompt.inputDouble(String.format("소요시간(%.2f 시간) > ", training.runTime));
-
-    String intensityLabel = null;
-    switch (training.intensity) {
-      case 1:
-        intensityLabel = "껌이에요";
-        break;
-      case 2:
-        intensityLabel = "한 듯 안한 듯";
-        break;
-      case 3:
-        intensityLabel = "적당해요";
-        break;
-      case 4:
-        intensityLabel = "근육통 예상";
-        break;
-      case 5:
-        intensityLabel = "조상님을 뵈었어요";
-    }
-    int intensity = Prompt.inputInt(String.format("운동강도(%d) > ", training.intensity));
+    int intensity = Prompt.inputInt(String.format("운동강도(%d) > ", getIntensityLabel(training.intensity)));
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) > ");
 
@@ -269,7 +139,7 @@ public class TrainingHandler {
       training.name = name;
       training.date = date;
       training.list = list;
-      training.body = body;
+      training.kind = kind;
       training.type = type;
       training.runTime = time;
       training.intensity = intensity;
@@ -320,5 +190,55 @@ public class TrainingHandler {
       return null;
     else
       return this.trainings[i];
+  }
+
+  String inputMember(String promptTitle) {
+    while (true) {
+      String name = Prompt.inputString(promptTitle);
+      if (name.length() == 0) {
+        return null;
+      } else if (this.memberList.exist(name)) {
+        return name;
+      } else {
+        System.out.println("등록된 회원이 아닙니다.");
+      }
+    }
+  }
+
+  String getKindLabel(int kind) {
+    switch (kind) {
+      case 1:
+        return "상체";
+      case 2:
+        return "하체";
+      default :
+        return "전신";
+    }
+  }
+
+  String getTypeLabel(int type) {
+    switch (type) {
+      case 1:
+        return "근력";
+      case 2:
+        return "유산소";
+      default:
+        return "혼합";
+    }
+  }
+
+  String getIntensityLabel(int intensity) {
+    switch (intensity) {
+      case 1:
+        return "껌이에요";
+      case 2:
+        return "한 듯 안한 듯";
+      case 3:
+        return "적당해요";
+      case 4:
+        return "근육통 예상";
+      default:
+        return "조상님을 뵈었어요";
+    }
   }
 }

@@ -7,7 +7,7 @@ public class Training {
   public String name;
   public Date date;
   public String list;
-  public int body;
+  public int kind;
   public int type;
   public int intensity;
   public double runTime;
