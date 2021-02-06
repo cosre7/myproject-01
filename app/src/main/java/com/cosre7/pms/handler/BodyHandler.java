@@ -1,6 +1,7 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Arrays;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.util.Prompt;
 
@@ -38,13 +39,9 @@ public class BodyHandler {
     b.calf = Prompt.inputDouble("종아리 둘레(cm) > ");
 
     if (this.size >= this.bodys.length) {
-      Body[] arr = new Body[this.size + (this.size >> 1)];
-
-      for (int i = 0; i < this.size; i++) {
-        arr[i] = this.bodys[i];
-      }
-      bodys = arr;
+      bodys = Arrays.copyOf(this.bodys, this.size + (this.size >> 1));
     }
+
     this.bodys[this.size++] = b;
   }
 

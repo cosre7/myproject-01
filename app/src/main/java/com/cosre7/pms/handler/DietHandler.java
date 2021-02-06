@@ -1,6 +1,7 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Arrays;
 import com.cosre7.pms.domain.Diet;
 import com.cosre7.util.Prompt;
 
@@ -65,13 +66,9 @@ public class DietHandler {
     }
 
     if (this.size >= this.diets.length) {
-      Diet[] arr = new Diet[this.size + (this.size >> 1)];
-
-      for (int i = 0; i < this.size; i++) {
-        arr[i] = this.diets[i];
-      }
-      diets = arr;
+      diets = Arrays.copyOf(this.diets, this.size + (this.size >> 1));
     }
+
     this.diets[this.size++] = d;
   }
 

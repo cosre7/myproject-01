@@ -1,6 +1,7 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Arrays;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.util.Prompt;
 
@@ -48,12 +49,7 @@ public class BoardHandler {
     b.registeredDate = new Date(System.currentTimeMillis());
 
     if (this.size >= this.boards.length) {
-      Board[] arr = new Board[this.size + (this.size >> 1)];
-
-      for (int i = 0; i < this.size; i++) {
-        arr[i] = this.boards[i];
-      }
-      boards = arr;
+      boards = Arrays.copyOf(this.boards, this.size + (this.size >> 1));
     }
 
     this.boards[this.size++] = b;

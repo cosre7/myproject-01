@@ -1,6 +1,7 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Arrays;
 import com.cosre7.pms.domain.Member;
 import com.cosre7.util.Prompt;
 
@@ -23,13 +24,9 @@ public class MemberHandler {
     m.registeredDate = new Date(System.currentTimeMillis());
 
     if (this.size >= this.members.length) {
-      Member[] arr = new Member[this.size + (this.size >> 1)];
-
-      for (int i = 0; i < this.size; i++) {
-        arr[i] = members[i];
-      }
-      members = arr;
+      members = Arrays.copyOf(this.members, this.size + (this.size >> 1));
     }
+
     this.members[this.size++] = m;
   }
 

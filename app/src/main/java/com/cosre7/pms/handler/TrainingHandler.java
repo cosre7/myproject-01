@@ -1,6 +1,7 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Arrays;
 import com.cosre7.pms.domain.Training;
 import com.cosre7.util.Prompt;
 
@@ -63,12 +64,7 @@ public class TrainingHandler {
     t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
 
     if (this.size >= this.trainings.length) {
-      Training[] arr = new Training[this.size + (this.size >> 1)];
-
-      for (int i = 0; i < this.size; i++) {
-        arr[i] = this.trainings[i];
-      }
-      trainings = arr;
+      trainings = Arrays.copyOf(this.trainings, this.size + (this.size >> 1));
     }
 
     this.trainings[this.size++] = t;
