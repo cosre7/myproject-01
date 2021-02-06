@@ -62,6 +62,15 @@ public class TrainingHandler {
     t.runTime = Prompt.inputDouble("소요시간 > ");
     t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
 
+    if (this.size >= this.trainings.length) {
+      Training[] arr = new Training[this.size + (this.size >> 1)];
+
+      for (int i = 0; i < this.size; i++) {
+        arr[i] = this.trainings[i];
+      }
+      trainings = arr;
+    }
+
     this.trainings[this.size++] = t;
   }
 

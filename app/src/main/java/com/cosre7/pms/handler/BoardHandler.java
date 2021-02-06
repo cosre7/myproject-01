@@ -47,6 +47,15 @@ public class BoardHandler {
     b.content = Prompt.inputString("내용 > ");                            
     b.registeredDate = new Date(System.currentTimeMillis());
 
+    if (this.size >= this.boards.length) {
+      Board[] arr = new Board[this.size + (this.size >> 1)];
+
+      for (int i = 0; i < this.size; i++) {
+        arr[i] = this.boards[i];
+      }
+      boards = arr;
+    }
+
     this.boards[this.size++] = b;
 
     System.out.println("게시글을 등록하였습니다.");

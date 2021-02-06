@@ -37,6 +37,14 @@ public class BodyHandler {
     b.thigh = Prompt.inputDouble("허벅지 둘레(cm) > ");
     b.calf = Prompt.inputDouble("종아리 둘레(cm) > ");
 
+    if (this.size >= this.bodys.length) {
+      Body[] arr = new Body[this.size + (this.size >> 1)];
+
+      for (int i = 0; i < this.size; i++) {
+        arr[i] = this.bodys[i];
+      }
+      bodys = arr;
+    }
     this.bodys[this.size++] = b;
   }
 

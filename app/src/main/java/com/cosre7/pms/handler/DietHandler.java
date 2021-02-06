@@ -63,6 +63,15 @@ public class DietHandler {
         System.out.println("다시 입력해주세요");
       }
     }
+
+    if (this.size >= this.diets.length) {
+      Diet[] arr = new Diet[this.size + (this.size >> 1)];
+
+      for (int i = 0; i < this.size; i++) {
+        arr[i] = this.diets[i];
+      }
+      diets = arr;
+    }
     this.diets[this.size++] = d;
   }
 

@@ -7,10 +7,10 @@ import com.cosre7.util.Prompt;
 public class MemberHandler {
 
   static final int DEFAULT_CAPACITY = 100;
-  static Member[] members = new Member[DEFAULT_CAPACITY];
-  static int size = 0;
+  Member[] members = new Member[DEFAULT_CAPACITY];
+  int size = 0;
 
-  public static void add() {
+  public void add() {
     System.out.println("[회원 등록]");
 
     Member m = new Member();
@@ -22,15 +22,23 @@ public class MemberHandler {
     m.tel = Prompt.inputString("전화? ");
     m.registeredDate = new Date(System.currentTimeMillis());
 
-    members[size++] = m;
+    if (this.size >= this.members.length) {
+      Member[] arr = new Member[this.size + (this.size >> 1)];
+
+      for (int i = 0; i < this.size; i++) {
+        arr[i] = members[i];
+      }
+      members = arr;
+    }
+    this.members[this.size++] = m;
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[회원 목록]");
 
     //번호, 이름, 전화, 가입일
-    for (int i = 0; i < size; i++) {
-      Member m = members[i];
+    for (int i = 0; i < this.size; i++) {
+      Member m = this.members[i];
       System.out.printf("%d, %s, %s, %s\n",
           m.no, 
           m.name, 
@@ -39,9 +47,9 @@ public class MemberHandler {
     }
   }
 
-  public static boolean exist(String name) {
-    for (int i = 0; i < size; i++) {
-      if (name.equals(members[i].name)) {
+  public boolean exist(String name) {
+    for (int i = 0; i < this.size; i++) {
+      if (name.equals(this.members[i].name)) {
         return true;
       }
     }
