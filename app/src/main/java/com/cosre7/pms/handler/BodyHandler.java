@@ -1,17 +1,14 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
-import java.util.Arrays;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.util.Prompt;
 
 public class BodyHandler {
 
-  static final int DEFAULT_CAPACITY = 100;
-
   MemberHandler memberList;
-
-  Body[] bodys = new Body[DEFAULT_CAPACITY]; 
+  Node first;
+  Node last;
   int size = 0;
 
   public BodyHandler(MemberHandler memberHandler) {
@@ -38,19 +35,30 @@ public class BodyHandler {
     b.thigh = Prompt.inputDouble("허벅지 둘레(cm) > ");
     b.calf = Prompt.inputDouble("종아리 둘레(cm) > ");
 
-    if (this.size >= this.bodys.length) {
-      bodys = Arrays.copyOf(this.bodys, this.size + (this.size >> 1));
+    Node node = new Node(b);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
 
-    this.bodys[this.size++] = b;
+    this.size++;
   }
 
   public void list() {
     System.out.println("[신체지수 목록]");
 
-    for (int j = 0; j < this.size; j++) {
-      Body b = this.bodys[j];
+    Node cursor = first;
+
+    while (cursor != null) {
+      Body b = cursor.body;
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", b.no, b.name, b.date); 
+
+      cursor = cursor.next;
     }
   }
 
@@ -126,8 +134,8 @@ public class BodyHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int i = indexOf(no);
-    if (i == -1) {
+    Body body = findByNo(no);
+    if (body == null) {
       System.out.println("해당 번호의 신체지수가 없습니다.");
       return;
     }
@@ -135,34 +143,46 @@ public class BodyHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      for (int x = i + 1; x < this.size; x++) {
-        this.bodys[x - 1] = this.bodys[x];
+      Node cursor = first;
+      while (cursor != null) {
+        if (cursor.body == body) {
+          this.size--;
+          if (first == last) {
+            first = last = null;
+            break;
+          }
+          if (cursor == first) {
+            first = cursor.next;
+            cursor.prev = null;
+          } else {
+            cursor.prev.next = cursor.next;
+            if (cursor.next != null) {
+              cursor.next.prev = cursor.prev;
+            }
+          }
+          if (cursor == last) {
+            last = cursor.prev;
+          }
+          break;
+        }
+        cursor = cursor.next;
       }
-      bodys[--this.size] = null;
-
       System.out.println("신체지수를 삭제하였습니다.");
     } else {
       System.out.println("신체지수 삭제를 취소하였습니다.");
     }
   }
 
-  int indexOf(int bodyNo) {
-    for (int i = 0; i < this.size; i++) {
-      Body body = this.bodys[i];
-      if (body.no == bodyNo) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   Body findByNo(int bodyNo) {
-    int i = indexOf(bodyNo);
-    if (i == -1) {
-      return null;
-    } else {
-      return this.bodys[i];
+    Node cursor = first;
+    while (cursor != null) {
+      Body b = cursor.body;
+      if (b.no == bodyNo) {
+        return b;
+      }
+      cursor = cursor.next;
     }
+    return null;
   }
 
   String inputMember(String promptTitle) {
@@ -175,6 +195,16 @@ public class BodyHandler {
         return name;
       }
       System.out.println("등록된 회원이 아닙니다.");
+    }
+  }
+
+  static class Node {
+    Body body;
+    Node next;
+    Node prev;
+
+    Node(Body b) {
+      this.body = b;
     }
   }
 
