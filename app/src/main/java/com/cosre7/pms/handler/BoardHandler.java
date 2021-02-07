@@ -1,18 +1,16 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
-import java.util.Arrays;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.util.Prompt;
 
 public class BoardHandler {
 
-  static final int DEFAULT_CAPACITY = 100;
+  Node first;
+  Node last;
+  int size = 0;
 
   MemberHandler memberList;
-
-  Board[] boards = new Board[DEFAULT_CAPACITY];
-  int size = 0;
 
   public BoardHandler(MemberHandler memberHandler) {
     this.memberList = memberHandler;
@@ -24,18 +22,12 @@ public class BoardHandler {
     Board b = new Board();
 
     b.no = Prompt.inputInt("번호 > ");
-    while (true) {
-      String name = Prompt.inputString("이름(취소: 빈 문자열) > ");
-      if (name.length() == 0) {
-        System.out.println("게시글 작성을 취소합니다.");
-        return;
-      }
-      if (this.memberList.exist(name)) {
-        b.name = name;
-        break;
-      }
-      System.out.println("등록된 회원이 아닙니다.");
+    b.name = inputMember("이름(취소: 빈 문자열) > ");
+    if (b.name == null) {
+      System.out.println("게시글 작성을 취소합니다.");
+      return;
     }
+
     while (true) {
       b.category = Prompt.inputString("카테고리를 선택해주세요\n1: 추천 식재료\n2: 추천 레시피\n3: 추천 외식메뉴\n> ");
       if (b.category.equals("1") || b.category.equals("2") || b.category.equals("3")) {
@@ -48,23 +40,27 @@ public class BoardHandler {
     b.content = Prompt.inputString("내용 > ");                            
     b.registeredDate = new Date(System.currentTimeMillis());
 
-    if (this.size >= this.boards.length) {
-      boards = Arrays.copyOf(this.boards, this.size + (this.size >> 1));
+    Node node = new Node(b);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
-
-    this.boards[this.size++] = b;
-
+    this.size++;
     System.out.println("게시글을 등록하였습니다.");
   }
 
   public void list() {
     System.out.println("[게시글 목록]");
 
-    for (int i = 0; i < this.size; i++) {
-      Board b = this.boards[i];
+    Node cursor = first;
 
-      if (b == null)
-        continue;
+    while (cursor != null) {
+      Board b = cursor.board;
 
       String boardLabel = null;
       switch (b.category) {
@@ -77,9 +73,10 @@ public class BoardHandler {
         case "3":
           boardLabel = "추천 외식메뉴";
       }
-      System.out.printf("%d - [%s] %s\n등록일: %s 추천수: %d\n",
+      System.out.printf("%d - [%s] %s |등록일: %s 추천수: %d\n",
           b.no, boardLabel, b.title, b.registeredDate, b.likeCount);
-      System.out.println();
+
+      cursor = cursor.next;
     }
   }
 
@@ -135,7 +132,7 @@ public class BoardHandler {
         boardLabel = "추천 외식메뉴";
     }
     // 카테고리, 제목, 내용
-    String category = Prompt.inputString(String.format("카테고리(%s) > ", boardLabel));
+    String category = Prompt.inputString(String.format("카테고리([%d] %s) > ", board.category ,boardLabel));
     String title = Prompt.inputString(String.format("제목(%s) > ", board.title));
     String content = Prompt.inputString(String.format("내용(%s) > ", board.content));
 
@@ -145,6 +142,7 @@ public class BoardHandler {
       board.category = category;
       board.title = title;
       board.content = content;
+      System.out.println("게시글을 변경하였습니다.");
 
     } else {
       System.out.println("게시글 변경을 취소하였습니다.");
@@ -156,46 +154,76 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int i = indexOf(no);
-    if (i == -1) {
+    Board board = findByNo(no);
+    if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      for (int x = i + 1; x < this.size; x++) {
-        this.boards[x - 1] = this.boards[x];
+      Node cursor = first;
+      while (cursor != null) {
+        if (cursor.board == board) {
+          this.size--;
+          if (first == last) {
+            first = last = null;
+            break;
+          }
+          if (cursor == first) {
+            first = cursor.next;
+            cursor.prev = null;
+          } else {
+            cursor.prev.next = cursor.next;
+            if (cursor.next != null) {
+              cursor.next.prev = cursor.prev;
+            }
+          }
+          if (cursor == last) {
+            last = cursor.prev;
+          }
+          break;
+        }
+        cursor = cursor.next;
       }
-      boards[--this.size] = null;
-
       System.out.println("게시글을 삭제하였습니다.");
-
     } else {
       System.out.println("게시글 삭제를 취소하였습니다.");
     }
   }
 
-  int indexOf(int boardNo) {
-    // 어차피 i == -1이면 해당 게시글이 없다고 검증 중
-    // -> 배열 중간에 비어있는 항목이 없게 된다
-    // => 항목을 삭제할 때 뒷 항목의 값을 앞으로 당기는 형식으로
-    //    삭제 방법을 바꿨기 때문에 가능
-
-    for (int i = 0; i < this.size; i++) {
-      Board board = this.boards[i];
-      if (board.no == boardNo) {
-        return i;
+  Board findByNo(int boardNo) {
+    Node cursor = first;
+    while (cursor != null) {
+      Board b = cursor.board;
+      if (b.no == boardNo) {
+        return b;
       }
+      cursor = cursor.next;
     }
-    return -1;
+    return null;
   }
 
-  Board findByNo(int boardNo) {
-    int i = indexOf(boardNo);
-    if (i == -1)
-      return null;
-    else
-      return boards[i];
+  String inputMember(String promptTitle) {
+    while (true) {
+      String name = Prompt.inputString(promptTitle);
+      if (name.length() == 0) {
+        return null;
+      }
+      if (this.memberList.exist(name)) {
+        return name;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+    }
+  }
+
+  static class Node {
+    Board board;
+    Node next;
+    Node prev;
+
+    Node(Board b) {
+      this.board = b;
+    }
   }
 }

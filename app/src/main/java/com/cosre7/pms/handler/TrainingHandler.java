@@ -75,16 +75,7 @@ public class TrainingHandler {
 
     for (int i = 0; i < this.size; i++) {
       Training t = this.trainings[i];
-      System.out.printf("번호: %d\n이름: %s\n날짜: %s\n운동 목록: %s\n종류1: %s\n종류2: %s\n소요 시간: %.1f 시간\n운동 강도: %s[%d]\n", 
-          t.no,
-          t.name,
-          t.date, 
-          t.list, 
-          getKindLabel(t.kind), 
-          getTypeLabel(t.type), 
-          t.runTime, 
-          getIntensityLabel(t.intensity), 
-          t.intensity);
+      System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.no, t.name, t.date); 
     }
   }
 
@@ -132,11 +123,24 @@ public class TrainingHandler {
       }
     }
     Date date = Prompt.inputDate(String.format("날짜(%s) > ", training.date));
-    String list = Prompt.inputString(String.format("운동리스트 > ", training.list));
+
+    String list = "";
+    while (true) {
+      String exercise = Prompt.inputString("운동 리스트(완료: 빈 문자열) > ");
+      if (exercise.length() == 0) {
+        break;
+      } else {
+        if (!list.isEmpty()) {
+          list += ", ";
+        } 
+        list += exercise;
+      }
+    }
+
     int kind = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.kind, getKindLabel(training.kind)));
     int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.type, getTypeLabel(training.type)));
     double time = Prompt.inputDouble(String.format("소요시간(%.2f 시간) > ", training.runTime));
-    int intensity = Prompt.inputInt(String.format("운동강도(%d) > ", getIntensityLabel(training.intensity)));
+    int intensity = Prompt.inputInt(String.format("운동강도([%d] %s) > ", training.intensity, getIntensityLabel(training.intensity)));
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) > ");
 
@@ -155,7 +159,7 @@ public class TrainingHandler {
   }
 
   public void delete() {
-    System.out.println("[운동일지 변경]");
+    System.out.println("[운동일지 삭제]");
 
     int no = Prompt.inputInt("번호 > ");
 

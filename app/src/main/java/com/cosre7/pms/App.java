@@ -1,8 +1,8 @@
 package com.cosre7.pms;
 
 import com.cosre7.pms.handler.BoardHandler;
-import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.BodyHandler;
+import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
@@ -14,7 +14,7 @@ public class App {
     MemberHandler memberList = new MemberHandler();
     DietHandler dietList = new DietHandler(memberList);
     TrainingHandler trainingList = new TrainingHandler(memberList);
-    BodyHandler indexList = new BodyHandler(memberList);
+    BodyHandler bodyList = new BodyHandler(memberList);
     BoardHandler boardList = new BoardHandler(memberList);
 
     loop:
@@ -69,20 +69,20 @@ public class App {
           case "/training/delete":
             trainingList.delete();
             break;
-          case "/index/add":
-            indexList.add();
+          case "/body/add":
+            bodyList.add();
             break;
-          case "/index/list":
-            indexList.list();
+          case "/body/list":
+            bodyList.list();
             break;
-          case "/index/detail":
-            indexList.detail();
+          case "/body/detail":
+            bodyList.detail();
             break;
-          case "/index/update":
-            indexList.update();
+          case "/body/update":
+            bodyList.update();
             break;
-          case "/index/delete":
-            indexList.delete();
+          case "/body/delete":
+            bodyList.delete();
             break;
           case "/board/add":
             boardList.add();

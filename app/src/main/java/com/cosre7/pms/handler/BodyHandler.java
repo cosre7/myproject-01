@@ -50,17 +50,7 @@ public class BodyHandler {
 
     for (int j = 0; j < this.size; j++) {
       Body b = this.bodys[j];
-      System.out.printf("번호: %d\n이름: %s\n날짜: %s\n키: %.2f (cm)\n몸무게: %.2f (kg)\n가슴 둘레: %.2f (cm)\n허리 둘레: %.2f (cm)\n허벅지 둘레: %.2f (cm)\n종아리 둘레: %.2f (cm)\n", 
-          b.no, 
-          b.name,
-          b.date, 
-          b.height, 
-          b.weight, 
-          b.bust, 
-          b.waist, 
-          b.thigh, 
-          b.calf);
-      System.out.println();
+      System.out.printf("번호: %d 이름: %s 날짜: %s\n", b.no, b.name, b.date); 
     }
   }
 
@@ -76,8 +66,8 @@ public class BodyHandler {
     }
 
     // 이름, 날짜, 키, 몸무게, 가슴 둘레, 허리 둘레, 허벅지 둘레, 종아리 둘레
-    System.out.printf("[%s] %s \n", body.date, body.name);
-    System.out.printf("-- %s --", body.date);
+    System.out.printf("[%s]\n", body.date);
+    System.out.printf("-- %s --\n", body.name);
     System.out.printf("키: %.2f cm\n", body.height);
     System.out.printf("몸무게: %.2f kg\n", body.waist);
     System.out.printf("가슴둘레: %.2f cm\n", body.bust);
@@ -87,7 +77,7 @@ public class BodyHandler {
   }
 
   public void update() {
-    System.out.println("[신체지수 변경");
+    System.out.println("[신체지수 변경]");
 
     int no = Prompt.inputInt("번호 > ");
 
@@ -97,11 +87,12 @@ public class BodyHandler {
       return;
     }
 
-    String user = inputMember(String.format("이름(%s, 취소: 빈 문자열) > "));
+    String user = inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", body.name));
     if (user == null) {
       System.out.println("신체지수 작성을 취소합니다.");
       return;
     }
+
     Date date = Prompt.inputDate(String.format("날짜(%s) > ", body.date));
     double height = Prompt.inputDouble(String.format("키(%.2f) > ", body.height));
     double weight = Prompt.inputDouble(String.format("몸무게(%.2f) > ", body.weight));
@@ -123,13 +114,15 @@ public class BodyHandler {
       body.calf = calf;
 
       System.out.printf("%s 님의 신체지수를 변경하였습니다.", body.name);
+      System.out.println();
+
     } else {
       System.out.println("신체지수 변경을 취소하였습니다.");
     }
   }
 
   public void delete() {
-    System.out.println("[신체지수 변경");
+    System.out.println("[신체지수 삭제]");
 
     int no = Prompt.inputInt("번호 > ");
 

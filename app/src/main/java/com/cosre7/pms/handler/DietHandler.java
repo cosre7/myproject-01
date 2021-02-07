@@ -24,7 +24,7 @@ public class DietHandler {
     Diet d = new Diet();
     d.no = Prompt.inputInt("번호 > ");
 
-    d.name = inputMember("이름(취소: 빈 문자열) ");
+    d.name = inputMember("이름(취소: 빈 문자열) > ");
     if (d.name == null) {
       System.out.println("식단일지 작성을 취소합니다.");
       return;
@@ -98,7 +98,7 @@ public class DietHandler {
     System.out.printf("%s [%s 시]\n", diet.date, diet.time);
     System.out.printf("이름: %s\n", diet.name);
     System.out.printf("음식: %s\n", diet.food);
-    System.out.printf("포만감 정도: [%d] %s\n", getStatusLabel(diet.status));
+    System.out.printf("포만감 정도: [%d] %s\n", diet.status, getStatusLabel(diet.status));
     System.out.printf("종류: %s\n", getChoiceLabel(diet.choice));
   }
 
