@@ -6,11 +6,9 @@ import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  MemberHandler memberList;
+  DietList dietList = new DietList();
 
-  Node first;
-  Node last;
-  int size = 0;
+  MemberHandler memberList;
 
   public DietHandler(MemberHandler memberHandler) {
     this.memberList = memberHandler;
@@ -62,31 +60,16 @@ public class DietHandler {
         System.out.println("다시 입력해주세요");
       }
     }
-
-    Node node = new Node(d);
-
-    if (last == null) {
-      last = node;
-      first = node;
-    } else {
-      last.next = node;
-      node.prev = last;
-      last = node;
-    }
-    this.size++;
+    dietList.add(d);
   }
 
   public void list() {
     System.out.println("[식단일지 목록]");
 
-    Node cursor = first;
-
-    while (cursor != null) {
-      Diet d = cursor.diet;
+    Diet[] diets = dietList.toArray();
+    for (Diet d : diets) {
       System.out.printf("[%d] %s 날짜: %s 시간: %s시 - [%d] %s\n", 
           d.no, d.name, d.date, d.time, d.status, getChoiceLabel(d.choice));
-
-      cursor = cursor.next;
     }
   }
 
@@ -95,7 +78,7 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = findByNo(no);
+    Diet diet = dietList.get(no);
     if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
@@ -114,7 +97,7 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = findByNo(no);
+    Diet diet = dietList.get(no);
     if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
@@ -186,7 +169,7 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = findByNo(no);
+    Diet diet = dietList.get(no);
     if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
@@ -195,46 +178,11 @@ public class DietHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      Node cursor = first;
-      while (cursor != null) {
-        if (cursor.diet == diet) {
-          this.size--;
-          if (first == last) {
-            first = last = null;
-            break;
-          }
-          if (cursor == first) {
-            first = cursor.next;
-            cursor.prev = null;
-          } else {
-            cursor.prev.next = cursor.next;
-            if (cursor.next != null) {
-              cursor.next.prev = cursor.prev;
-            }
-          }
-          if (cursor == last) {
-            last = cursor.prev;
-          }
-          break;
-        }
-        cursor = cursor.next;
-      }
+      dietList.delete(no);
       System.out.println("식단일지를 삭제하였습니다.");
     } else {
       System.out.println("식단일지 삭제를 취소하였습니다.");
     }
-  }
-
-  Diet findByNo(int dietNo) {
-    Node cursor = first;
-    while (cursor != null) {
-      Diet d = cursor.diet;
-      if (d.no == dietNo) {
-        return d;
-      }
-      cursor = cursor.next;
-    }
-    return null;
   }
 
   String inputMember(String promptTitle) {
@@ -271,16 +219,6 @@ public class DietHandler {
         return "훌륭해요!";
       default:
         return "치팅이라니!!!";
-    }
-  }
-
-  static class Node {
-    Diet diet;
-    Node next;
-    Node prev;
-
-    Node(Diet d) {
-      this.diet = d;
     }
   }
 }
