@@ -7,10 +7,10 @@ import com.cosre7.util.Prompt;
 public class BodyHandler {
 
   BodyList bodyList = new BodyList();
-  MemberHandler memberList;
+  MemberList memberList;
 
-  public BodyHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
+  public BodyHandler(MemberList memberList) {
+    this.memberList = memberList;
   }
 
   public void add() {

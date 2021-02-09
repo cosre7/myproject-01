@@ -8,10 +8,10 @@ public class DietHandler {
 
   DietList dietList = new DietList();
 
-  MemberHandler memberList;
+  MemberList memberList;
 
-  public DietHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
+  public DietHandler(MemberList memberList) {
+    this.memberList = memberList;
   }
 
   public void add() {

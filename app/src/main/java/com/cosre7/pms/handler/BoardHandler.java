@@ -7,10 +7,10 @@ import com.cosre7.util.Prompt;
 public class BoardHandler {
 
   BoardList boardList = new BoardList();
-  MemberHandler memberList;
+  MemberList memberList;
 
-  public BoardHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
+  public BoardHandler(MemberList memberList) {
+    this.memberList = memberList;
   }
 
   public void add() {

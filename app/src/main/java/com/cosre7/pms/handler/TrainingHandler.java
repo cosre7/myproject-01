@@ -8,10 +8,10 @@ public class TrainingHandler {
 
   TrainingList trainingList = new TrainingList();
 
-  MemberHandler memberList;
+  MemberList memberList;
 
-  public TrainingHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
+  public TrainingHandler(MemberList memberList) {
+    this.memberList = memberList;
   }
 
   public void add() {
