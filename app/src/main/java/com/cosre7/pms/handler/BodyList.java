@@ -1,54 +1,86 @@
 package com.cosre7.pms.handler;
 
-import java.util.Arrays;
 import com.cosre7.pms.domain.Body;
 
 public class BodyList {
-  static final int DEFAULT_CAPACITY = 100;
-  Body[] bodys = new Body[DEFAULT_CAPACITY];
+
+  Node first;
+  Node last;
   int size = 0;
 
   void add(Body b) {
-    if (this.size == this.bodys.length) {
-      bodys = Arrays.copyOf(this.bodys, this.size + (this.size >> 1));
+    Node node = new Node(b);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
-    this.bodys[this.size++] = b;
+    size++;
   }
 
   Body[] toArray() {
     Body[] arr = new Body[this.size];
-    for (int i = 0; i < this.size; i++) {
-      arr[i] = this.bodys[i];
+
+    Node cursor = this.first;
+    int i = 0;
+
+    while (cursor != null) {
+      arr[i++] = cursor.body;
+      cursor = cursor.next;
     }
     return arr;
   }
 
   Body get(int bodyNo) {
-    int i = indexOf(bodyNo);
-    if (i == -1) 
-      return null;
-    return bodys[i];
+    Node cursor = first;
+    while (cursor != null) {
+      Body b = cursor.body;
+      if (b.no == bodyNo) {
+        return b;
+      }
+      cursor = cursor.next;
+    }
+    return null;
   }
 
   void delete(int bodyNo) {
-    int index = indexOf(bodyNo);
-
-    if (index == -1)
-      return;
-
-    for (int x = index + 1; x < this.size; x++) {
-      this.bodys[x - 1] = this.bodys[x];
+    Node cursor = first;
+    while (cursor != null) {
+      if (cursor.body.no == bodyNo) {
+        this.size--;
+        if (first == last) {
+          first = last = null;
+          break;
+        }
+        if (cursor == first) {
+          first = cursor.next;
+          cursor.prev = null;
+        } else {
+          cursor.prev.next = cursor.next;
+          if (cursor.next != null) {
+            cursor.next.prev = cursor.prev;
+          }
+        }
+        if (cursor == last) {
+          last = cursor.prev;
+        }
+        break;
+      }
+      cursor = cursor.next;
     }
-    this.bodys[--this.size] = null;
   }
 
-  int indexOf(int bodyNo) {
-    for (int i = 0; i < this.size; i++) {
-      Body body = this.bodys[i];
-      if (body.no == bodyNo) {
-        return i;
-      }
+  static class Node {
+    Body body;
+    Node next;
+    Node prev;
+
+    Node(Body b) {
+      this.body = b;
     }
-    return -1;
   }
 }

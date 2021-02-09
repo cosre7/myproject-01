@@ -1,55 +1,86 @@
 package com.cosre7.pms.handler;
 
-import java.util.Arrays;
 import com.cosre7.pms.domain.Board;
 
 public class BoardList {
-  static final int DEFAULT_CAPACITY = 100;
-  Board[] boards = new Board[DEFAULT_CAPACITY];
+
+  Node first;
+  Node last;
   int size = 0;
 
   void add(Board b) {
-    if (this.size == this.boards.length) {
-      boards = Arrays.copyOf(this.boards, this.size + (this.size >> 1));
+    Node node = new Node(b);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
-    this.boards[this.size++] = b;
+    size++;
   }
 
   Board[] toArray() {
     Board[] arr = new Board[this.size];
-    for (int i = 0; i < this.size; i++) {
-      arr[i] = this.boards[i];
+
+    Node cursor = this.first;
+    int i = 0;
+
+    while (cursor != null) {
+      arr[i++] = cursor.board;
+      cursor = cursor.next;
     }
     return arr;
   }
 
   Board get(int boardNo) {
-    int index = indexOf(boardNo);
-    if (index != -1) {
-      return this.boards[index];
+    Node cursor = first;
+    while (cursor != null) {
+      Board b = cursor.board;
+      if (b.no == boardNo) {
+        return b;
+      }
+      cursor = cursor.next;
     }
     return null;
   }
 
   void delete(int boardNo) {
-    int index = indexOf(boardNo);
-
-    if (index == -1)
-      return;
-
-    for (int x = index + 1; x < this.size; x++) {
-      this.boards[x - 1] = this.boards[x];
+    Node cursor = first;
+    while (cursor != null) {
+      if (cursor.board.no == boardNo) {
+        this.size--;
+        if (first == last) {
+          first = last = null;
+          break;
+        }
+        if (cursor == first) {
+          first = cursor.next;
+          cursor.prev = null;
+        } else {
+          cursor.prev.next = cursor.next;
+          if (cursor.next != null) {
+            cursor.next.prev = cursor.prev;
+          }
+        }
+        if (cursor == last) {
+          last = cursor.prev;
+        }
+        break;
+      }
+      cursor = cursor.next;
     }
-    this.boards[--this.size] = null;
   }
 
-  int indexOf(int boardNo) {
-    for (int i = 0; i < this.size; i++) {
-      Board board = this.boards[i];
-      if (board.no == boardNo) {
-        return i;
-      }
+  static class Node {
+    Board board;
+    Node next;
+    Node prev;
+
+    Node(Board b) {
+      this.board = b;
     }
-    return -1;
   }
 }

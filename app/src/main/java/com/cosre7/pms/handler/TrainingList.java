@@ -1,54 +1,86 @@
 package com.cosre7.pms.handler;
 
-import java.util.Arrays;
 import com.cosre7.pms.domain.Training;
 
 public class TrainingList {
-  static final int DEFAULT_CAPACITY = 100;
-  Training[] trainings = new Training[DEFAULT_CAPACITY];
+  Node first;
+  Node last;
   int size = 0;
 
   void add(Training t) {
-    if (this.size == this.trainings.length) {
-      trainings = Arrays.copyOf(this.trainings, this.size + (this.size >> 1));
+    Node node = new Node(t);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
-    this.trainings[this.size++] = t;
+
+    size++;
   }
 
   Training[] toArray() {
     Training[] arr = new Training[this.size];
-    for (int i = 0; i < this.size; i++) {
-      arr[i] = this.trainings[i];
+
+    Node cursor = this.first;
+    int i = 0;
+
+    while (cursor != null) {
+      arr[i++] = cursor.training;
+      cursor = cursor.next;
     }
     return arr;
   }
 
   Training get(int trainingNo) {
-    int i = indexOf(trainingNo);
-    if (i == -1)
-      return null;
-    return trainings[i];
+    Node cursor = first;
+    while (cursor != null) {
+      Training t = cursor.training;
+      if (t.no == trainingNo) {
+        return t;
+      }
+      cursor = cursor.next;
+    }
+    return null;
   }
 
   void delete(int trainingNo) {
-    int index = indexOf(trainingNo);
-
-    if (index == -1)
-      return;
-
-    for (int x = index + 1; x < this.size; x++) {
-      this.trainings[x - 1] = this.trainings[x];
+    Node cursor = first;
+    while (cursor != null) {
+      if (cursor.training.no == trainingNo) {
+        this.size--;
+        if (first == last) {
+          first = last = null;
+          break;
+        }
+        if (cursor == first) {
+          first = cursor.next;
+          cursor.prev = null;
+        } else {
+          cursor.prev.next = cursor.next;
+          if (cursor.next != null) {
+            cursor.next.prev = cursor.prev;
+          }
+        }
+        if (cursor == last) {
+          last = cursor.prev;
+        }
+        break;
+      }
+      cursor = cursor.next;
     }
-    this.trainings[--this.size] = null;
   }
 
-  int indexOf(int trainingNo) {
-    for (int i = 0; i < this.size; i++) {
-      Training training  = this.trainings[i];
-      if (training.no == trainingNo) {
-        return i;
-      }
+  static class Node {
+    Training training;
+    Node next;
+    Node prev;
+
+    Node(Training t) {
+      this.training = t;
     }
-    return -1;
   }
 }

@@ -1,54 +1,86 @@
 package com.cosre7.pms.handler;
 
-import java.util.Arrays;
 import com.cosre7.pms.domain.Diet;
 
 public class DietList {
-  static final int DEFAULT_CAPACITY = 100;
-  Diet[] diets = new Diet[DEFAULT_CAPACITY];
+
+  Node first;
+  Node last;
   int size = 0;
 
   void add(Diet d) {
-    if (this.size == this.diets.length) {
-      diets = Arrays.copyOf(this.diets, this.size + (this.size >> 1));
+    Node node = new Node(d);
+
+    if (last == null) {
+      last = node;
+      first = node;
+    } else {
+      last.next = node;
+      node.prev = last;
+      last = node;
     }
-    this.diets[this.size++] = d;
+    size++;
   }
 
   Diet[] toArray() {
     Diet[] arr = new Diet[this.size];
-    for (int i = 0; i < this.size; i++) {
-      arr[i] = this.diets[i];
+
+    Node cursor = this.first;
+    int i = 0;
+
+    while (cursor != null) {
+      arr[i++] = cursor.diet;
+      cursor = cursor.next;
     }
     return arr;
   }
 
   Diet get(int dietNo) {
-    int i = indexOf(dietNo);
-    if (i == -1) 
-      return null;
-    return diets[i];
+    Node cursor = first;
+    while (cursor != null) {
+      Diet d = cursor.diet;
+      if (d.no == dietNo) {
+        return d;
+      }
+      cursor = cursor.next;
+    }
+    return null;
   }
 
   void delete(int dietNo) {
-    int index = indexOf(dietNo);
-
-    if (index == -1)
-      return;
-
-    for (int x = index + 1; x < this.size; x++) {
-      this.diets[x - 1] = this.diets[x];
+    Node cursor = first;
+    while (cursor != null) {
+      if (cursor.diet.no == dietNo) {
+        this.size--;
+        if (first == last) {
+          first = last = null;
+          break;
+        }
+        if (cursor == first) {
+          first = cursor.next;
+          cursor.prev = null;
+        } else {
+          cursor.prev.next = cursor.next;
+          if (cursor.next != null) {
+            cursor.next.prev = cursor.prev;
+          }
+        }
+        if (cursor == last) {
+          last = cursor.prev;
+        }
+        break;
+      }
+      cursor = cursor.next;
     }
-    this.diets[--this.size] = null;
   }
 
-  int indexOf(int dietNo) {
-    for (int i = 0; i < this.size; i++) {
-      Diet diet = this.diets[i];
-      if (diet.no == dietNo) {
-        return i;
-      }
+  static class Node {
+    Diet diet;
+    Node next;
+    Node prev;
+
+    Node(Diet d) {
+      this.diet = d;
     }
-    return -1;
   }
 }
