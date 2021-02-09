@@ -6,9 +6,7 @@ import com.cosre7.util.Prompt;
 
 public class MemberHandler {
 
-  Node first;
-  Node last;
-  int size = 0;
+  public MemberList memberList = new MemberList();
 
   public void add() {
     System.out.println("[회원 등록]");
@@ -22,28 +20,17 @@ public class MemberHandler {
     m.tel = Prompt.inputString("전화? ");
     m.registeredDate = new Date(System.currentTimeMillis());
 
-    Node node = new Node(m);
+    memberList.add(m);
 
-    if (last == null) {
-      last = node;
-      first = node;
-    } else {
-      last.next = node;
-      node.prev = last;
-      last = node;
-    }
-
-    this.size++;
     System.out.println("회원을 등록하였습니다.");
   }
 
   public void list() {
     System.out.println("[회원 목록]");
 
-    Node cursor = first;
+    Member[] members = memberList.toArray();
 
-    while (cursor != null) {
-      Member m = cursor.member;
+    for (Member m : members) {
 
       //번호, 이름, 전화, 가입일
       System.out.printf("%d, %s, %s, %s\n",
@@ -51,22 +38,7 @@ public class MemberHandler {
           m.name, 
           m.tel, 
           m.registeredDate);
-
-      cursor = cursor.next;
     }
-  }
-
-  public boolean exist(String name) {
-    Node cursor = first;
-
-    while (cursor != null) {
-      Member m = cursor.member;
-      if (name.equals(name)) {
-        return true;
-      }
-      cursor = cursor.next;
-    }
-    return false;
   }
 
   public void detail() {
@@ -74,7 +46,7 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = findByNo(no);
+    Member member = memberList.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
@@ -92,7 +64,7 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = findByNo(no);
+    Member member = memberList.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
@@ -121,7 +93,7 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = findByNo(no);
+    Member member = memberList.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
@@ -130,55 +102,10 @@ public class MemberHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      Node cursor = first;
-      while (cursor != null) {
-        if (cursor.member == member) {
-          this.size--;
-          if (first == last) {
-            first = last = null;
-            break;
-          }
-          if (cursor == first) {
-            first = cursor.next;
-            cursor.prev = null;
-          } else {
-            cursor.prev.next = cursor.next;
-            if (cursor.next != null) {
-              cursor.next.prev = cursor.prev;
-            }
-          }
-          if (cursor == last) {
-            last = cursor.prev;
-          }
-          break;
-        }
-        cursor = cursor.next;
-      }
+      memberList.delete(no);
       System.out.println("회원을 삭제하였습니다");
     } else {
       System.out.println("회원 삭제를 취소하였습니다.");
-    }
-  }
-
-  Member findByNo(int memberNo) {
-    Node cursor = first;
-    while (cursor != null) {
-      Member m = cursor.member;
-      if (m.no == memberNo) {
-        return m;
-      }
-      cursor = cursor.next;
-    }
-    return null;
-  }
-
-  static class Node {
-    Member member;
-    Node next;
-    Node prev;
-
-    Node(Member m) {
-      this.member = m;
     }
   }
 }
