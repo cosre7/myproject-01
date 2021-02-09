@@ -8,7 +8,7 @@ public class BodyList {
   int size = 0;
 
   void add(Body b) {
-    this.bodys[this.size] = b;
+    this.bodys[this.size++] = b;
   }
 
   Body[] toArray() {

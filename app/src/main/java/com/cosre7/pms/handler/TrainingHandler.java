@@ -6,11 +6,9 @@ import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  MemberHandler memberList;
+  TrainingList trainingList = new TrainingList();
 
-  Node first;
-  Node last;
-  int size = 0;
+  MemberHandler memberList;
 
   public TrainingHandler(MemberHandler memberHandler) {
     this.memberList = memberHandler;
@@ -61,30 +59,15 @@ public class TrainingHandler {
     t.runTime = Prompt.inputDouble("소요시간 > ");
     t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
 
-    Node node = new Node(t);
-
-    if (last == null) {
-      last = node;
-      first = node;
-    } else {
-      last.next = node;
-      node.prev = last;
-      last = node;
-    }
-
-    this.size++;
+    trainingList.add(t);
   }
 
   public void list() {
     System.out.println("[운동일지 목록]");
 
-    Node cursor = first;
-
-    while (cursor != null) {
-      Training t = cursor.training;
+    Training[] trainings = trainingList.toArray();
+    for (Training t : trainings) {
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.no, t.name, t.date); 
-
-      cursor = cursor.next;
     }
   }
 
@@ -93,7 +76,7 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training = findByNo(no);
+    Training training = trainingList.get(no);
     if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
@@ -112,7 +95,7 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training = findByNo(no);
+    Training training = trainingList.get(no);
     if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
@@ -172,7 +155,7 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training  = findByNo(no);
+    Training training  = trainingList.get(no);
     if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
@@ -181,46 +164,11 @@ public class TrainingHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      Node cursor = first;
-      while (cursor != null) {
-        if (cursor.training == training) {
-          this.size--;
-          if (first == last) {
-            first = last = null;
-            break;
-          }
-          if (cursor == first) {
-            first = cursor.next;
-            cursor.prev = null;
-          } else {
-            cursor.prev.next = cursor.next;
-            if (cursor.next != null) {
-              cursor.next.prev = cursor.prev;
-            }
-          }
-          if (cursor == last) {
-            last = cursor.prev;
-          }
-          break;
-        }
-        cursor = cursor.next;
-      }
+      trainingList.delete(no);
       System.out.println("운동일지를 삭제하였습니다.");
     } else {
       System.out.println("삭제를 취소하였습니다.");
     }
-  }
-
-  Training findByNo(int trainingNo) {
-    Node cursor = first;
-    while (cursor != null) {
-      Training t = cursor.training;
-      if (t.no == trainingNo) {
-        return t;
-      }
-      cursor = cursor.next;
-    }
-    return null;
   }
 
   String inputMember(String promptTitle) {
@@ -270,16 +218,6 @@ public class TrainingHandler {
         return "근육통 예상";
       default:
         return "조상님을 뵈었어요";
-    }
-  }
-
-  static class Node {
-    Training training;
-    Node next;
-    Node prev;
-
-    Node(Training t) {
-      this.training = t;
     }
   }
 }
