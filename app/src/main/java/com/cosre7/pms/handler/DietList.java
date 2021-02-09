@@ -1,5 +1,6 @@
 package com.cosre7.pms.handler;
 
+import java.util.Arrays;
 import com.cosre7.pms.domain.Diet;
 
 public class DietList {
@@ -8,6 +9,9 @@ public class DietList {
   int size = 0;
 
   void add(Diet d) {
+    if (this.size == this.diets.length) {
+      diets = Arrays.copyOf(this.diets, this.size + (this.size >> 1));
+    }
     this.diets[this.size++] = d;
   }
 

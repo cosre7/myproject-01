@@ -1,14 +1,17 @@
 package com.cosre7.pms.handler;
 
+import java.util.Arrays;
 import com.cosre7.pms.domain.Board;
 
 public class BoardList {
   static final int DEFAULT_CAPACITY = 100;
-
   Board[] boards = new Board[DEFAULT_CAPACITY];
   int size = 0;
 
   void add(Board b) {
+    if (this.size == this.boards.length) {
+      boards = Arrays.copyOf(this.boards, this.size + (this.size >> 1));
+    }
     this.boards[this.size++] = b;
   }
 

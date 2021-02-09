@@ -1,5 +1,6 @@
 package com.cosre7.pms.handler;
 
+import java.util.Arrays;
 import com.cosre7.pms.domain.Body;
 
 public class BodyList {
@@ -8,6 +9,9 @@ public class BodyList {
   int size = 0;
 
   void add(Body b) {
+    if (this.size == this.bodys.length) {
+      bodys = Arrays.copyOf(this.bodys, this.size + (this.size >> 1));
+    }
     this.bodys[this.size++] = b;
   }
 

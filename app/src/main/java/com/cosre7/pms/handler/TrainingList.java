@@ -1,5 +1,6 @@
 package com.cosre7.pms.handler;
 
+import java.util.Arrays;
 import com.cosre7.pms.domain.Training;
 
 public class TrainingList {
@@ -8,6 +9,9 @@ public class TrainingList {
   int size = 0;
 
   void add(Training t) {
+    if (this.size == this.trainings.length) {
+      trainings = Arrays.copyOf(this.trainings, this.size + (this.size >> 1));
+    }
     this.trainings[this.size++] = t;
   }
 

@@ -1,5 +1,6 @@
 package com.cosre7.pms.handler;
 
+import java.util.Arrays;
 import com.cosre7.pms.domain.Member;
 
 public class MemberList {
@@ -8,6 +9,9 @@ public class MemberList {
   int size = 0;
 
   void add(Member m) {
+    if (this.size == this.members.length) {
+      members = Arrays.copyOf(this.members, this.size + (this.size >> 1));
+    }
     this.members[this.size++] = m;
   }
 
