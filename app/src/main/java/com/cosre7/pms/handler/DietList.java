@@ -4,11 +4,11 @@ import com.cosre7.pms.domain.Diet;
 
 public class DietList {
 
-  Node first;
-  Node last;
-  int size = 0;
+  private Node first;
+  private Node last;
+  private int size = 0;
 
-  void add(Diet d) {
+  public void add(Diet d) {
     Node node = new Node(d);
 
     if (last == null) {
@@ -22,7 +22,7 @@ public class DietList {
     size++;
   }
 
-  Diet[] toArray() {
+  public Diet[] toArray() {
     Diet[] arr = new Diet[this.size];
 
     Node cursor = this.first;
@@ -35,11 +35,11 @@ public class DietList {
     return arr;
   }
 
-  Diet get(int dietNo) {
+  public Diet get(int dietNo) {
     Node cursor = first;
     while (cursor != null) {
       Diet d = cursor.diet;
-      if (d.no == dietNo) {
+      if (d.getNo() == dietNo) {
         return d;
       }
       cursor = cursor.next;
@@ -47,10 +47,10 @@ public class DietList {
     return null;
   }
 
-  void delete(int dietNo) {
+  public void delete(int dietNo) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.diet.no == dietNo) {
+      if (cursor.diet.getNo() == dietNo) {
         this.size--;
         if (first == last) {
           first = last = null;

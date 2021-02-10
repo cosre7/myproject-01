@@ -4,11 +4,11 @@ import com.cosre7.pms.domain.Body;
 
 public class BodyList {
 
-  Node first;
-  Node last;
-  int size = 0;
+  private Node first;
+  private Node last;
+  private int size = 0;
 
-  void add(Body b) {
+  public void add(Body b) {
     Node node = new Node(b);
 
     if (last == null) {
@@ -22,7 +22,7 @@ public class BodyList {
     size++;
   }
 
-  Body[] toArray() {
+  public Body[] toArray() {
     Body[] arr = new Body[this.size];
 
     Node cursor = this.first;
@@ -35,11 +35,11 @@ public class BodyList {
     return arr;
   }
 
-  Body get(int bodyNo) {
+  public Body get(int bodyNo) {
     Node cursor = first;
     while (cursor != null) {
       Body b = cursor.body;
-      if (b.no == bodyNo) {
+      if (b.getNo() == bodyNo) {
         return b;
       }
       cursor = cursor.next;
@@ -47,10 +47,10 @@ public class BodyList {
     return null;
   }
 
-  void delete(int bodyNo) {
+  public void delete(int bodyNo) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.body.no == bodyNo) {
+      if (cursor.body.getNo() == bodyNo) {
         this.size--;
         if (first == last) {
           first = last = null;

@@ -3,11 +3,12 @@ package com.cosre7.pms.handler;
 import com.cosre7.pms.domain.Training;
 
 public class TrainingList {
-  Node first;
-  Node last;
-  int size = 0;
 
-  void add(Training t) {
+  private Node first;
+  private Node last;
+  private int size = 0;
+
+  public void add(Training t) {
     Node node = new Node(t);
 
     if (last == null) {
@@ -22,7 +23,7 @@ public class TrainingList {
     size++;
   }
 
-  Training[] toArray() {
+  public Training[] toArray() {
     Training[] arr = new Training[this.size];
 
     Node cursor = this.first;
@@ -35,11 +36,11 @@ public class TrainingList {
     return arr;
   }
 
-  Training get(int trainingNo) {
+  public Training get(int trainingNo) {
     Node cursor = first;
     while (cursor != null) {
       Training t = cursor.training;
-      if (t.no == trainingNo) {
+      if (t.getNo() == trainingNo) {
         return t;
       }
       cursor = cursor.next;
@@ -47,10 +48,10 @@ public class TrainingList {
     return null;
   }
 
-  void delete(int trainingNo) {
+  public void delete(int trainingNo) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.training.no == trainingNo) {
+      if (cursor.training.getNo() == trainingNo) {
         this.size--;
         if (first == last) {
           first = last = null;
