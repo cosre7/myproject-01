@@ -12,6 +12,60 @@ public class Training {
   private int intensity;
   private double runTime;
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((date == null) ? 0 : date.hashCode());
+    result = prime * result + intensity;
+    result = prime * result + kind;
+    result = prime * result + ((list == null) ? 0 : list.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + no;
+    long temp;
+    temp = Double.doubleToLongBits(runTime);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + type;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Training other = (Training) obj;
+    if (date == null) {
+      if (other.date != null)
+        return false;
+    } else if (!date.equals(other.date))
+      return false;
+    if (intensity != other.intensity)
+      return false;
+    if (kind != other.kind)
+      return false;
+    if (list == null) {
+      if (other.list != null)
+        return false;
+    } else if (!list.equals(other.list))
+      return false;
+    if (name == null) {
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
+      return false;
+    if (no != other.no)
+      return false;
+    if (Double.doubleToLongBits(runTime) != Double.doubleToLongBits(other.runTime))
+      return false;
+    if (type != other.type)
+      return false;
+    return true;
+  }
+
   public int getNo() {
     return no;
   }
