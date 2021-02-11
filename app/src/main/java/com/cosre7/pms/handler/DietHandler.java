@@ -6,46 +6,33 @@ import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  DietList dietList = new DietList();
+  private DietList dietList = new DietList();
 
-  MemberList memberList;
+  private MemberHandler memberHandler;
 
-  public DietHandler(MemberList memberList) {
-    this.memberList = memberList;
+  public DietHandler(MemberHandler memberHandler) {
+    this.memberHandler = memberHandler;
   }
 
   public void add() {
     System.out.println("[식단일지 작성]");
 
     Diet d = new Diet();
-    d.no = Prompt.inputInt("번호 > ");
+    d.setNo(Prompt.inputInt("번호 > "));
 
-    d.name = inputMember("이름(취소: 빈 문자열) > ");
-    if (d.name == null) {
+    d.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    if (d.getName() == null) {
       System.out.println("식단일지 작성을 취소합니다.");
       return;
     }
 
-    d.date = Prompt.inputDate("날짜 > ");
-    d.time = Prompt.inputString("시간 > ");
-
-    d.food = "";
-    while (true) {
-      String eat = Prompt.inputString("먹은 음식(완료: 빈 문자열) > ");
-
-      if (eat.length() == 0) {
-        break;
-      } else {
-        if (!d.food.isEmpty()) {
-          d.food += ", ";
-        }
-        d.food += eat;
-      }
-    }
+    d.setDate(Prompt.inputDate("날짜 > "));
+    d.setTime(Prompt.inputString("시간 > "));
+    d.setFood(inputFoods("먹은 음식(완료: 빈 문자열) > "));
 
     while (true) {
-      d.status = Prompt.inputInt("포만감 정도 (1~5) > ");
-      if (d.status < 1 || d.status > 5) {
+      d.setStatus(Prompt.inputInt("포만감 정도 (1~5) > "));
+      if (d.getStatus() < 1 || d.getStatus() > 5) {
         System.out.println("다시 입력해주세요");
       } else {
         break;
@@ -53,8 +40,8 @@ public class DietHandler {
     }
 
     while (true) {
-      d.choice = Prompt.inputInt("종류\n1: 식단\n2: 치팅\n> ");
-      if (d.choice == 1 || d.choice == 2) {
+      d.setChoice(Prompt.inputInt("종류\n1: 식단\n2: 치팅\n> "));
+      if (d.getChoice() == 1 || d.getChoice() == 2) {
         break;
       } else {
         System.out.println("다시 입력해주세요");
@@ -69,7 +56,12 @@ public class DietHandler {
     Diet[] diets = dietList.toArray();
     for (Diet d : diets) {
       System.out.printf("[%d] %s 날짜: %s 시간: %s시 - [%d] %s\n", 
-          d.no, d.name, d.date, d.time, d.status, getChoiceLabel(d.choice));
+          d.getNo(), 
+          d.getName(), 
+          d.getDate(), 
+          d.getTime(), 
+          d.getStatus(), 
+          getChoiceLabel(d.getChoice()));
     }
   }
 
@@ -85,11 +77,11 @@ public class DietHandler {
     }
 
     //이름, 날짜, 시간, 먹은 음식, 포만감 정도, 종류
-    System.out.printf("%s [%s 시]\n", diet.date, diet.time);
-    System.out.printf("이름: %s\n", diet.name);
-    System.out.printf("음식: %s\n", diet.food);
-    System.out.printf("포만감 정도: [%d] %s\n", diet.status, getStatusLabel(diet.status));
-    System.out.printf("종류: %s\n", getChoiceLabel(diet.choice));
+    System.out.printf("%s [%s 시]\n", diet.getDate(), diet.getTime());
+    System.out.printf("이름: %s\n", diet.getName());
+    System.out.printf("음식: %s\n", diet.getFood());
+    System.out.printf("포만감 정도: [%d] %s\n", diet.getStatus(), getStatusLabel(diet.getStatus()));
+    System.out.printf("종류: %s\n", getChoiceLabel(diet.getChoice()));
   }
 
   public void update() {
@@ -103,28 +95,16 @@ public class DietHandler {
       return;
     }
 
-    String user = inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", diet.name));
+    String user = memberHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", diet.getName()));
     if (user == null) {
       System.out.println("식단일지 작성을 취소합니다.");
       return;
     }
 
     //날짜, 시간, 먹은 음식, 포만감 정도, 종류
-    Date date = Prompt.inputDate(String.format("날짜(%s) > ", diet.date));
-    String time = Prompt.inputString(String.format("시간(%s 시) > ", diet.time));
-
-    String food = "";
-    while (true) {
-      String eat = Prompt.inputString("먹은 음식(완료: 빈 문자열) > ");
-      if (eat.length() == 0) {
-        break;
-      } else {
-        if (!food.isEmpty()) {
-          food += ", ";
-        }
-        food += eat;
-      }
-    }
+    Date date = Prompt.inputDate(String.format("날짜(%s) > ", diet.getDate()));
+    String time = Prompt.inputString(String.format("시간(%s 시) > ", diet.getTime()));
+    String foods = inputFoods(String.format("먹은 음식(완료: 빈 문자열) > ", diet.getFood()));
 
     int status = 0;
     while (true) {
@@ -151,12 +131,12 @@ public class DietHandler {
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      diet.name = user;
-      diet.date = date;
-      diet.time = time;
-      diet.food = food;
-      diet.status = status;
-      diet.choice = choice;
+      diet.setName(user);
+      diet.setDate(date);
+      diet.setTime(time);
+      diet.setFood(foods);
+      diet.setStatus(status);
+      diet.setChoice(choice);
       System.out.println("식단일지를 변경하였습니다.");
 
     } else {
@@ -185,19 +165,6 @@ public class DietHandler {
     }
   }
 
-  String inputMember(String promptTitle) {
-    while (true) {
-      String name = Prompt.inputString(promptTitle);
-      if (name.length() == 0) {
-        return null;
-      }
-      if (this.memberList.exist(name)) {
-        return name;
-      }
-      System.out.println("등록된 회원이 아닙니다.");
-    }
-  }
-
   String getStatusLabel(int status) {
     switch (status) {
       case 1:
@@ -220,6 +187,22 @@ public class DietHandler {
       default:
         return "치팅이라니!!!";
     }
+  }
+
+  String inputFoods(String promptTitle) {
+    String foods = "";
+    while (true) {
+      String eat = Prompt.inputString(promptTitle);
+      if (eat.length() == 0) {
+        break;
+      } else {
+        if (!foods.isEmpty()) {
+          foods += ", ";
+        }
+        foods += eat;
+      }
+    }
+    return foods;
   }
 }
 

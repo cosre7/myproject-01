@@ -6,42 +6,31 @@ import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  TrainingList trainingList = new TrainingList();
+  private TrainingList trainingList = new TrainingList();
 
-  MemberList memberList;
+  private MemberHandler memberHandler;
 
-  public TrainingHandler(MemberList memberList) {
-    this.memberList = memberList;
+  public TrainingHandler(MemberHandler memberHandler) {
+    this.memberHandler = memberHandler;
   }
 
   public void add() {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();
-    t.no = Prompt.inputInt("번호 > ");
-    t.name = inputMember("이름(취소: 빈 문자열) > ");
-    if (t.name == null) {
+    t.setNo(Prompt.inputInt("번호 > "));
+    t.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    if (t.getName() == null) {
       System.out.println("운동일지 작성을 취소합니다.");
       return;
     }
-    t.date = Prompt.inputDate("날짜 > ");
+    t.setDate(Prompt.inputDate("날짜 > "));
 
-    t.list = "";
-    while (true) {
-      String exercise = Prompt.inputString("운동 리스트(완료: 빈 문자열) > ");
-      if (exercise.length() == 0) {
-        break;
-      } else {
-        if (!t.list.isEmpty()) {
-          t.list += ", ";
-        } 
-        t.list += exercise;
-      }
-    }
+    t.setList(inputExercise("운동 리스트(완료: 빈 문자열) > "));
 
     while (true) {
-      t.kind = Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> ");
-      if (t.kind == 1 || t.kind == 2 || t.kind == 3) {
+      t.setKind(Prompt.inputInt("종류1\n1: 상체\n2: 하체\n3: 전신\n> "));
+      if (t.getKind() == 1 || t.getKind() == 2 || t.getKind() == 3) {
         break;
       } else {
         System.out.println("다시 입력해주세요");
@@ -49,15 +38,15 @@ public class TrainingHandler {
     }
 
     while (true) {
-      t.type = Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n3: 혼합\n> ");
-      if (t.type == 1 || t.type == 2 || t.type == 3) {
+      t.setType(Prompt.inputInt("종류2\n1: 근력\n2: 유산소\n3: 혼합\n> "));
+      if (t.getType() == 1 || t.getType() == 2 || t.getType() == 3) {
         break;
       } else {
         System.out.println("다시 입력해주세요");
       }
     }
-    t.runTime = Prompt.inputDouble("소요시간 > ");
-    t.intensity = Prompt.inputInt("운동 강도 (1~5) > ");
+    t.setRunTime(Prompt.inputDouble("소요시간 > "));
+    t.setIntensity(Prompt.inputInt("운동 강도 (1~5) > "));
 
     trainingList.add(t);
   }
@@ -67,7 +56,7 @@ public class TrainingHandler {
 
     Training[] trainings = trainingList.toArray();
     for (Training t : trainings) {
-      System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.no, t.name, t.date); 
+      System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
     }
   }
 
@@ -83,11 +72,11 @@ public class TrainingHandler {
     }
 
     // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
-    System.out.printf("[%d] %s\n", training.no, training.name);
-    System.out.printf("- 운동리스트 - \n %s\n", training.list);
-    System.out.printf("%s | %s\n", getKindLabel(training.kind), getTypeLabel(training.type));
-    System.out.printf("소요시간: %s 시간\n", training.runTime);
-    System.out.printf("[%d] %s\n", training.intensity, getIntensityLabel(training.intensity));
+    System.out.printf("[%d] %s\n", training.getNo(), training.getName());
+    System.out.printf("- 운동리스트 - \n %s\n", training.getList());
+    System.out.printf("%s | %s\n", getKindLabel(training.getKind()), getTypeLabel(training.getType()));
+    System.out.printf("소요시간: %s 시간\n", training.getRunTime());
+    System.out.printf("[%d] %s\n", training.getIntensity(), getIntensityLabel(training.getIntensity()));
   }
 
   public void update() {
@@ -102,48 +91,28 @@ public class TrainingHandler {
     }
 
     // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
-    String name = null;
-    while (true) {
-      name = Prompt.inputString(String.format("이름(%s, 취소: 빈 문자열) > ", training.name));
-      if(name.length() == 0) {
-        System.out.println("운동일지 변경을 취소합니다.");
-        return;
-      } else if (this.memberList.exist(name)) {
-        break;
-      } else {
-        System.out.println("등록된 회원이 아닙니다.");
-      }
+    String name = memberHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", training.getName()));
+    if (name == null) {
+      System.out.println("등록된 회원이 아닙니다.");
+      return;
     }
-    Date date = Prompt.inputDate(String.format("날짜(%s) > ", training.date));
-
-    String list = "";
-    while (true) {
-      String exercise = Prompt.inputString("운동 리스트(완료: 빈 문자열) > ");
-      if (exercise.length() == 0) {
-        break;
-      } else {
-        if (!list.isEmpty()) {
-          list += ", ";
-        } 
-        list += exercise;
-      }
-    }
-
-    int kind = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.kind, getKindLabel(training.kind)));
-    int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.type, getTypeLabel(training.type)));
-    double time = Prompt.inputDouble(String.format("소요시간(%.2f 시간) > ", training.runTime));
-    int intensity = Prompt.inputInt(String.format("운동강도([%d] %s) > ", training.intensity, getIntensityLabel(training.intensity)));
+    Date date = Prompt.inputDate(String.format("날짜(%s) > ", training.getDate()));
+    String list = inputExercise(String.format("운동 리스트(완료: 빈 문자열) > ", training.getList()));
+    int kind = Prompt.inputInt(String.format("종류1([%d] %s) > ", training.getKind(), getKindLabel(training.getKind())));
+    int type = Prompt.inputInt(String.format("종류2([%d] %s) > ", training.getType(), getTypeLabel(training.getType())));
+    double time = Prompt.inputDouble(String.format("소요시간(%.2f 시간) > ", training.getRunTime()));
+    int intensity = Prompt.inputInt(String.format("운동강도([%d] %s) > ", training.getIntensity(), getIntensityLabel(training.getIntensity())));
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      training.name = name;
-      training.date = date;
-      training.list = list;
-      training.kind = kind;
-      training.type = type;
-      training.runTime = time;
-      training.intensity = intensity;
+      training.setName(name);
+      training.setDate(date);
+      training.setList(list);
+      training.setKind(kind);
+      training.setType(type);
+      training.setRunTime(time);
+      training.setIntensity(intensity);
       System.out.println("운동일지를 변경하였습니다.");
     } else {
       System.out.println("운동일지 변경을 취소하였습니다.");
@@ -168,19 +137,6 @@ public class TrainingHandler {
       System.out.println("운동일지를 삭제하였습니다.");
     } else {
       System.out.println("삭제를 취소하였습니다.");
-    }
-  }
-
-  String inputMember(String promptTitle) {
-    while (true) {
-      String name = Prompt.inputString(promptTitle);
-      if (name.length() == 0) {
-        return null;
-      } else if (this.memberList.exist(name)) {
-        return name;
-      } else {
-        System.out.println("등록된 회원이 아닙니다.");
-      }
     }
   }
 
@@ -219,5 +175,21 @@ public class TrainingHandler {
       default:
         return "조상님을 뵈었어요";
     }
+  }
+
+  String inputExercise(String promptTitle) {
+    String list = "";
+    while (true) {
+      String exercise = Prompt.inputString(promptTitle);
+      if (exercise.length() == 0) {
+        break;
+      } else {
+        if (!list.isEmpty()) {
+          list += ", ";
+        }
+        list += exercise;
+      }
+    }
+    return list;
   }
 }

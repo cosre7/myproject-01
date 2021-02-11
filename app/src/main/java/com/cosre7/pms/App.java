@@ -12,10 +12,10 @@ public class App {
   public static void main(String[] args) {
 
     MemberHandler memberHandler = new MemberHandler();
-    DietHandler dietHandler = new DietHandler(memberHandler.memberList);
-    TrainingHandler trainingHandler = new TrainingHandler(memberHandler.memberList);
-    BodyHandler bodyHandler = new BodyHandler(memberHandler.memberList);
-    BoardHandler boardHandler = new BoardHandler(memberHandler.memberList);
+    DietHandler dietHandler = new DietHandler(memberHandler);
+    TrainingHandler trainingHandler = new TrainingHandler(memberHandler);
+    BodyHandler bodyHandler = new BodyHandler(memberHandler);
+    BoardHandler boardHandler = new BoardHandler(memberHandler);
 
     loop:
       while (true) {

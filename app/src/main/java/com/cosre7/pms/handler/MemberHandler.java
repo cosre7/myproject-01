@@ -6,21 +6,25 @@ import com.cosre7.util.Prompt;
 
 public class MemberHandler {
 
-  public MemberList memberList = new MemberList();
+  private MemberList memberHandler = new MemberList();
+
+  public MemberList getMemberList() {
+    return this.memberHandler;
+  }
 
   public void add() {
     System.out.println("[회원 등록]");
 
     Member m = new Member();
 
-    m.no = Prompt.inputInt("번호? ");
-    m.name = Prompt.inputString("이름? ");
-    m.password = Prompt.inputString("암호? ");
-    m.photo = Prompt.inputString("사진? ");
-    m.tel = Prompt.inputString("전화? ");
-    m.registeredDate = new Date(System.currentTimeMillis());
+    m.setNo(Prompt.inputInt("번호 > "));
+    m.setName(Prompt.inputString("이름 > "));
+    m.setPassword(Prompt.inputString("암호 > "));
+    m.setPhoto(Prompt.inputString("사진 > "));
+    m.setTel(Prompt.inputString("전화 > "));
+    m.setRegisteredDate(new Date(System.currentTimeMillis()));
 
-    memberList.add(m);
+    memberHandler.add(m);
 
     System.out.println("회원을 등록하였습니다.");
   }
@@ -28,16 +32,16 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
-    Member[] members = memberList.toArray();
+    Member[] members = memberHandler.toArray();
 
     for (Member m : members) {
 
       //번호, 이름, 전화, 가입일
       System.out.printf("%d, %s, %s, %s\n",
-          m.no, 
-          m.name, 
-          m.tel, 
-          m.registeredDate);
+          m.getNo(), 
+          m.getName(), 
+          m.getTel(), 
+          m.getRegisteredDate());
     }
   }
 
@@ -46,17 +50,17 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = memberList.get(no);
+    Member member = memberHandler.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
 
     // 이름, 사진, 전화, 가입일
-    System.out.printf("이름: %s\n", member.name);
-    System.out.printf("사진: %s\n", member.photo);
-    System.out.printf("전화: %s\n", member.tel);
-    System.out.printf("가입일: %s\n", member.registeredDate);
+    System.out.printf("이름: %s\n", member.getName());
+    System.out.printf("사진: %s\n", member.getPhoto());
+    System.out.printf("전화: %s\n", member.getTel());
+    System.out.printf("가입일: %s\n", member.getRegisteredDate());
   }
 
   public void update() {
@@ -64,24 +68,24 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = memberList.get(no);
+    Member member = memberHandler.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
 
-    String name = Prompt.inputString(String.format("이름(%s) > ", member.name));
-    String photo = Prompt.inputString(String.format("사진 > ", member.photo));
-    String tel = Prompt.inputString(String.format("전화(%s) > ", member.tel));
-    Date registeredDate = Prompt.inputDate(String.format("가입일(%s) > ", member.registeredDate));
+    String name = Prompt.inputString(String.format("이름(%s) > ", member.getName()));
+    String photo = Prompt.inputString(String.format("사진 > ", member.getPhoto()));
+    String tel = Prompt.inputString(String.format("전화(%s) > ", member.getTel()));
+    Date registeredDate = Prompt.inputDate(String.format("가입일(%s) > ", member.getRegisteredDate()));
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      member.name = name;
-      member.photo = photo;
-      member.tel = tel;
-      member.registeredDate = registeredDate;
+      member.setName(name);
+      member.setPhoto(photo);
+      member.setTel(tel);
+      member.setRegisteredDate(registeredDate);
       System.out.println("회원을 변경하였습니다.");
     } else {
       System.out.println("회원 변경을 취소하였습니다.");
@@ -93,7 +97,7 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Member member = memberList.get(no);
+    Member member = memberHandler.get(no);
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
@@ -102,10 +106,23 @@ public class MemberHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(no);
+      memberHandler.delete(no);
       System.out.println("회원을 삭제하였습니다");
     } else {
       System.out.println("회원 삭제를 취소하였습니다.");
+    }
+  }
+
+  String inputMember(String promptTitle) {
+    while (true) {
+      String name = Prompt.inputString(promptTitle);
+      if (name.length() == 0) {
+        return null;
+      } else if (this.memberHandler.exist(name)) {
+        return name;
+      } else {
+        System.out.println("등록된 회원이 아닙니다.");
+      }
     }
   }
 }
