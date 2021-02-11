@@ -109,6 +109,16 @@ public class List {
     }
   }
 
+  public int indexOf(Object obj) {
+    Object[] list = this.toArray();
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].equals(obj)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   static class Node {
     Object obj;
     Node next;

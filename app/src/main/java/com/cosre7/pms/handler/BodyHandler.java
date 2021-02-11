@@ -122,8 +122,8 @@ public class BodyHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int index = indexOf(no);
-    if (index == -1) {
+    Body body = findByNo(no);
+    if (body == null) {
       System.out.println("해당 번호의 신체지수가 없습니다.");
       return;
     }
@@ -131,22 +131,11 @@ public class BodyHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      bodyList.delete(index);
+      bodyList.delete(body);
       System.out.println("신체지수를 삭제하였습니다.");
     } else {
       System.out.println("신체지수 삭제를 취소하였습니다.");
     }
-  }
-
-  private int indexOf(int bodyNo) {
-    Object[] list = bodyList.toArray();
-    for (int i = 0; i < list.length; i++) {
-      Body b = (Body) list[i];
-      if (b.getNo() == bodyNo) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   private Body findByNo(int bodyNo) {

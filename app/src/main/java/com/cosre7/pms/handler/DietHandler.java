@@ -151,8 +151,8 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int index = indexOf(no);
-    if (index == -1) {
+    Diet diet = findByNo(no);
+    if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
     }
@@ -160,7 +160,7 @@ public class DietHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      dietList.delete(index);
+      dietList.delete(diet);
       System.out.println("식단일지를 삭제하였습니다.");
     } else {
       System.out.println("식단일지 삭제를 취소하였습니다.");
@@ -205,17 +205,6 @@ public class DietHandler {
       }
     }
     return foods;
-  }
-
-  private int indexOf(int dietNo) {
-    Object[] list = dietList.toArray();
-    for (int i = 0; i < list.length; i++) {
-      Diet d = (Diet) list[i];
-      if (d.getNo() == dietNo) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   private Diet findByNo(int dietNo) {

@@ -126,8 +126,8 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int index = indexOf(no);
-    if (index == -1) {
+    Training training = findByNo(no);
+    if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
     }
@@ -135,7 +135,7 @@ public class TrainingHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      trainingList.delete(index);
+      trainingList.delete(training);
       System.out.println("운동일지를 삭제하였습니다.");
     } else {
       System.out.println("삭제를 취소하였습니다.");
@@ -193,17 +193,6 @@ public class TrainingHandler {
       }
     }
     return list;
-  }
-
-  private int indexOf(int trainingNo) {
-    Object[] list = trainingList.toArray();
-    for (int i = 0; i < list.length; i++) {
-      Training t = (Training) list[i];
-      if (t.getNo() == trainingNo) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   private Training findByNo(int trainingNo) {

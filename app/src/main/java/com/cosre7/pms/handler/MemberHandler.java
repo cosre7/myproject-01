@@ -98,8 +98,8 @@ public class MemberHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    int index = indexOf(no);
-    if (index == -1) {
+    Member member = findByNo(no);
+    if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
@@ -107,7 +107,7 @@ public class MemberHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(index);
+      memberList.delete(member);
       System.out.println("회원을 삭제하였습니다");
     } else {
       System.out.println("회원 삭제를 취소하였습니다.");
@@ -125,17 +125,6 @@ public class MemberHandler {
         System.out.println("등록된 회원이 아닙니다.");
       }
     }
-  }
-
-  private int indexOf(int memberNo) {
-    Object[] list = memberList.toArray();
-    for (int i = 0; i < list.length; i++) {
-      Member m = (Member) list[i];
-      if (m.getNo() == memberNo) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   private Member findByNo(int memberNo) {
