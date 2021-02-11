@@ -49,6 +49,34 @@ public class List {
     return null;
   }
 
+  public boolean delete(Object obj) {
+    Node cursor = first;
+    while (cursor != null) {
+      if (cursor.obj.equals(obj)) {
+        this.size--;
+        if (first == last) {
+          first = last = null;
+          break;
+        }
+        if (cursor == first) {
+          first = cursor.next;
+          cursor.prev = null;
+        } else {
+          cursor.prev.next = cursor.next;
+          if (cursor.next != null) {
+            cursor.next.prev = cursor.prev;
+          }
+        }
+        if (cursor == last) {
+          last = cursor.prev;
+        }
+        break;
+      }
+      cursor = cursor.next;
+    }
+    return false;
+  }
+
   public void delete(int index) {
     if (index < 0 || index >= this.size) {
       return;
