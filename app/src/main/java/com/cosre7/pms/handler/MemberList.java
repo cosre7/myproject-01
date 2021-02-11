@@ -56,7 +56,7 @@ public class MemberList {
           first = last = null;
           break;
         }
-        if (cursor != null) {
+        if (cursor == first) {
           first = cursor.next;
           cursor.prev = null;
         } else {
