@@ -2,11 +2,12 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Diet;
+import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  private DietList dietList = new DietList();
+  private List dietList = new List();
 
   private MemberHandler memberHandler;
 
@@ -53,8 +54,9 @@ public class DietHandler {
   public void list() {
     System.out.println("[식단일지 목록]");
 
-    Diet[] diets = dietList.toArray();
-    for (Diet d : diets) {
+    Object[] list = dietList.toArray();
+    for (Object obj : list) {
+      Diet d = (Diet) obj;
       System.out.printf("[%d] %s 날짜: %s 시간: %s시 - [%d] %s\n", 
           d.getNo(), 
           d.getName(), 
@@ -70,7 +72,7 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = dietList.get(no);
+    Diet diet = findByNo(no);
     if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
@@ -89,7 +91,7 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = dietList.get(no);
+    Diet diet = findByNo(no);
     if (diet == null) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
@@ -149,8 +151,8 @@ public class DietHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Diet diet = dietList.get(no);
-    if (diet == null) {
+    int index = indexOf(no);
+    if (index == -1) {
       System.out.println("해당 번호의 식단일지가 없습니다.");
       return;
     }
@@ -158,14 +160,14 @@ public class DietHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      dietList.delete(no);
+      dietList.delete(index);
       System.out.println("식단일지를 삭제하였습니다.");
     } else {
       System.out.println("식단일지 삭제를 취소하였습니다.");
     }
   }
 
-  String getStatusLabel(int status) {
+  private String getStatusLabel(int status) {
     switch (status) {
       case 1:
         return "나는 아직 배고프다";
@@ -180,7 +182,7 @@ public class DietHandler {
     }
   }
 
-  String getChoiceLabel(int choice) {
+  private String getChoiceLabel(int choice) {
     switch (choice) {
       case 1:
         return "훌륭해요!";
@@ -189,7 +191,7 @@ public class DietHandler {
     }
   }
 
-  String inputFoods(String promptTitle) {
+  private String inputFoods(String promptTitle) {
     String foods = "";
     while (true) {
       String eat = Prompt.inputString(promptTitle);
@@ -203,6 +205,28 @@ public class DietHandler {
       }
     }
     return foods;
+  }
+
+  private int indexOf(int dietNo) {
+    Object[] list = dietList.toArray();
+    for (int i = 0; i < list.length; i++) {
+      Diet d = (Diet) list[i];
+      if (d.getNo() == dietNo) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private Diet findByNo(int dietNo) {
+    Object[] list = dietList.toArray();
+    for (Object obj : list) {
+      Diet d = (Diet) obj;
+      if (d.getNo() == dietNo) {
+        return d;
+      }
+    }
+    return null;
   }
 }
 

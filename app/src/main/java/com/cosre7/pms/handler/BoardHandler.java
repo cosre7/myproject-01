@@ -2,11 +2,12 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Board;
+import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class BoardHandler {
 
-  private BoardList boardList = new BoardList();
+  private List boardList = new List();
 
   private MemberHandler memberHandler;
 
@@ -46,9 +47,10 @@ public class BoardHandler {
   public void list() {
     System.out.println("[게시글 목록]");
 
-    Board[] boards = boardList.toArray();
+    Object[] list = boardList.toArray();
 
-    for (Board b : boards) {
+    for (Object obj : list) {
+      Board b = (Board) obj;
       System.out.printf("%d - [%s] %s |등록일: %s 추천수: %d\n",
           b.getNo(), 
           getBoardLabel(b.getCategory()), 
@@ -63,7 +65,7 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Board board = boardList.get(no);
+    Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
@@ -80,7 +82,7 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Board board = boardList.get(no);
+    Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
@@ -108,15 +110,15 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Board board = boardList.get(no);
-    if (board == null) {
+    int index = indexOf(no);
+    if (index == -1) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      boardList.delete(no);
+      boardList.delete(index);
 
       System.out.println("게시글을 삭제하였습니다.");
     } else {
@@ -124,7 +126,7 @@ public class BoardHandler {
     }
   }
 
-  String getBoardLabel(String category) {
+  private String getBoardLabel(String category) {
     switch (category) {
       case "1":
         return "추천 식재료";
@@ -133,5 +135,27 @@ public class BoardHandler {
       default:
         return "추천 외식메뉴";
     }
+  }
+
+  private int indexOf(int boardNo) {
+    Object[] list = boardList.toArray();
+    for (int i = 0; i < list.length; i++) {
+      Board b = (Board) list[i];
+      if (b.getNo() == boardNo) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private Board findByNo(int boardNo) {
+    Object[] list = boardList.toArray();
+    for (Object obj : list) {
+      Board b = (Board) obj;
+      if (b.getNo() == boardNo) {
+        return b;
+      }
+    }
+    return null;
   }
 }

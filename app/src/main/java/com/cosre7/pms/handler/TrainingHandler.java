@@ -2,11 +2,12 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Training;
+import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  private TrainingList trainingList = new TrainingList();
+  private List trainingList = new List();
 
   private MemberHandler memberHandler;
 
@@ -54,8 +55,9 @@ public class TrainingHandler {
   public void list() {
     System.out.println("[운동일지 목록]");
 
-    Training[] trainings = trainingList.toArray();
-    for (Training t : trainings) {
+    Object[] list = trainingList.toArray();
+    for (Object obj : list) {
+      Training t = (Training) obj;
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
     }
   }
@@ -65,7 +67,7 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training = trainingList.get(no);
+    Training training = findByNo(no);
     if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
@@ -84,7 +86,7 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training = trainingList.get(no);
+    Training training = findByNo(no);
     if (training == null) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
@@ -124,8 +126,8 @@ public class TrainingHandler {
 
     int no = Prompt.inputInt("번호 > ");
 
-    Training training  = trainingList.get(no);
-    if (training == null) {
+    int index = indexOf(no);
+    if (index == -1) {
       System.out.println("해당 번호의 운동일지가 없습니다.");
       return;
     }
@@ -133,14 +135,14 @@ public class TrainingHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      trainingList.delete(no);
+      trainingList.delete(index);
       System.out.println("운동일지를 삭제하였습니다.");
     } else {
       System.out.println("삭제를 취소하였습니다.");
     }
   }
 
-  String getKindLabel(int kind) {
+  private String getKindLabel(int kind) {
     switch (kind) {
       case 1:
         return "상체";
@@ -151,7 +153,7 @@ public class TrainingHandler {
     }
   }
 
-  String getTypeLabel(int type) {
+  private String getTypeLabel(int type) {
     switch (type) {
       case 1:
         return "근력";
@@ -162,7 +164,7 @@ public class TrainingHandler {
     }
   }
 
-  String getIntensityLabel(int intensity) {
+  private String getIntensityLabel(int intensity) {
     switch (intensity) {
       case 1:
         return "껌이에요";
@@ -177,7 +179,7 @@ public class TrainingHandler {
     }
   }
 
-  String inputExercise(String promptTitle) {
+  private String inputExercise(String promptTitle) {
     String list = "";
     while (true) {
       String exercise = Prompt.inputString(promptTitle);
@@ -191,5 +193,27 @@ public class TrainingHandler {
       }
     }
     return list;
+  }
+
+  private int indexOf(int trainingNo) {
+    Object[] list = trainingList.toArray();
+    for (int i = 0; i < list.length; i++) {
+      Training t = (Training) list[i];
+      if (t.getNo() == trainingNo) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private Training findByNo(int trainingNo) {
+    Object[] list = trainingList.toArray();
+    for (Object obj : list) {
+      Training t = (Training) obj;
+      if (t.getNo() == trainingNo) {
+        return t;
+      }
+    }
+    return null;
   }
 }
