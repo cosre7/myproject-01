@@ -6,10 +6,13 @@ import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
+import com.cosre7.util.Stack;
 
 public class App {
 
-  public static void main(String[] args) {
+  static Stack commandStack = new Stack();
+
+  public static void main(String[] args) throws CloneNotSupportedException {
 
     MemberHandler memberHandler = new MemberHandler();
     DietHandler dietHandler = new DietHandler(memberHandler);
@@ -22,6 +25,11 @@ public class App {
 
         String input = Prompt.inputString("메인> ");
         System.out.println();
+
+        if (input.length() == 0) 
+          continue;
+
+        commandStack.push(input);
 
         switch (input) {
           case "/member/add":
@@ -99,6 +107,9 @@ public class App {
           case "/board/delete":
             boardHandler.delete();
             break;
+          case "history":
+            printCommandHistory();
+            break;
           case "quit":
           case "exit":
             System.out.println("당신의 건강을 응원합니다.");
@@ -111,4 +122,18 @@ public class App {
     Prompt.close();    
   }
 
+  static void printCommandHistory() throws CloneNotSupportedException {
+    Stack stack = commandStack.clone();
+
+    int count = 0;
+    while (stack.size() > 0) {
+      System.out.println(stack.pop());
+      if ((++count % 5) == 0) {
+        String input = Prompt.inputString(": ");
+        if (input.equalsIgnoreCase("q")) {
+          break;
+        }
+      }
+    }
+  }
 }
