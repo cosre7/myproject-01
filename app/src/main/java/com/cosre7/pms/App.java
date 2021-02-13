@@ -6,11 +6,13 @@ import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
+import com.cosre7.util.Queue;
 import com.cosre7.util.Stack;
 
 public class App {
 
   static Stack commandStack = new Stack();
+  static Queue commandQueue = new Queue();
 
   public static void main(String[] args) throws CloneNotSupportedException {
 
@@ -30,6 +32,7 @@ public class App {
           continue;
 
         commandStack.push(input);
+        commandQueue.offer(input);
 
         switch (input) {
           case "/member/add":
