@@ -139,4 +139,17 @@ public class App {
       }
     }
   }
+
+  static void printCommandHistory2() throws CloneNotSupportedException {
+    Queue queue = commandQueue.clone();
+
+    int count = 0;
+    while (queue.size() > 0) {
+      System.out.println(queue.poll());
+      String input = Prompt.inputString(": ");
+      if (input.equalsIgnoreCase("q")) {
+        break;
+      }
+    }
+  }
 }
