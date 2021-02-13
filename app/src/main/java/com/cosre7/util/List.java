@@ -4,7 +4,7 @@ public class List {
 
   private Node first;
   private Node last;
-  private int size = 0;
+  protected int size = 0;
 
   public void add(Object obj) {
     Node node = new Node(obj);
@@ -77,15 +77,17 @@ public class List {
     return false;
   }
 
-  public void delete(int index) {
+  public Object delete(int index) {
     if (index < 0 || index >= this.size) {
-      return;
+      return null;
     }
 
+    Object deleted = null;
     int count = 0;
     Node cursor = first;
     while (cursor != null) {
       if (index == count++) {
+        deleted = cursor.obj;
         this.size--;
         if (first == last) {
           first = last = null;
@@ -107,6 +109,7 @@ public class List {
       }
       cursor = cursor.next;
     }
+    return deleted;
   }
 
   public int indexOf(Object obj) {
@@ -119,6 +122,9 @@ public class List {
     return -1;
   }
 
+  public int size() {
+    return this.size;
+  }
   static class Node {
     Object obj;
     Node next;
