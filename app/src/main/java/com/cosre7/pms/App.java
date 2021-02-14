@@ -8,6 +8,7 @@ import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
 import com.cosre7.util.Stack;
+import com.cosre7.util.StackIterator;
 
 public class App {
 
@@ -126,11 +127,11 @@ public class App {
   }
 
   static void printCommandHistory() throws CloneNotSupportedException {
-    Stack stack = commandStack.clone();
+    StackIterator iterator = new StackIterator(commandStack);
 
     int count = 0;
-    while (stack.size() > 0) {
-      System.out.println(stack.pop());
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
       if ((++count % 5) == 0) {
         String input = Prompt.inputString(": ");
         if (input.equalsIgnoreCase("q")) {
