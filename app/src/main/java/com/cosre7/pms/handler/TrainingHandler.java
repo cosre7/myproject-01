@@ -3,6 +3,7 @@ package com.cosre7.pms.handler;
 import java.sql.Date;
 import com.cosre7.pms.domain.Training;
 import com.cosre7.util.List;
+import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
@@ -55,9 +56,10 @@ public class TrainingHandler {
   public void list() {
     System.out.println("[운동일지 목록]");
 
-    Object[] list = trainingList.toArray();
-    for (Object obj : list) {
-      Training t = (Training) obj;
+    ListIterator iterator = new ListIterator(this.trainingList);
+
+    while (iterator.hasNext()) {
+      Training t = (Training) iterator.next();
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
     }
   }

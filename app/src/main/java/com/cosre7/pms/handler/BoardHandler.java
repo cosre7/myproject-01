@@ -3,6 +3,7 @@ package com.cosre7.pms.handler;
 import java.sql.Date;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.util.List;
+import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class BoardHandler {
@@ -47,10 +48,10 @@ public class BoardHandler {
   public void list() {
     System.out.println("[게시글 목록]");
 
-    Object[] list = boardList.toArray();
+    ListIterator iterator = new ListIterator(this.boardList);
 
-    for (Object obj : list) {
-      Board b = (Board) obj;
+    while (iterator.hasNext()) {
+      Board b = (Board) iterator.next();
       System.out.printf("%d - [%s] %s |등록일: %s 추천수: %d\n",
           b.getNo(), 
           getBoardLabel(b.getCategory()), 

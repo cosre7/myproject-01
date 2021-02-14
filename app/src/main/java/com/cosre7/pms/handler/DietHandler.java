@@ -3,6 +3,7 @@ package com.cosre7.pms.handler;
 import java.sql.Date;
 import com.cosre7.pms.domain.Diet;
 import com.cosre7.util.List;
+import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class DietHandler {
@@ -54,9 +55,10 @@ public class DietHandler {
   public void list() {
     System.out.println("[식단일지 목록]");
 
-    Object[] list = dietList.toArray();
-    for (Object obj : list) {
-      Diet d = (Diet) obj;
+    ListIterator iterator = new ListIterator(this.dietList);
+
+    while (iterator.hasNext()) {
+      Diet d = (Diet) iterator.next();
       System.out.printf("[%d] %s 날짜: %s 시간: %s시 - [%d] %s\n", 
           d.getNo(), 
           d.getName(), 

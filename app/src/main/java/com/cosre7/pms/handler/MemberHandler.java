@@ -3,6 +3,7 @@ package com.cosre7.pms.handler;
 import java.sql.Date;
 import com.cosre7.pms.domain.Member;
 import com.cosre7.util.List;
+import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class MemberHandler {
@@ -33,10 +34,10 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
-    Object[] list = memberList.toArray();
+    ListIterator iterator = new ListIterator(this.memberList);
 
-    for (Object obj : list) {
-      Member m = (Member) obj;
+    while (iterator.hasNext()) {
+      Member m = (Member) iterator.next();
       //번호, 이름, 전화, 가입일
       System.out.printf("%d, %s, %s, %s\n",
           m.getNo(), 

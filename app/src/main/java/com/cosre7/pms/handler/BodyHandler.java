@@ -3,6 +3,7 @@ package com.cosre7.pms.handler;
 import java.sql.Date;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.util.List;
+import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class BodyHandler {
@@ -40,9 +41,10 @@ public class BodyHandler {
   public void list() {
     System.out.println("[신체지수 목록]");
 
-    Object[] list = bodyList.toArray();
-    for (Object obj : list) {
-      Body b = (Body) obj;
+    ListIterator iterator = new ListIterator(this.bodyList);
+
+    while (iterator.hasNext()) {
+      Body b = (Body) iterator.next();
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", 
           b.getNo(), 
           b.getName(), 
