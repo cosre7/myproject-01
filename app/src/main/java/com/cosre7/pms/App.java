@@ -7,6 +7,7 @@ import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
+import com.cosre7.util.QueueIterator;
 import com.cosre7.util.Stack;
 import com.cosre7.util.StackIterator;
 
@@ -114,6 +115,9 @@ public class App {
           case "history":
             printCommandHistory();
             break;
+          case "history2":
+            printCommandHistory2();
+            break;
           case "quit":
           case "exit":
             System.out.println("당신의 건강을 응원합니다.");
@@ -142,14 +146,16 @@ public class App {
   }
 
   static void printCommandHistory2() throws CloneNotSupportedException {
-    Queue queue = commandQueue.clone();
+    QueueIterator iterator = new QueueIterator(commandQueue);
 
     int count = 0;
-    while (queue.size() > 0) {
-      System.out.println(queue.poll());
-      String input = Prompt.inputString(": ");
-      if (input.equalsIgnoreCase("q")) {
-        break;
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
+      if ((++count % 5) == 0) {
+        String input = Prompt.inputString(": ");
+        if (input.equalsIgnoreCase("q")) {
+          break;
+        }
       }
     }
   }
