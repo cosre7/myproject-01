@@ -5,7 +5,7 @@ import com.cosre7.pms.handler.BodyHandler;
 import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
-import com.cosre7.util.AbstractIterator;
+import com.cosre7.util.Iterator;
 import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
 import com.cosre7.util.QueueIterator;
@@ -131,7 +131,7 @@ public class App {
     Prompt.close();    
   }
 
-  static void printCommandHistory(AbstractIterator iterator) {
+  static void printCommandHistory(Iterator iterator) {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
