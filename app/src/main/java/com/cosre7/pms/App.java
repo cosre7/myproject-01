@@ -10,7 +10,6 @@ import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
 import com.cosre7.util.QueueIterator;
 import com.cosre7.util.Stack;
-import com.cosre7.util.StackIterator;
 
 public class App {
 
@@ -114,7 +113,7 @@ public class App {
             boardHandler.delete();
             break;
           case "history":
-            printCommandHistory(new StackIterator(commandStack));
+            printCommandHistory(commandStack.iterator());
             break;
           case "history2":
             printCommandHistory(new QueueIterator(commandQueue));

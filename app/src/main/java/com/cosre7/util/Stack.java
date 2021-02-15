@@ -21,4 +21,8 @@ public class Stack extends List implements Cloneable {
 
     return stack;
   }
+
+  public Iterator iterator() throws CloneNotSupportedException {
+    return new StackIterator(this);
+  }
 }
