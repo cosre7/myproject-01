@@ -5,6 +5,7 @@ import com.cosre7.pms.handler.BodyHandler;
 import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
+import com.cosre7.util.AbstractIterator;
 import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
 import com.cosre7.util.QueueIterator;
@@ -113,10 +114,10 @@ public class App {
             boardHandler.delete();
             break;
           case "history":
-            printCommandHistory();
+            printCommandHistory(new StackIterator(commandStack));
             break;
           case "history2":
-            printCommandHistory2();
+            printCommandHistory(new QueueIterator(commandQueue));
             break;
           case "quit":
           case "exit":
@@ -130,24 +131,7 @@ public class App {
     Prompt.close();    
   }
 
-  static void printCommandHistory() throws CloneNotSupportedException {
-    StackIterator iterator = new StackIterator(commandStack);
-
-    int count = 0;
-    while (iterator.hasNext()) {
-      System.out.println(iterator.next());
-      if ((++count % 5) == 0) {
-        String input = Prompt.inputString(": ");
-        if (input.equalsIgnoreCase("q")) {
-          break;
-        }
-      }
-    }
-  }
-
-  static void printCommandHistory2() throws CloneNotSupportedException {
-    QueueIterator iterator = new QueueIterator(commandQueue);
-
+  static void printCommandHistory(AbstractIterator iterator) {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
