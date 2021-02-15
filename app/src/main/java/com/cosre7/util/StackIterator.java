@@ -1,6 +1,6 @@
 package com.cosre7.util;
 
-public class StackIterator extends AbstractIterator {
+public class StackIterator implements Iterator {
   Stack stack;
 
   public StackIterator(Stack stack) throws CloneNotSupportedException {

@@ -1,6 +1,6 @@
 package com.cosre7.util;
 
-public class QueueIterator extends AbstractIterator {
+public class QueueIterator implements Iterator {
   Queue queue;
 
   public QueueIterator(Queue queue) throws CloneNotSupportedException {

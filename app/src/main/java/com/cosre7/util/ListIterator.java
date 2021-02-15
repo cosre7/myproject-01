@@ -1,6 +1,6 @@
 package com.cosre7.util;
 
-public class ListIterator extends AbstractIterator {
+public class ListIterator implements Iterator {
   List list;
   int cursor = 0;
 
