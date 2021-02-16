@@ -2,8 +2,8 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Body;
+import com.cosre7.util.Iterator;
 import com.cosre7.util.List;
-import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class BodyHandler {
@@ -38,10 +38,10 @@ public class BodyHandler {
     bodyList.add(b);
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[신체지수 목록]");
 
-    ListIterator iterator = new ListIterator(this.bodyList);
+    Iterator iterator = bodyList.iterator();
 
     while (iterator.hasNext()) {
       Body b = (Body) iterator.next();

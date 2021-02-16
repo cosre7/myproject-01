@@ -22,7 +22,8 @@ public class Stack extends List implements Cloneable {
     return stack;
   }
 
+  @Override
   public Iterator iterator() throws CloneNotSupportedException {
-    return new StackIterator(this);
+    return new StackIterator(this); 
   }
 }

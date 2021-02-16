@@ -2,8 +2,8 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Training;
+import com.cosre7.util.Iterator;
 import com.cosre7.util.List;
-import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
@@ -53,10 +53,10 @@ public class TrainingHandler {
     trainingList.add(t);
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[운동일지 목록]");
 
-    ListIterator iterator = new ListIterator(this.trainingList);
+    Iterator iterator = trainingList.iterator();
 
     while (iterator.hasNext()) {
       Training t = (Training) iterator.next();

@@ -2,8 +2,8 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Diet;
+import com.cosre7.util.Iterator;
 import com.cosre7.util.List;
-import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class DietHandler {
@@ -52,10 +52,10 @@ public class DietHandler {
     dietList.add(d);
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[식단일지 목록]");
 
-    ListIterator iterator = new ListIterator(this.dietList);
+    Iterator iterator = dietList.iterator();
 
     while (iterator.hasNext()) {
       Diet d = (Diet) iterator.next();

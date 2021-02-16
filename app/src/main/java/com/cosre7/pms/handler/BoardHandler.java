@@ -2,8 +2,8 @@ package com.cosre7.pms.handler;
 
 import java.sql.Date;
 import com.cosre7.pms.domain.Board;
+import com.cosre7.util.Iterator;
 import com.cosre7.util.List;
-import com.cosre7.util.ListIterator;
 import com.cosre7.util.Prompt;
 
 public class BoardHandler {
@@ -45,10 +45,10 @@ public class BoardHandler {
     System.out.println("게시글을 등록하였습니다.");
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[게시글 목록]");
 
-    ListIterator iterator = new ListIterator(this.boardList);
+    Iterator iterator = boardList.iterator();
 
     while (iterator.hasNext()) {
       Board b = (Board) iterator.next();
