@@ -8,7 +8,6 @@ import com.cosre7.pms.handler.TrainingHandler;
 import com.cosre7.util.Iterator;
 import com.cosre7.util.Prompt;
 import com.cosre7.util.Queue;
-import com.cosre7.util.QueueIterator;
 import com.cosre7.util.Stack;
 
 public class App {
@@ -116,7 +115,7 @@ public class App {
             printCommandHistory(commandStack.iterator());
             break;
           case "history2":
-            printCommandHistory(new QueueIterator(commandQueue));
+            printCommandHistory(commandQueue.iterator());
             break;
           case "quit":
           case "exit":
