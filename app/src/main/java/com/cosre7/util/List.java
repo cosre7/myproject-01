@@ -136,25 +136,20 @@ public class List {
   }
 
   public Iterator iterator() throws CloneNotSupportedException {
-    return new ListIterator(this);
+    return this.new ListIterator();
   }
 
-  private static class ListIterator implements Iterator {
-    List list;
+  private class ListIterator implements Iterator {
     int cursor = 0;
-
-    public ListIterator(List list) {
-      this.list = list;
-    }
 
     @Override
     public boolean hasNext() {
-      return cursor < list.size();
+      return cursor < List.this.size();
     }
 
     @Override
     public Object next() {
-      return list.get(cursor++);
+      return List.this.get(cursor++);
     }
   }
 }
