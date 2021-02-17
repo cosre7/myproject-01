@@ -24,19 +24,20 @@ public class Stack extends List implements Cloneable {
 
   @Override
   public Iterator iterator() throws CloneNotSupportedException {
-    return this.clone().new StackIterator(); 
-  }
+    Stack stack = this.clone();
 
-  private class StackIterator implements Iterator {
+    class StackIterator implements Iterator {
 
-    @Override
-    public boolean hasNext() {
-      return Stack.this.size() > 0;
+      @Override
+      public boolean hasNext() {
+        return stack.size() > 0;
+      }
+
+      @Override
+      public Object next() {
+        return stack.pop();
+      }
     }
-
-    @Override
-    public Object next() {
-      return Stack.this.pop();
-    }
+    return new StackIterator();
   }
 }
