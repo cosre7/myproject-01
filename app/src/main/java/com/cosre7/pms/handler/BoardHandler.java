@@ -8,7 +8,7 @@ import com.cosre7.util.Prompt;
 
 public class BoardHandler {
 
-  private List boardList = new List();
+  private List<Board> boardList = new List<>();
 
   private MemberHandler memberHandler;
 
@@ -48,10 +48,10 @@ public class BoardHandler {
   public void list() throws CloneNotSupportedException {
     System.out.println("[게시글 목록]");
 
-    Iterator iterator = boardList.iterator();
+    Iterator<Board> iterator = boardList.iterator();
 
     while (iterator.hasNext()) {
-      Board b = (Board) iterator.next();
+      Board b = iterator.next();
       System.out.printf("%d - [%s] %s |등록일: %s 추천수: %d\n",
           b.getNo(), 
           getBoardLabel(b.getCategory()), 
@@ -139,9 +139,8 @@ public class BoardHandler {
   }
 
   private Board findByNo(int boardNo) {
-    Object[] list = boardList.toArray();
-    for (Object obj : list) {
-      Board b = (Board) obj;
+    Board[] list = boardList.toArray(new Board[boardList.size()]);
+    for (Board b : list) {
       if (b.getNo() == boardNo) {
         return b;
       }

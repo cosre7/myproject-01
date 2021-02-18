@@ -8,7 +8,7 @@ import com.cosre7.util.Prompt;
 
 public class BodyHandler {
 
-  private List bodyList = new List();
+  private List<Body> bodyList = new List<>();
   private MemberHandler memberHandler;
 
   public BodyHandler(MemberHandler memberHandler) {
@@ -41,10 +41,10 @@ public class BodyHandler {
   public void list() throws CloneNotSupportedException {
     System.out.println("[신체지수 목록]");
 
-    Iterator iterator = bodyList.iterator();
+    Iterator<Body> iterator = bodyList.iterator();
 
     while (iterator.hasNext()) {
-      Body b = (Body) iterator.next();
+      Body b = iterator.next();
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", 
           b.getNo(), 
           b.getName(), 
@@ -141,9 +141,8 @@ public class BodyHandler {
   }
 
   private Body findByNo(int bodyNo) {
-    Object[] list = bodyList.toArray();
-    for (Object obj : list) {
-      Body b = (Body) obj;
+    Body[] list = bodyList.toArray(new Body[bodyList.size()]);
+    for (Body b : list) {
       if (b.getNo() == bodyNo) {
         return b;
       }

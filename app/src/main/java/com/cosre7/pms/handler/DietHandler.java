@@ -8,7 +8,7 @@ import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  private List dietList = new List();
+  private List<Diet> dietList = new List<>();
 
   private MemberHandler memberHandler;
 
@@ -55,10 +55,10 @@ public class DietHandler {
   public void list() throws CloneNotSupportedException {
     System.out.println("[식단일지 목록]");
 
-    Iterator iterator = dietList.iterator();
+    Iterator<Diet> iterator = dietList.iterator();
 
     while (iterator.hasNext()) {
-      Diet d = (Diet) iterator.next();
+      Diet d = iterator.next();
       System.out.printf("[%d] %s 날짜: %s 시간: %s시 - [%d] %s\n", 
           d.getNo(), 
           d.getName(), 
@@ -210,9 +210,8 @@ public class DietHandler {
   }
 
   private Diet findByNo(int dietNo) {
-    Object[] list = dietList.toArray();
-    for (Object obj : list) {
-      Diet d = (Diet) obj;
+    Diet[] list = dietList.toArray(new Diet[dietList.size()]);
+    for (Diet d : list) {
       if (d.getNo() == dietNo) {
         return d;
       }

@@ -8,7 +8,7 @@ import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  private List trainingList = new List();
+  private List<Training> trainingList = new List<>();
 
   private MemberHandler memberHandler;
 
@@ -56,10 +56,10 @@ public class TrainingHandler {
   public void list() throws CloneNotSupportedException {
     System.out.println("[운동일지 목록]");
 
-    Iterator iterator = trainingList.iterator();
+    Iterator<Training> iterator = trainingList.iterator();
 
     while (iterator.hasNext()) {
-      Training t = (Training) iterator.next();
+      Training t = iterator.next();
       System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
     }
   }
@@ -198,9 +198,8 @@ public class TrainingHandler {
   }
 
   private Training findByNo(int trainingNo) {
-    Object[] list = trainingList.toArray();
-    for (Object obj : list) {
-      Training t = (Training) obj;
+    Training[] list = trainingList.toArray(new Training[trainingList.size()]);
+    for (Training t : list) {
       if (t.getNo() == trainingNo) {
         return t;
       }
