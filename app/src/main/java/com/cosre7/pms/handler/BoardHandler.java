@@ -1,14 +1,14 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cosre7.pms.domain.Board;
-import com.cosre7.util.Iterator;
-import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class BoardHandler {
 
-  private List<Board> boardList = new List<>();
+  private LinkedList<Board> boardList = new LinkedList<>();
 
   private MemberHandler memberHandler;
 
@@ -119,7 +119,7 @@ public class BoardHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      boardList.delete(board);
+      boardList.remove(board);
 
       System.out.println("게시글을 삭제하였습니다.");
     } else {

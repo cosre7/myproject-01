@@ -1,14 +1,14 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import com.cosre7.pms.domain.Training;
-import com.cosre7.util.Iterator;
-import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class TrainingHandler {
 
-  private List<Training> trainingList = new List<>();
+  private ArrayList<Training> trainingList = new ArrayList<>();
 
   private MemberHandler memberHandler;
 
@@ -137,7 +137,7 @@ public class TrainingHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      trainingList.delete(training);
+      trainingList.remove(training);
       System.out.println("운동일지를 삭제하였습니다.");
     } else {
       System.out.println("삭제를 취소하였습니다.");

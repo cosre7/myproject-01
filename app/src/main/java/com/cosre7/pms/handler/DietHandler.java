@@ -1,14 +1,14 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import com.cosre7.pms.domain.Diet;
-import com.cosre7.util.Iterator;
-import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class DietHandler {
 
-  private List<Diet> dietList = new List<>();
+  private ArrayList<Diet> dietList = new ArrayList<>();
 
   private MemberHandler memberHandler;
 
@@ -162,7 +162,7 @@ public class DietHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      dietList.delete(diet);
+      dietList.remove(diet);
       System.out.println("식단일지를 삭제하였습니다.");
     } else {
       System.out.println("식단일지 삭제를 취소하였습니다.");

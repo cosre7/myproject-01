@@ -1,14 +1,14 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import com.cosre7.pms.domain.Body;
-import com.cosre7.util.Iterator;
-import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class BodyHandler {
 
-  private List<Body> bodyList = new List<>();
+  private ArrayList<Body> bodyList = new ArrayList<>();
   private MemberHandler memberHandler;
 
   public BodyHandler(MemberHandler memberHandler) {
@@ -133,7 +133,7 @@ public class BodyHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      bodyList.delete(body);
+      bodyList.remove(body);
       System.out.println("신체지수를 삭제하였습니다.");
     } else {
       System.out.println("신체지수 삭제를 취소하였습니다.");

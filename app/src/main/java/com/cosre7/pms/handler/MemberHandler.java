@@ -1,16 +1,16 @@
 package com.cosre7.pms.handler;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cosre7.pms.domain.Member;
-import com.cosre7.util.Iterator;
-import com.cosre7.util.List;
 import com.cosre7.util.Prompt;
 
 public class MemberHandler {
 
-  private List<Member> memberList = new List<>();
+  private LinkedList<Member> memberList = new LinkedList<>();
 
-  public List<Member> getMemberList() {
+  public LinkedList<Member> getMemberList() {
     return this.memberList;
   }
 
@@ -108,7 +108,7 @@ public class MemberHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) > ");
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(member);
+      memberList.remove(member);
       System.out.println("회원을 삭제하였습니다");
     } else {
       System.out.println("회원 삭제를 취소하였습니다.");

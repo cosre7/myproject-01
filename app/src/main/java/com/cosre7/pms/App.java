@@ -1,19 +1,19 @@
 package com.cosre7.pms;
 
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cosre7.pms.handler.BoardHandler;
 import com.cosre7.pms.handler.BodyHandler;
 import com.cosre7.pms.handler.DietHandler;
 import com.cosre7.pms.handler.MemberHandler;
 import com.cosre7.pms.handler.TrainingHandler;
-import com.cosre7.util.Iterator;
 import com.cosre7.util.Prompt;
-import com.cosre7.util.Queue;
-import com.cosre7.util.Stack;
 
 public class App {
 
-  static Stack<String> commandStack = new Stack<>();
-  static Queue<String> commandQueue = new Queue<>();
+  static ArrayDeque<String> commandStack = new ArrayDeque<>();
+  static LinkedList<String> commandQueue = new LinkedList<>();
 
   public static void main(String[] args) throws CloneNotSupportedException {
 
