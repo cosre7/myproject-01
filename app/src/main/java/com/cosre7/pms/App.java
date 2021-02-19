@@ -13,6 +13,7 @@ import com.cosre7.pms.handler.BoardAddHandler;
 import com.cosre7.pms.handler.BoardDeleteHandler;
 import com.cosre7.pms.handler.BoardDetailHandler;
 import com.cosre7.pms.handler.BoardListHandler;
+import com.cosre7.pms.handler.BoardSearchHandler;
 import com.cosre7.pms.handler.BoardUpdateHandler;
 import com.cosre7.pms.handler.BodyAddHandler;
 import com.cosre7.pms.handler.BodyDeleteHandler;
@@ -58,6 +59,7 @@ public class App {
     BoardDetailHandler boardDetailHandler = new BoardDetailHandler(boardList);
     BoardUpdateHandler boardUpdateHandler = new BoardUpdateHandler(boardList);
     BoardDeleteHandler boardDeleteHandler = new BoardDeleteHandler(boardList);
+    BoardSearchHandler boardSearchHandler = new BoardSearchHandler(boardList);
 
     ArrayList<Diet> dietList = new ArrayList<>();
     DietAddHandler dietAddHandler = new DietAddHandler(dietList, memberValidatorHandler);
@@ -168,6 +170,9 @@ public class App {
               break;
             case "/board/delete":
               boardDeleteHandler.delete();
+              break;
+            case "/board/search":
+              boardSearchHandler.search();
               break;
             case "history":
               printCommandHistory(commandStack.iterator());
