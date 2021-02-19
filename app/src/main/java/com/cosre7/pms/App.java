@@ -2,6 +2,7 @@ package com.cosre7.pms;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import com.cosre7.pms.domain.Board;
@@ -20,6 +21,7 @@ import com.cosre7.pms.handler.BodyDeleteHandler;
 import com.cosre7.pms.handler.BodyDetailHandler;
 import com.cosre7.pms.handler.BodyListHandler;
 import com.cosre7.pms.handler.BodyUpdateHandler;
+import com.cosre7.pms.handler.Command;
 import com.cosre7.pms.handler.DietAddHandler;
 import com.cosre7.pms.handler.DietDeleteHandler;
 import com.cosre7.pms.handler.DietDetailHandler;
@@ -46,134 +48,59 @@ public class App {
   public static void main(String[] args) throws CloneNotSupportedException {
 
     LinkedList<Member> memberList = new LinkedList<>();
-    MemberAddHandler memberAddHandler = new MemberAddHandler(memberList);
-    MemberListHandler memberListHandler = new MemberListHandler(memberList);
-    MemberDetailHandler memberDetailHandler = new MemberDetailHandler(memberList);
-    MemberUpdateHandler memberUpdateHandler = new MemberUpdateHandler(memberList);
-    MemberDeleteHandler memberDeleteHandler = new MemberDeleteHandler(memberList);
+    LinkedList<Board> boardList = new LinkedList<>();
+    ArrayList<Diet> dietList = new ArrayList<>();
+    ArrayList<Training> trainingList = new ArrayList<>();
+    ArrayList<Body> bodyList = new ArrayList<>();
+
+    HashMap<String, Command> commandMap = new HashMap<>();
+
+    commandMap.put("/member/add", new MemberAddHandler(memberList));
+    commandMap.put("/member/list", new MemberListHandler(memberList));
+    commandMap.put("/member/detail", new MemberDetailHandler(memberList));
+    commandMap.put("/member/update", new MemberUpdateHandler(memberList));
+    commandMap.put("/member/delete", new MemberDeleteHandler(memberList));
     MemberValidatorHandler memberValidatorHandler = new MemberValidatorHandler(memberList);
 
-    LinkedList<Board> boardList = new LinkedList<>();
-    BoardAddHandler boardAddHandler = new BoardAddHandler(boardList, memberValidatorHandler);
-    BoardListHandler boardListHandler = new BoardListHandler(boardList);
-    BoardDetailHandler boardDetailHandler = new BoardDetailHandler(boardList);
-    BoardUpdateHandler boardUpdateHandler = new BoardUpdateHandler(boardList);
-    BoardDeleteHandler boardDeleteHandler = new BoardDeleteHandler(boardList);
-    BoardSearchHandler boardSearchHandler = new BoardSearchHandler(boardList);
+    commandMap.put("/board/add", new BoardAddHandler(boardList, memberValidatorHandler));
+    commandMap.put("/board/list", new BoardListHandler(boardList));
+    commandMap.put("/board/detail", new BoardDetailHandler(boardList));
+    commandMap.put("/board/update", new BoardUpdateHandler(boardList));
+    commandMap.put("/board/delete", new BoardDeleteHandler(boardList));
+    commandMap.put("/board/search", new BoardSearchHandler(boardList));
 
-    ArrayList<Diet> dietList = new ArrayList<>();
-    DietAddHandler dietAddHandler = new DietAddHandler(dietList, memberValidatorHandler);
-    DietListHandler dietListHandler = new DietListHandler(dietList);
-    DietDetailHandler dietDetailHandler = new DietDetailHandler(dietList);
-    DietUpdateHandler dietUpdateHandler = new DietUpdateHandler(dietList, memberValidatorHandler);
-    DietDeleteHandler dietDeleteHandler = new DietDeleteHandler(dietList);
+    commandMap.put("/diet/add", new DietAddHandler(dietList, memberValidatorHandler));
+    commandMap.put("/diet/list", new DietListHandler(dietList));
+    commandMap.put("/diet/detail", new DietDetailHandler(dietList));
+    commandMap.put("/diet/update", new DietUpdateHandler(dietList, memberValidatorHandler));
+    commandMap.put("/diet/delete", new DietDeleteHandler(dietList));
 
-    ArrayList<Training> trainingList = new ArrayList<>();
-    TrainingAddHandler trainingAddHandler = new TrainingAddHandler(trainingList, memberValidatorHandler);
-    TrainingListHandler trainingListHandler = new TrainingListHandler(trainingList);
-    TrainingDetailHandler trainingDetailHandler = new TrainingDetailHandler(trainingList);
-    TrainingUpdateHandler trainingUpdateHandler = new TrainingUpdateHandler(trainingList, memberValidatorHandler);
-    TrainingDeleteHandler trainingDeleteHandler = new TrainingDeleteHandler(trainingList);
+    commandMap.put("/training/add", new TrainingAddHandler(trainingList, memberValidatorHandler));
+    commandMap.put("/training/list", new TrainingListHandler(trainingList));
+    commandMap.put("/training/detail", new TrainingDetailHandler(trainingList));
+    commandMap.put("/training/update", new TrainingUpdateHandler(trainingList, memberValidatorHandler));
+    commandMap.put("/training/delete", new TrainingDeleteHandler(trainingList));
 
-    ArrayList<Body> bodyList = new ArrayList<>();
-    BodyAddHandler bodyAddHandler = new BodyAddHandler(bodyList, memberValidatorHandler);
-    BodyListHandler bodyListHandler = new BodyListHandler(bodyList);
-    BodyDetailHandler bodyDetailHandler = new BodyDetailHandler(bodyList);
-    BodyUpdateHandler bodyUpdateHandler = new BodyUpdateHandler(bodyList, memberValidatorHandler);
-    BodyDeleteHandler bodyDeleteHandler = new BodyDeleteHandler(bodyList);
+    commandMap.put("/body/add", new BodyAddHandler(bodyList, memberValidatorHandler));
+    commandMap.put("/body/list", new BodyListHandler(bodyList));
+    commandMap.put("/body/detail", new BodyDetailHandler(bodyList));
+    commandMap.put("/body/update", new BodyUpdateHandler(bodyList, memberValidatorHandler));
+    commandMap.put("/body/delete", new BodyDeleteHandler(bodyList));
 
     loop:
       while (true) {
 
-        String input = Prompt.inputString("메인> ");
+        String command = Prompt.inputString("메인> ");
         System.out.println();
 
-        if (input.length() == 0) 
+        if (command.length() == 0) 
           continue;
 
-        commandStack.push(input);
-        commandQueue.offer(input);
+        commandStack.push(command);
+        commandQueue.offer(command);
 
         try {
-          switch (input) {
-            case "/member/add":
-              memberAddHandler.service();
-              break;
-            case "/member/list":
-              memberListHandler.service();
-              break;
-            case "/member/detail":
-              memberDetailHandler.service();
-              break;
-            case "/member/update":
-              memberUpdateHandler.service();
-              break;
-            case "/member/delete":
-              memberDeleteHandler.service();
-              break;
-            case "/diet/add":
-              dietAddHandler.service();
-              break;
-            case "/diet/list":
-              dietListHandler.service();
-              break;
-            case "/diet/detail":
-              dietDetailHandler.service();
-              break;
-            case "/diet/update":
-              dietUpdateHandler.service();
-              break;
-            case "/diet/delete":
-              dietDeleteHandler.service();
-              break;
-            case "/training/add":
-              trainingAddHandler.service();
-              break;
-            case "/training/list":
-              trainingListHandler.service();
-              break;
-            case "/training/detail":
-              trainingDetailHandler.service();
-              break;
-            case "/training/update":
-              trainingUpdateHandler.service();
-              break;
-            case "/training/delete":
-              trainingDeleteHandler.service();
-              break;
-            case "/body/add":
-              bodyAddHandler.service();
-              break;
-            case "/body/list":
-              bodyListHandler.service();
-              break;
-            case "/body/detail":
-              bodyDetailHandler.service();
-              break;
-            case "/body/update":
-              bodyUpdateHandler.service();
-              break;
-            case "/body/delete":
-              bodyDeleteHandler.service();
-              break;
-            case "/board/add":
-              boardAddHandler.service();
-              break;
-            case "/board/list":
-              boardListHandler.service();
-              break;
-            case "/board/detail":
-              boardDetailHandler.service();
-              break;
-            case "/board/update":
-              boardUpdateHandler.service();
-              break;
-            case "/board/delete":
-              boardDeleteHandler.service();
-              break;
-            case "/board/search":
-              boardSearchHandler.service();
-              break;
+          switch (command) {
             case "history":
               printCommandHistory(commandStack.iterator());
               break;
@@ -185,7 +112,13 @@ public class App {
               System.out.println("당신의 건강을 응원합니다.");
               break loop;
             default:
-              System.out.println("실행할 수 없는 명령입니다.");
+              Command commandHandler = commandMap.get(command);
+
+              if (commandHandler == null) {
+                System.out.println("실행할 수 없는 명령입니다.");
+              } else {
+                commandHandler.service();
+              }
           }
         } catch (Exception e) {
           System.out.println("-----------------------------------------");
