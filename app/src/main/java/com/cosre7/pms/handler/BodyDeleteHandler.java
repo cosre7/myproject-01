@@ -10,7 +10,8 @@ public class BodyDeleteHandler extends AbstractBodyHandler {
     super(bodyList);
   }
 
-  public void delete() {
+  @Override
+  public void service() {
     System.out.println("[신체지수 삭제]");
 
     int no = Prompt.inputInt("번호 > ");

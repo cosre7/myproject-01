@@ -14,7 +14,8 @@ public class BodyUpdateHandler extends AbstractBodyHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void update() {
+  @Override
+  public void service() {
     System.out.println("[신체지수 변경]");
 
     int no = Prompt.inputInt("번호 > ");

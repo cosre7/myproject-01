@@ -10,8 +10,8 @@ public class DietListHandler extends AbstractDietHandler {
     super(dietList);
   }
 
-
-  public void list() throws CloneNotSupportedException {
+  @Override
+  public void service() {
     System.out.println("[식단일지 목록]");
 
     Iterator<Diet> iterator = dietList.iterator();

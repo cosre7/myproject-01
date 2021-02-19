@@ -10,7 +10,8 @@ public class TrainingDetailHandler extends AbstractTrainingHandler {
     super(trainingList);
   }
 
-  public void detail() {
+  @Override
+  public void service() {
     System.out.println("[운동일지 상세보기]");
 
     int no = Prompt.inputInt("번호 > ");

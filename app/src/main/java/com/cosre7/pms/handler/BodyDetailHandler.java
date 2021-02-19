@@ -10,7 +10,8 @@ public class BodyDetailHandler extends AbstractBodyHandler {
     super(bodyList);
   }
 
-  public void detail() {
+  @Override
+  public void service() {
     System.out.println("[신체지수 상세보기");
 
     int no = Prompt.inputInt("번호 > ");

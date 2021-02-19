@@ -13,7 +13,8 @@ public class TrainingAddHandler extends AbstractTrainingHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void add() {
+  @Override
+  public void service() {
     System.out.println("[운동일지 작성]");
 
     Training t = new Training();

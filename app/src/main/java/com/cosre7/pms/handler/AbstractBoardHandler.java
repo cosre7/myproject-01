@@ -3,7 +3,7 @@ package com.cosre7.pms.handler;
 import java.util.List;
 import com.cosre7.pms.domain.Board;
 
-public abstract class AbstractBoardHandler {
+public abstract class AbstractBoardHandler implements Command {
 
   protected List<Board> boardList;
 

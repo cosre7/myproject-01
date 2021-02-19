@@ -14,7 +14,8 @@ public class BoardAddHandler extends AbstractBoardHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void add() {
+  @Override
+  public void service() {
     System.out.println("[게시글 작성]");
 
     Board b = new Board();

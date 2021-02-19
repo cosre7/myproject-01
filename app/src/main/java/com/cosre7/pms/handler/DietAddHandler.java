@@ -13,7 +13,8 @@ public class DietAddHandler extends AbstractDietHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void add() {
+  @Override
+  public void service() {
     System.out.println("[식단일지 작성]");
 
     Diet d = new Diet();

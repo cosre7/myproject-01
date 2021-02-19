@@ -10,7 +10,8 @@ public class BodyListHandler extends AbstractBodyHandler {
     super(bodyList);
   }
 
-  public void list() throws CloneNotSupportedException {
+  @Override
+  public void service() {
     System.out.println("[신체지수 목록]");
 
     Iterator<Body> iterator = bodyList.iterator();

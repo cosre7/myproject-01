@@ -13,7 +13,8 @@ public class BodyAddHandler extends AbstractBodyHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void add() {
+  @Override
+  public void service() {
     System.out.println("[신체지수 작성]");
 
     Body b = new Body();

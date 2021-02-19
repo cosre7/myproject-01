@@ -4,7 +4,7 @@ import java.util.List;
 import com.cosre7.pms.domain.Training;
 import com.cosre7.util.Prompt;
 
-public class AbstractTrainingHandler {
+public abstract class AbstractTrainingHandler implements Command {
 
   protected List<Training> trainingList;
 

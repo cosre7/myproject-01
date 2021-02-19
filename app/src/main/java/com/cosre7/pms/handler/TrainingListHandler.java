@@ -10,7 +10,8 @@ public class TrainingListHandler extends AbstractTrainingHandler {
     super(trainingList);
   }
 
-  public void list() throws CloneNotSupportedException {
+  @Override
+  public void service() {
     System.out.println("[운동일지 목록]");
 
     Iterator<Training> iterator = trainingList.iterator();

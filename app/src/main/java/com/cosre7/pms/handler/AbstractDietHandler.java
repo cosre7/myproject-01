@@ -4,7 +4,7 @@ import java.util.List;
 import com.cosre7.pms.domain.Diet;
 import com.cosre7.util.Prompt;
 
-public class AbstractDietHandler {
+public abstract class AbstractDietHandler implements Command {
 
   protected List<Diet> dietList;
 

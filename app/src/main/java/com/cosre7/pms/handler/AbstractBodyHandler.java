@@ -3,7 +3,7 @@ package com.cosre7.pms.handler;
 import java.util.List;
 import com.cosre7.pms.domain.Body;
 
-public class AbstractBodyHandler {
+public abstract class AbstractBodyHandler implements Command {
 
   protected List<Body> bodyList;
 

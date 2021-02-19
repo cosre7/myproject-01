@@ -3,7 +3,7 @@ package com.cosre7.pms.handler;
 import java.util.List;
 import com.cosre7.pms.domain.Member;
 
-public class AbstractMemberHandler {
+public abstract class AbstractMemberHandler implements Command {
 
   protected List<Member> memberList;
 

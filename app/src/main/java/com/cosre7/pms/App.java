@@ -97,82 +97,82 @@ public class App {
         try {
           switch (input) {
             case "/member/add":
-              memberAddHandler.add();
+              memberAddHandler.service();
               break;
             case "/member/list":
-              memberListHandler.list();
+              memberListHandler.service();
               break;
             case "/member/detail":
-              memberDetailHandler.detail();
+              memberDetailHandler.service();
               break;
             case "/member/update":
-              memberUpdateHandler.update();
+              memberUpdateHandler.service();
               break;
             case "/member/delete":
-              memberDeleteHandler.delete();
+              memberDeleteHandler.service();
               break;
             case "/diet/add":
-              dietAddHandler.add();
+              dietAddHandler.service();
               break;
             case "/diet/list":
-              dietListHandler.list();
+              dietListHandler.service();
               break;
             case "/diet/detail":
-              dietDetailHandler.detail();
+              dietDetailHandler.service();
               break;
             case "/diet/update":
-              dietUpdateHandler.update();
+              dietUpdateHandler.service();
               break;
             case "/diet/delete":
-              dietDeleteHandler.delete();
+              dietDeleteHandler.service();
               break;
             case "/training/add":
-              trainingAddHandler.add();
+              trainingAddHandler.service();
               break;
             case "/training/list":
-              trainingListHandler.list();
+              trainingListHandler.service();
               break;
             case "/training/detail":
-              trainingDetailHandler.detail();
+              trainingDetailHandler.service();
               break;
             case "/training/update":
-              trainingUpdateHandler.update();
+              trainingUpdateHandler.service();
               break;
             case "/training/delete":
-              trainingDeleteHandler.delete();
+              trainingDeleteHandler.service();
               break;
             case "/body/add":
-              bodyAddHandler.add();
+              bodyAddHandler.service();
               break;
             case "/body/list":
-              bodyListHandler.list();
+              bodyListHandler.service();
               break;
             case "/body/detail":
-              bodyDetailHandler.detail();
+              bodyDetailHandler.service();
               break;
             case "/body/update":
-              bodyUpdateHandler.update();
+              bodyUpdateHandler.service();
               break;
             case "/body/delete":
-              bodyDeleteHandler.delete();
+              bodyDeleteHandler.service();
               break;
             case "/board/add":
-              boardAddHandler.add();
+              boardAddHandler.service();
               break;
             case "/board/list":
-              boardListHandler.list();
+              boardListHandler.service();
               break;
             case "/board/detail":
-              boardDetailHandler.detail();
+              boardDetailHandler.service();
               break;
             case "/board/update":
-              boardUpdateHandler.update();
+              boardUpdateHandler.service();
               break;
             case "/board/delete":
-              boardDeleteHandler.delete();
+              boardDeleteHandler.service();
               break;
             case "/board/search":
-              boardSearchHandler.search();
+              boardSearchHandler.service();
               break;
             case "history":
               printCommandHistory(commandStack.iterator());

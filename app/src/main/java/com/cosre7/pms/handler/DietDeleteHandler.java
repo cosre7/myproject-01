@@ -10,7 +10,8 @@ public class DietDeleteHandler extends AbstractDietHandler {
     super(dietList);
   }
 
-  public void delete() {
+  @Override
+  public void service() {
     System.out.println("[식단일지 삭제]");
 
     int no = Prompt.inputInt("번호 > ");

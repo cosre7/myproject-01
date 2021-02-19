@@ -10,7 +10,8 @@ public class TrainingDeleteHandler extends AbstractTrainingHandler {
     super(trainingList);
   }
 
-  public void delete() {
+  @Override
+  public void service() {
     System.out.println("[운동일지 삭제]");
 
     int no = Prompt.inputInt("번호 > ");

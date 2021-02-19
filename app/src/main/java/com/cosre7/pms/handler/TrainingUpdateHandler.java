@@ -14,7 +14,8 @@ public class TrainingUpdateHandler extends AbstractTrainingHandler {
     this.memberValidatorHandler = memberValidatorHandler;
   }
 
-  public void update() {
+  @Override
+  public void service() {
     System.out.println("[운동일지 변경]");
 
     int no = Prompt.inputInt("번호 > ");
