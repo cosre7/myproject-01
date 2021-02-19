@@ -6,11 +6,8 @@ import com.cosre7.util.Prompt;
 
 public class BoardUpdateHandler extends AbstractBoardHandler {
 
-  private AbstractMemberHandler memberHandler;
-
-  public BoardUpdateHandler(List<Board> boardList, AbstractMemberHandler memberHandler) {
+  public BoardUpdateHandler(List<Board> boardList) {
     super(boardList);
-    this.memberHandler = memberHandler;
   }
 
   public void update() {

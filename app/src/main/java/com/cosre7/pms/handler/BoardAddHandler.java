@@ -7,11 +7,11 @@ import com.cosre7.util.Prompt;
 
 public class BoardAddHandler extends AbstractBoardHandler {
 
-  protected AbstractMemberHandler memberHandler;
+  protected MemberValidatorHandler memberValidatorHandler;
 
-  public BoardAddHandler(List<Board> boardList, AbstractMemberHandler memberHandler) {
+  public BoardAddHandler(List<Board> boardList, MemberValidatorHandler memberValidatorHandler) {
     super(boardList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void add() {
@@ -20,7 +20,7 @@ public class BoardAddHandler extends AbstractBoardHandler {
     Board b = new Board();
 
     b.setNo(Prompt.inputInt("번호 > "));
-    b.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    b.setName(memberValidatorHandler.inputMember("이름(취소: 빈 문자열) > "));
     if (b.getName() == null) {
       System.out.println("게시글 작성을 취소합니다.");
       return;

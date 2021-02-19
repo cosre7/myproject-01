@@ -6,11 +6,11 @@ import com.cosre7.util.Prompt;
 
 public class TrainingAddHandler extends AbstractTrainingHandler {
 
-  private AbstractMemberHandler memberHandler;
+  private MemberValidatorHandler memberValidatorHandler;
 
-  public TrainingAddHandler(List<Training> trainingList, AbstractMemberHandler memberHandler) {
+  public TrainingAddHandler(List<Training> trainingList, MemberValidatorHandler memberValidatorHandler) {
     super(trainingList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void add() {
@@ -18,7 +18,7 @@ public class TrainingAddHandler extends AbstractTrainingHandler {
 
     Training t = new Training();
     t.setNo(Prompt.inputInt("번호 > "));
-    t.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    t.setName(memberValidatorHandler.inputMember("이름(취소: 빈 문자열) > "));
     if (t.getName() == null) {
       System.out.println("운동일지 작성을 취소합니다.");
       return;

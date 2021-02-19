@@ -6,11 +6,11 @@ import com.cosre7.util.Prompt;
 
 public class DietAddHandler extends AbstractDietHandler {
 
-  private AbstractMemberHandler memberHandler;
+  private MemberValidatorHandler memberValidatorHandler;
 
-  public DietAddHandler(List<Diet> dietList, AbstractMemberHandler memberHandler) {
+  public DietAddHandler(List<Diet> dietList, MemberValidatorHandler memberValidatorHandler) {
     super(dietList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void add() {
@@ -19,7 +19,7 @@ public class DietAddHandler extends AbstractDietHandler {
     Diet d = new Diet();
     d.setNo(Prompt.inputInt("번호 > "));
 
-    d.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    d.setName(memberValidatorHandler.inputMember("이름(취소: 빈 문자열) > "));
     if (d.getName() == null) {
       System.out.println("식단일지 작성을 취소합니다.");
       return;

@@ -7,11 +7,11 @@ import com.cosre7.util.Prompt;
 
 public class DietUpdateHandler extends AbstractDietHandler {
 
-  protected AbstractMemberHandler memberHandler;
+  protected MemberValidatorHandler memberValidatorHandler;
 
-  public DietUpdateHandler(List<Diet> dietList, AbstractMemberHandler memberHandler) {
+  public DietUpdateHandler(List<Diet> dietList, MemberValidatorHandler memberValidatorHandler) {
     super(dietList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void update() {
@@ -25,7 +25,7 @@ public class DietUpdateHandler extends AbstractDietHandler {
       return;
     }
 
-    String user = memberHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", diet.getName()));
+    String user = memberValidatorHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", diet.getName()));
     if (user == null) {
       System.out.println("식단일지 작성을 취소합니다.");
       return;

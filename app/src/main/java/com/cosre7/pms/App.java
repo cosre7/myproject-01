@@ -29,6 +29,7 @@ import com.cosre7.pms.handler.MemberDeleteHandler;
 import com.cosre7.pms.handler.MemberDetailHandler;
 import com.cosre7.pms.handler.MemberListHandler;
 import com.cosre7.pms.handler.MemberUpdateHandler;
+import com.cosre7.pms.handler.MemberValidatorHandler;
 import com.cosre7.pms.handler.TrainingAddHandler;
 import com.cosre7.pms.handler.TrainingDeleteHandler;
 import com.cosre7.pms.handler.TrainingDetailHandler;
@@ -49,33 +50,34 @@ public class App {
     MemberDetailHandler memberDetailHandler = new MemberDetailHandler(memberList);
     MemberUpdateHandler memberUpdateHandler = new MemberUpdateHandler(memberList);
     MemberDeleteHandler memberDeleteHandler = new MemberDeleteHandler(memberList);
+    MemberValidatorHandler memberValidatorHandler = new MemberValidatorHandler(memberList);
 
     LinkedList<Board> boardList = new LinkedList<>();
-    BoardAddHandler boardAddHandler = new BoardAddHandler(boardList, memberListHandler);
+    BoardAddHandler boardAddHandler = new BoardAddHandler(boardList, memberValidatorHandler);
     BoardListHandler boardListHandler = new BoardListHandler(boardList);
     BoardDetailHandler boardDetailHandler = new BoardDetailHandler(boardList);
-    BoardUpdateHandler boardUpdateHandler = new BoardUpdateHandler(boardList, memberListHandler);
+    BoardUpdateHandler boardUpdateHandler = new BoardUpdateHandler(boardList);
     BoardDeleteHandler boardDeleteHandler = new BoardDeleteHandler(boardList);
 
     ArrayList<Diet> dietList = new ArrayList<>();
-    DietAddHandler dietAddHandler = new DietAddHandler(dietList, memberListHandler);
+    DietAddHandler dietAddHandler = new DietAddHandler(dietList, memberValidatorHandler);
     DietListHandler dietListHandler = new DietListHandler(dietList);
     DietDetailHandler dietDetailHandler = new DietDetailHandler(dietList);
-    DietUpdateHandler dietUpdateHandler = new DietUpdateHandler(dietList, memberListHandler);
+    DietUpdateHandler dietUpdateHandler = new DietUpdateHandler(dietList, memberValidatorHandler);
     DietDeleteHandler dietDeleteHandler = new DietDeleteHandler(dietList);
 
     ArrayList<Training> trainingList = new ArrayList<>();
-    TrainingAddHandler trainingAddHandler = new TrainingAddHandler(trainingList, memberListHandler);
+    TrainingAddHandler trainingAddHandler = new TrainingAddHandler(trainingList, memberValidatorHandler);
     TrainingListHandler trainingListHandler = new TrainingListHandler(trainingList);
     TrainingDetailHandler trainingDetailHandler = new TrainingDetailHandler(trainingList);
-    TrainingUpdateHandler trainingUpdateHandler = new TrainingUpdateHandler(trainingList, memberListHandler);
+    TrainingUpdateHandler trainingUpdateHandler = new TrainingUpdateHandler(trainingList, memberValidatorHandler);
     TrainingDeleteHandler trainingDeleteHandler = new TrainingDeleteHandler(trainingList);
 
     ArrayList<Body> bodyList = new ArrayList<>();
-    BodyAddHandler bodyAddHandler = new BodyAddHandler(bodyList, memberListHandler);
+    BodyAddHandler bodyAddHandler = new BodyAddHandler(bodyList, memberValidatorHandler);
     BodyListHandler bodyListHandler = new BodyListHandler(bodyList);
     BodyDetailHandler bodyDetailHandler = new BodyDetailHandler(bodyList);
-    BodyUpdateHandler bodyUpdateHandler = new BodyUpdateHandler(bodyList, memberListHandler);
+    BodyUpdateHandler bodyUpdateHandler = new BodyUpdateHandler(bodyList, memberValidatorHandler);
     BodyDeleteHandler bodyDeleteHandler = new BodyDeleteHandler(bodyList);
 
     loop:

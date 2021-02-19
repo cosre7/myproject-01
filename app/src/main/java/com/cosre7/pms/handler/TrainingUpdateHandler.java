@@ -7,11 +7,11 @@ import com.cosre7.util.Prompt;
 
 public class TrainingUpdateHandler extends AbstractTrainingHandler {
 
-  private AbstractMemberHandler memberHandler;
+  private MemberValidatorHandler memberValidatorHandler;
 
-  public TrainingUpdateHandler(List<Training> trainingList, AbstractMemberHandler memberHandler) {
+  public TrainingUpdateHandler(List<Training> trainingList, MemberValidatorHandler memberValidatorHandler) {
     super(trainingList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void update() {
@@ -26,7 +26,7 @@ public class TrainingUpdateHandler extends AbstractTrainingHandler {
     }
 
     // 이름, 날짜, 운동 리스트, 종류1, 종류2, 소요시간, 운동강도
-    String name = memberHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", training.getName()));
+    String name = memberValidatorHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", training.getName()));
     if (name == null) {
       System.out.println("등록된 회원이 아닙니다.");
       return;

@@ -7,11 +7,11 @@ import com.cosre7.util.Prompt;
 
 public class BodyUpdateHandler extends AbstractBodyHandler {
 
-  private AbstractMemberHandler memberHandler;
+  private MemberValidatorHandler memberValidatorHandler;
 
-  public BodyUpdateHandler(List<Body> bodyList, AbstractMemberHandler memberHandler) {
+  public BodyUpdateHandler(List<Body> bodyList, MemberValidatorHandler memberValidatorHandler) {
     super(bodyList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void update() {
@@ -25,7 +25,7 @@ public class BodyUpdateHandler extends AbstractBodyHandler {
       return;
     }
 
-    String user = memberHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", body.getName()));
+    String user = memberValidatorHandler.inputMember(String.format("이름(%s, 취소: 빈 문자열) > ", body.getName()));
     if (user == null) {
       System.out.println("신체지수 작성을 취소합니다.");
       return;

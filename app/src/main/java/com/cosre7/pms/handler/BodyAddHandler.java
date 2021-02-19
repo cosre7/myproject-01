@@ -6,11 +6,11 @@ import com.cosre7.util.Prompt;
 
 public class BodyAddHandler extends AbstractBodyHandler {
 
-  private AbstractMemberHandler memberHandler;
+  private MemberValidatorHandler memberValidatorHandler;
 
-  public BodyAddHandler(List<Body> bodyList, AbstractMemberHandler memberHandler) {
+  public BodyAddHandler(List<Body> bodyList, MemberValidatorHandler memberValidatorHandler) {
     super(bodyList);
-    this.memberHandler = memberHandler;
+    this.memberValidatorHandler = memberValidatorHandler;
   }
 
   public void add() {
@@ -19,7 +19,7 @@ public class BodyAddHandler extends AbstractBodyHandler {
     Body b = new Body();
     b.setNo(Prompt.inputInt("번호 > "));
 
-    b.setName(memberHandler.inputMember("이름(취소: 빈 문자열) > "));
+    b.setName(memberValidatorHandler.inputMember("이름(취소: 빈 문자열) > "));
     if (b.getName() == null) {
       System.out.println("신체지수 작성을 취소합니다.");
       return;
