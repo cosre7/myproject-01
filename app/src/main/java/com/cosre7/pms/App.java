@@ -1,10 +1,19 @@
 package com.cosre7.pms;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.pms.domain.Diet;
@@ -45,13 +54,25 @@ public class App {
   static ArrayDeque<String> commandStack = new ArrayDeque<>();
   static LinkedList<String> commandQueue = new LinkedList<>();
 
-  public static void main(String[] args) throws CloneNotSupportedException {
+  static List<Member> memberList;
+  static List<Board> boardList;
+  static List<Diet> dietList;
+  static List<Training> trainingList;
+  static List<Body> bodyList;
 
-    LinkedList<Member> memberList = new LinkedList<>();
-    LinkedList<Board> boardList = new LinkedList<>();
-    ArrayList<Diet> dietList = new ArrayList<>();
-    ArrayList<Training> trainingList = new ArrayList<>();
-    ArrayList<Body> bodyList = new ArrayList<>();
+  static File memberFile = new File("members.data");
+  static File boardFile = new File("boards.data");
+  static File dietFile = new File("diets.data");
+  static File trainingFile = new File("trainings.data");
+  static File bodyFile = new File("bodys.data");
+
+  public static void main(String[] args) {
+
+    memberList = loadObjects(memberFile, Member.class);
+    boardList = loadObjects(boardFile, Board.class);
+    dietList = loadObjects(dietFile, Diet.class);
+    trainingList = loadObjects(trainingFile, Training.class);
+    bodyList = loadObjects(bodyFile, Body.class);
 
     HashMap<String, Command> commandMap = new HashMap<>();
 
@@ -128,6 +149,13 @@ public class App {
         }
         System.out.println();
       }
+
+    saveObjects(memberFile, memberList);
+    saveObjects(boardFile, boardList);
+    saveObjects(dietFile, dietList);
+    saveObjects(trainingFile, trainingList);
+    saveObjects(bodyFile, bodyList);
+
     Prompt.close();    
   }
 
@@ -141,6 +169,34 @@ public class App {
           break;
         }
       }
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  static <T extends Serializable> List<T> loadObjects(File file, Class<T> dataType) {
+    try (ObjectInputStream in = new ObjectInputStream(
+        new BufferedInputStream(
+            new FileInputStream(file)))) {
+
+      System.out.printf("파일 %s 로딩!\n", file.getName());
+      return (List<T>) in.readObject();
+
+    } catch (Exception e) {
+      System.out.printf("파일 %s 로딩 중 오류 발생!\n", file.getName());
+      return new ArrayList<T>();
+    }
+  }
+
+  static <T extends Serializable> void saveObjects(File file, List<T> dataList) {
+    try (ObjectOutputStream out = new ObjectOutputStream(
+        new BufferedOutputStream(
+            new FileOutputStream(file)))){
+
+      out.writeObject(dataList);
+      System.out.printf("파일 %s 저장!\n", file.getName());
+
+    } catch (Exception e){
+      System.out.printf("파일 %s 저장 중 오류 발생!\n", file.getName());
     }
   }
 }
