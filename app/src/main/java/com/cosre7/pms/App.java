@@ -1,19 +1,14 @@
 package com.cosre7.pms;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Scanner;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.pms.domain.Diet;
@@ -54,25 +49,19 @@ public class App {
   static ArrayDeque<String> commandStack = new ArrayDeque<>();
   static LinkedList<String> commandQueue = new LinkedList<>();
 
-  static List<Member> memberList;
-  static List<Board> boardList;
-  static List<Diet> dietList;
-  static List<Training> trainingList;
-  static List<Body> bodyList;
-
-  static File memberFile = new File("members.data");
-  static File boardFile = new File("boards.data");
-  static File dietFile = new File("diets.data");
-  static File trainingFile = new File("trainings.data");
-  static File bodyFile = new File("bodys.data");
+  static ArrayList<Member> memberList = new ArrayList<>();
+  static ArrayList<Board> boardList = new ArrayList<>();
+  static ArrayList<Diet> dietList = new ArrayList<>();
+  static ArrayList<Training> trainingList = new ArrayList<>();
+  static ArrayList<Body> bodyList = new ArrayList<>();
 
   public static void main(String[] args) {
 
-    memberList = loadObjects(memberFile, Member.class);
-    boardList = loadObjects(boardFile, Board.class);
-    dietList = loadObjects(dietFile, Diet.class);
-    trainingList = loadObjects(trainingFile, Training.class);
-    bodyList = loadObjects(bodyFile, Body.class);
+    loadMembers();
+    loadBoards();
+    loadDiets();
+    loadTrainings();
+    loadBodys();
 
     HashMap<String, Command> commandMap = new HashMap<>();
 
@@ -149,12 +138,11 @@ public class App {
         }
         System.out.println();
       }
-
-    saveObjects(memberFile, memberList);
-    saveObjects(boardFile, boardList);
-    saveObjects(dietFile, dietList);
-    saveObjects(trainingFile, trainingList);
-    saveObjects(bodyFile, bodyList);
+    saveMembers();
+    saveBoards();
+    saveDiets();
+    saveTrainings();
+    saveBodys();
 
     Prompt.close();    
   }
@@ -172,31 +160,222 @@ public class App {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  static <T extends Serializable> List<T> loadObjects(File file, Class<T> dataType) {
-    try (ObjectInputStream in = new ObjectInputStream(
-        new BufferedInputStream(
-            new FileInputStream(file)))) {
-
-      System.out.printf("파일 %s 로딩!\n", file.getName());
-      return (List<T>) in.readObject();
-
+  static void loadMembers() {
+    try (Scanner in = new Scanner(new FileReader("members.csv"))) {
+      while (true) {
+        try {
+          String record = in.nextLine();
+          String[] fields = record.split(",");
+          Member member = new Member();
+          member.setNo(Integer.parseInt(fields[0]));
+          member.setName(fields[1]);
+          member.setPassword(fields[2]);
+          member.setPhoto(fields[3]);
+          member.setTel(fields[4]);
+          member.setRegisteredDate(Date.valueOf(fields[5]));
+          memberList.add(member);
+        } catch (Exception e) {
+          break;
+        }
+      }
+      System.out.println("멤버 로딩성공");
     } catch (Exception e) {
-      System.out.printf("파일 %s 로딩 중 오류 발생!\n", file.getName());
-      return new ArrayList<T>();
+      System.out.println("멤버 로딩실패");
     }
   }
 
-  static <T extends Serializable> void saveObjects(File file, List<T> dataList) {
-    try (ObjectOutputStream out = new ObjectOutputStream(
-        new BufferedOutputStream(
-            new FileOutputStream(file)))){
+  static void saveMembers() {
+    try (FileWriter out = new FileWriter("members.csv")) {
+      for (Member member : memberList) {
+        out.write(String.format("%d,%s,%s,%s,%s,%s\n",
+            member.getNo(),
+            member.getName(),
+            member.getPassword(),
+            member.getPhoto(),
+            member.getTel(),
+            member.getRegisteredDate()));
+      }
+      System.out.println("멤버 저장성공");
+    } catch (Exception e) {
+      System.out.println("멤버 저장실패");
+    }
+  }
 
-      out.writeObject(dataList);
-      System.out.printf("파일 %s 저장!\n", file.getName());
+  static void loadBoards() {
+    try (Scanner in = new Scanner(new FileReader("boards.csv"))) {
+      while (true) {
+        try {
+          String[] fields = in.nextLine().split(",");
+          Board board = new Board();
+          board.setNo(Integer.parseInt(fields[0]));
+          board.setName(fields[1]);
+          board.setCategory(fields[2]);
+          board.setTitle(fields[3]);
+          board.setContent(fields[4]);
+          board.setRegisteredDate(Date.valueOf(fields[5]));
+          board.setLikeCount(Integer.parseInt(fields[6]));
+          boardList.add(board);
+        } catch (Exception e) {
+          break;
+        }
+      }
+      System.out.println("게시글 로딩성공");
+    } catch (Exception e) {
+      System.out.println("게시글 로딩실패");
+    }
+  }
 
-    } catch (Exception e){
-      System.out.printf("파일 %s 저장 중 오류 발생!\n", file.getName());
+  static void saveBoards() {
+    try (FileWriter out = new FileWriter("boards.csv")) {
+      for (Board board : boardList) {
+        out.write(String.format("%d,%s,%s,%s,%s,%s,%d\n", 
+            board.getNo(),
+            board.getName(),
+            board.getCategory(),
+            board.getTitle(),
+            board.getContent(),
+            board.getRegisteredDate(),
+            board.getLikeCount()));
+      }
+      System.out.println("게시글 저장성공");
+    } catch (Exception e) {
+      System.out.println("게시글 저장실패");
+    }
+  }
+
+  static void loadDiets() {
+    // 식단일지
+    try (Scanner in = new Scanner(new FileReader("diets.csv"))) {
+      while (true) {
+        try {
+          String[] fields = in.nextLine().split(",");
+          Diet diet = new Diet();
+          diet.setNo(Integer.parseInt(fields[0]));
+          diet.setName(fields[1]);
+          diet.setDate(Date.valueOf(fields[2]));
+          diet.setTime(fields[3]);
+          diet.setFood(fields[4]);
+          diet.setStatus(Integer.parseInt(fields[5]));
+          diet.setChoice(Integer.parseInt(fields[6]));
+          dietList.add(diet);
+        } catch (Exception e) {
+          break;
+        }
+      }
+      System.out.println("식단일지 로딩성공");
+    } catch (Exception e) {
+      System.out.println("식단일지 로딩실패");
+    }
+  }
+
+  static void saveDiets() {
+    try (FileWriter out = new FileWriter("diets.csv")) {
+      for (Diet diet : dietList) {
+        out.write(String.format("%d,%s,%s,%s,%s,%d,%d", 
+            diet.getNo(),
+            diet.getName(),
+            diet.getDate(),
+            diet.getTime(),
+            diet.getFood(),
+            diet.getStatus(),
+            diet.getChoice()));
+      }
+      System.out.println("식단일지 저장성공");
+    } catch (Exception e) {
+      System.out.println("식단일지 저장실패");
+    }
+  }
+
+  static void loadTrainings() {
+    // 운동일지
+    try (Scanner in = new Scanner(new FileReader("trainings.csv"))) {
+      while (true) {
+        try {
+          String[] fields = in.nextLine().split(",");
+          Training training = new Training();
+          training.setNo(Integer.parseInt(fields[0]));
+          training.setName(fields[1]);
+          training.setDate(Date.valueOf(fields[2]));
+          training.setList(fields[3]);
+          training.setKind(Integer.parseInt(fields[4]));
+          training.setType(Integer.parseInt(fields[5]));
+          training.setIntensity(Integer.parseInt(fields[6]));
+          training.setRunTime(Double.parseDouble(fields[7]));
+          trainingList.add(training);
+        } catch (Exception e) {
+          break;
+        }
+      }
+      System.out.println("운동일지 로딩성공");
+    } catch (Exception e) {
+      System.out.println("운동일지 로딩실패");
+    }
+  }
+
+  static void saveTrainings() {
+    try (FileWriter out = new FileWriter("trainings.csv")) {
+      for (Training training : trainingList) {
+        out.write(String.format("%d,%s,%s,%s,%d,%d,%d,%f\n", 
+            training.getNo(), 
+            training.getName(),
+            training.getDate(),
+            training.getList(),
+            training.getKind(),
+            training.getType(),
+            training.getIntensity(),
+            training.getRunTime()));
+      }
+      System.out.println("운동일지 저장성공");
+    } catch (Exception e) {
+      System.out.println("운동일지 저장실패");
+      e.printStackTrace();
+    }
+  }
+
+  static void loadBodys() {
+    // 신체지수
+    try (Scanner in = new Scanner(new FileReader("bodys.csv"))) {
+      while (true) {
+        try {
+          String[] fields = in.nextLine().split(",");
+          Body body = new Body();
+          body.setNo(Integer.parseInt(fields[0]));
+          body.setName(fields[1]);
+          body.setDate(Date.valueOf(fields[2]));
+          body.setHeight(Double.parseDouble(fields[3]));
+          body.setWeight(Double.parseDouble(fields[4]));
+          body.setBust(Double.parseDouble(fields[5]));
+          body.setWaist(Double.parseDouble(fields[6]));
+          body.setThigh(Double.parseDouble(fields[7]));
+          body.setCalf(Double.parseDouble(fields[8]));
+          bodyList.add(body);
+        } catch (Exception e) {
+          break;
+        }
+      }
+      System.out.println("신체지수 로딩성공");
+    } catch (Exception e) {
+      System.out.println("신체지수 로딩실패");
+    }
+  }
+
+  static void saveBodys() {
+    try (FileWriter out = new FileWriter("bodys.csv")) {
+      for (Body body : bodyList) {
+        out.write(String.format("%d,%s,%f,%f,%f,%f,%f,%f\n", 
+            body.getNo(),
+            body.getName(),
+            body.getDate(),
+            body.getHeight(),
+            body.getWeight(),
+            body.getBust(),
+            body.getWaist(),
+            body.getThigh(),
+            body.getCalf()));
+      }
+      System.out.println("신체지수 저장성공");
+    } catch (Exception e) {
+      System.out.println("신체지수 저장실패");
     }
   }
 }
