@@ -1,5 +1,7 @@
 package com.cosre7.pms;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.Date;
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Scanner;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.pms.domain.Diet;
@@ -161,31 +162,28 @@ public class App {
   }
 
   static void loadMembers() {
-    try (Scanner in = new Scanner(new FileReader("members.csv"))) {
-      while (true) {
-        try {
-          String record = in.nextLine();
-          String[] fields = record.split(",");
-          Member member = new Member();
-          member.setNo(Integer.parseInt(fields[0]));
-          member.setName(fields[1]);
-          member.setPassword(fields[2]);
-          member.setPhoto(fields[3]);
-          member.setTel(fields[4]);
-          member.setRegisteredDate(Date.valueOf(fields[5]));
-          memberList.add(member);
-        } catch (Exception e) {
-          break;
-        }
+    try (BufferedReader in = new BufferedReader(new FileReader("members.csv"))) {
+      String record = null;
+      while ((record = in.readLine()) != null) {
+        String[] fields = record.split(",");
+        Member member = new Member();
+        member.setNo(Integer.parseInt(fields[0]));
+        member.setName(fields[1]);
+        member.setPassword(fields[2]);
+        member.setPhoto(fields[3]);
+        member.setTel(fields[4]);
+        member.setRegisteredDate(Date.valueOf(fields[5]));
+        memberList.add(member);
       }
       System.out.println("멤버 로딩성공");
+
     } catch (Exception e) {
       System.out.println("멤버 로딩실패");
     }
   }
 
   static void saveMembers() {
-    try (FileWriter out = new FileWriter("members.csv")) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter("members.csv"))) {
       for (Member member : memberList) {
         out.write(String.format("%d,%s,%s,%s,%s,%s\n",
             member.getNo(),
@@ -196,37 +194,36 @@ public class App {
             member.getRegisteredDate()));
       }
       System.out.println("멤버 저장성공");
+
     } catch (Exception e) {
       System.out.println("멤버 저장실패");
     }
   }
 
   static void loadBoards() {
-    try (Scanner in = new Scanner(new FileReader("boards.csv"))) {
-      while (true) {
-        try {
-          String[] fields = in.nextLine().split(",");
-          Board board = new Board();
-          board.setNo(Integer.parseInt(fields[0]));
-          board.setName(fields[1]);
-          board.setCategory(fields[2]);
-          board.setTitle(fields[3]);
-          board.setContent(fields[4]);
-          board.setRegisteredDate(Date.valueOf(fields[5]));
-          board.setLikeCount(Integer.parseInt(fields[6]));
-          boardList.add(board);
-        } catch (Exception e) {
-          break;
-        }
+    try (BufferedReader in = new BufferedReader(new FileReader("boards.csv"))) {
+      String record = null;
+      while ((record = in.readLine()) != null) {
+        String[] fields = record.split(",");
+        Board board = new Board();
+        board.setNo(Integer.parseInt(fields[0]));
+        board.setName(fields[1]);
+        board.setCategory(fields[2]);
+        board.setTitle(fields[3]);
+        board.setContent(fields[4]);
+        board.setRegisteredDate(Date.valueOf(fields[5]));
+        board.setLikeCount(Integer.parseInt(fields[6]));
+        boardList.add(board);
       }
       System.out.println("게시글 로딩성공");
+
     } catch (Exception e) {
       System.out.println("게시글 로딩실패");
     }
   }
 
   static void saveBoards() {
-    try (FileWriter out = new FileWriter("boards.csv")) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter("boards.csv"))) {
       for (Board board : boardList) {
         out.write(String.format("%d,%s,%s,%s,%s,%s,%d\n", 
             board.getNo(),
@@ -238,6 +235,7 @@ public class App {
             board.getLikeCount()));
       }
       System.out.println("게시글 저장성공");
+
     } catch (Exception e) {
       System.out.println("게시글 저장실패");
     }
@@ -245,31 +243,29 @@ public class App {
 
   static void loadDiets() {
     // 식단일지
-    try (Scanner in = new Scanner(new FileReader("diets.csv"))) {
-      while (true) {
-        try {
-          String[] fields = in.nextLine().split(",");
-          Diet diet = new Diet();
-          diet.setNo(Integer.parseInt(fields[0]));
-          diet.setName(fields[1]);
-          diet.setDate(Date.valueOf(fields[2]));
-          diet.setTime(fields[3]);
-          diet.setFood(fields[4]);
-          diet.setStatus(Integer.parseInt(fields[5]));
-          diet.setChoice(Integer.parseInt(fields[6]));
-          dietList.add(diet);
-        } catch (Exception e) {
-          break;
-        }
+    try (BufferedReader in = new BufferedReader(new FileReader("diets.csv"))) {
+      String record = null;
+      while ((record = in.readLine()) != null) {
+        String[] fields = record.split(",");
+        Diet diet = new Diet();
+        diet.setNo(Integer.parseInt(fields[0]));
+        diet.setName(fields[1]);
+        diet.setDate(Date.valueOf(fields[2]));
+        diet.setTime(fields[3]);
+        diet.setFood(fields[4]);
+        diet.setStatus(Integer.parseInt(fields[5]));
+        diet.setChoice(Integer.parseInt(fields[6]));
+        dietList.add(diet);
       }
       System.out.println("식단일지 로딩성공");
+
     } catch (Exception e) {
       System.out.println("식단일지 로딩실패");
     }
   }
 
   static void saveDiets() {
-    try (FileWriter out = new FileWriter("diets.csv")) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter("diets.csv"))) {
       for (Diet diet : dietList) {
         out.write(String.format("%d,%s,%s,%s,%s,%d,%d", 
             diet.getNo(),
@@ -281,6 +277,7 @@ public class App {
             diet.getChoice()));
       }
       System.out.println("식단일지 저장성공");
+
     } catch (Exception e) {
       System.out.println("식단일지 저장실패");
     }
@@ -288,32 +285,30 @@ public class App {
 
   static void loadTrainings() {
     // 운동일지
-    try (Scanner in = new Scanner(new FileReader("trainings.csv"))) {
-      while (true) {
-        try {
-          String[] fields = in.nextLine().split(",");
-          Training training = new Training();
-          training.setNo(Integer.parseInt(fields[0]));
-          training.setName(fields[1]);
-          training.setDate(Date.valueOf(fields[2]));
-          training.setList(fields[3]);
-          training.setKind(Integer.parseInt(fields[4]));
-          training.setType(Integer.parseInt(fields[5]));
-          training.setIntensity(Integer.parseInt(fields[6]));
-          training.setRunTime(Double.parseDouble(fields[7]));
-          trainingList.add(training);
-        } catch (Exception e) {
-          break;
-        }
+    try (BufferedReader in = new BufferedReader(new FileReader("trainings.csv"))) {
+      String record = null;
+      while ((record = in.readLine()) != null) {
+        String[] fields = record.split(",");
+        Training training = new Training();
+        training.setNo(Integer.parseInt(fields[0]));
+        training.setName(fields[1]);
+        training.setDate(Date.valueOf(fields[2]));
+        training.setList(fields[3]);
+        training.setKind(Integer.parseInt(fields[4]));
+        training.setType(Integer.parseInt(fields[5]));
+        training.setIntensity(Integer.parseInt(fields[6]));
+        training.setRunTime(Double.parseDouble(fields[7]));
+        trainingList.add(training);
       }
       System.out.println("운동일지 로딩성공");
+
     } catch (Exception e) {
       System.out.println("운동일지 로딩실패");
     }
   }
 
   static void saveTrainings() {
-    try (FileWriter out = new FileWriter("trainings.csv")) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter("trainings.csv"))) {
       for (Training training : trainingList) {
         out.write(String.format("%d,%s,%s,%s,%d,%d,%d,%f\n", 
             training.getNo(), 
@@ -326,6 +321,7 @@ public class App {
             training.getRunTime()));
       }
       System.out.println("운동일지 저장성공");
+
     } catch (Exception e) {
       System.out.println("운동일지 저장실패");
       e.printStackTrace();
@@ -334,33 +330,31 @@ public class App {
 
   static void loadBodys() {
     // 신체지수
-    try (Scanner in = new Scanner(new FileReader("bodys.csv"))) {
-      while (true) {
-        try {
-          String[] fields = in.nextLine().split(",");
-          Body body = new Body();
-          body.setNo(Integer.parseInt(fields[0]));
-          body.setName(fields[1]);
-          body.setDate(Date.valueOf(fields[2]));
-          body.setHeight(Double.parseDouble(fields[3]));
-          body.setWeight(Double.parseDouble(fields[4]));
-          body.setBust(Double.parseDouble(fields[5]));
-          body.setWaist(Double.parseDouble(fields[6]));
-          body.setThigh(Double.parseDouble(fields[7]));
-          body.setCalf(Double.parseDouble(fields[8]));
-          bodyList.add(body);
-        } catch (Exception e) {
-          break;
-        }
+    try (BufferedReader in = new BufferedReader(new FileReader("bodys.csv"))) {
+      String record = null;
+      while ((record = in.readLine()) != null) {
+        String[] fields = record.split(",");
+        Body body = new Body();
+        body.setNo(Integer.parseInt(fields[0]));
+        body.setName(fields[1]);
+        body.setDate(Date.valueOf(fields[2]));
+        body.setHeight(Double.parseDouble(fields[3]));
+        body.setWeight(Double.parseDouble(fields[4]));
+        body.setBust(Double.parseDouble(fields[5]));
+        body.setWaist(Double.parseDouble(fields[6]));
+        body.setThigh(Double.parseDouble(fields[7]));
+        body.setCalf(Double.parseDouble(fields[8]));
+        bodyList.add(body);
       }
       System.out.println("신체지수 로딩성공");
+
     } catch (Exception e) {
       System.out.println("신체지수 로딩실패");
     }
   }
 
   static void saveBodys() {
-    try (FileWriter out = new FileWriter("bodys.csv")) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter("bodys.csv"))) {
       for (Body body : bodyList) {
         out.write(String.format("%d,%s,%f,%f,%f,%f,%f,%f\n", 
             body.getNo(),
@@ -374,6 +368,7 @@ public class App {
             body.getCalf()));
       }
       System.out.println("신체지수 저장성공");
+
     } catch (Exception e) {
       System.out.println("신체지수 저장실패");
     }
