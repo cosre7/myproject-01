@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,17 +162,9 @@ public class App {
 
   static void loadMembers() {
     try (BufferedReader in = new BufferedReader(new FileReader("members.csv"))) {
-      String record = null;
-      while ((record = in.readLine()) != null) {
-        String[] fields = record.split(",");
-        Member member = new Member();
-        member.setNo(Integer.parseInt(fields[0]));
-        member.setName(fields[1]);
-        member.setPassword(fields[2]);
-        member.setPhoto(fields[3]);
-        member.setTel(fields[4]);
-        member.setRegisteredDate(Date.valueOf(fields[5]));
-        memberList.add(member);
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        memberList.add(Member.valueOfCsv(csvStr));
       }
       System.out.println("멤버 로딩성공");
 
@@ -185,13 +176,7 @@ public class App {
   static void saveMembers() {
     try (BufferedWriter out = new BufferedWriter(new FileWriter("members.csv"))) {
       for (Member member : memberList) {
-        out.write(String.format("%d,%s,%s,%s,%s,%s\n",
-            member.getNo(),
-            member.getName(),
-            member.getPassword(),
-            member.getPhoto(),
-            member.getTel(),
-            member.getRegisteredDate()));
+        out.write(member.toCsvString() + "\n");
       }
       System.out.println("멤버 저장성공");
 
@@ -202,18 +187,9 @@ public class App {
 
   static void loadBoards() {
     try (BufferedReader in = new BufferedReader(new FileReader("boards.csv"))) {
-      String record = null;
-      while ((record = in.readLine()) != null) {
-        String[] fields = record.split(",");
-        Board board = new Board();
-        board.setNo(Integer.parseInt(fields[0]));
-        board.setName(fields[1]);
-        board.setCategory(fields[2]);
-        board.setTitle(fields[3]);
-        board.setContent(fields[4]);
-        board.setRegisteredDate(Date.valueOf(fields[5]));
-        board.setLikeCount(Integer.parseInt(fields[6]));
-        boardList.add(board);
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        boardList.add(Board.valueOfCsv(csvStr));
       }
       System.out.println("게시글 로딩성공");
 
@@ -225,14 +201,7 @@ public class App {
   static void saveBoards() {
     try (BufferedWriter out = new BufferedWriter(new FileWriter("boards.csv"))) {
       for (Board board : boardList) {
-        out.write(String.format("%d,%s,%s,%s,%s,%s,%d\n", 
-            board.getNo(),
-            board.getName(),
-            board.getCategory(),
-            board.getTitle(),
-            board.getContent(),
-            board.getRegisteredDate(),
-            board.getLikeCount()));
+        out.write(board.toCsvString() + "\n");
       }
       System.out.println("게시글 저장성공");
 
@@ -244,18 +213,9 @@ public class App {
   static void loadDiets() {
     // 식단일지
     try (BufferedReader in = new BufferedReader(new FileReader("diets.csv"))) {
-      String record = null;
-      while ((record = in.readLine()) != null) {
-        String[] fields = record.split(",");
-        Diet diet = new Diet();
-        diet.setNo(Integer.parseInt(fields[0]));
-        diet.setName(fields[1]);
-        diet.setDate(Date.valueOf(fields[2]));
-        diet.setTime(fields[3]);
-        diet.setFood(fields[4]);
-        diet.setStatus(Integer.parseInt(fields[5]));
-        diet.setChoice(Integer.parseInt(fields[6]));
-        dietList.add(diet);
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        dietList.add(Diet.valueOfCsv(csvStr));
       }
       System.out.println("식단일지 로딩성공");
 
@@ -267,14 +227,7 @@ public class App {
   static void saveDiets() {
     try (BufferedWriter out = new BufferedWriter(new FileWriter("diets.csv"))) {
       for (Diet diet : dietList) {
-        out.write(String.format("%d,%s,%s,%s,%s,%d,%d", 
-            diet.getNo(),
-            diet.getName(),
-            diet.getDate(),
-            diet.getTime(),
-            diet.getFood(),
-            diet.getStatus(),
-            diet.getChoice()));
+        out.write(diet.toCsvString() + "\n");
       }
       System.out.println("식단일지 저장성공");
 
@@ -286,19 +239,9 @@ public class App {
   static void loadTrainings() {
     // 운동일지
     try (BufferedReader in = new BufferedReader(new FileReader("trainings.csv"))) {
-      String record = null;
-      while ((record = in.readLine()) != null) {
-        String[] fields = record.split(",");
-        Training training = new Training();
-        training.setNo(Integer.parseInt(fields[0]));
-        training.setName(fields[1]);
-        training.setDate(Date.valueOf(fields[2]));
-        training.setList(fields[3]);
-        training.setKind(Integer.parseInt(fields[4]));
-        training.setType(Integer.parseInt(fields[5]));
-        training.setIntensity(Integer.parseInt(fields[6]));
-        training.setRunTime(Double.parseDouble(fields[7]));
-        trainingList.add(training);
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        trainingList.add(Training.valueOfCsv(csvStr));
       }
       System.out.println("운동일지 로딩성공");
 
@@ -310,15 +253,7 @@ public class App {
   static void saveTrainings() {
     try (BufferedWriter out = new BufferedWriter(new FileWriter("trainings.csv"))) {
       for (Training training : trainingList) {
-        out.write(String.format("%d,%s,%s,%s,%d,%d,%d,%f\n", 
-            training.getNo(), 
-            training.getName(),
-            training.getDate(),
-            training.getList(),
-            training.getKind(),
-            training.getType(),
-            training.getIntensity(),
-            training.getRunTime()));
+        out.write(training.toCsvString() + "\n");
       }
       System.out.println("운동일지 저장성공");
 
@@ -331,20 +266,9 @@ public class App {
   static void loadBodys() {
     // 신체지수
     try (BufferedReader in = new BufferedReader(new FileReader("bodys.csv"))) {
-      String record = null;
-      while ((record = in.readLine()) != null) {
-        String[] fields = record.split(",");
-        Body body = new Body();
-        body.setNo(Integer.parseInt(fields[0]));
-        body.setName(fields[1]);
-        body.setDate(Date.valueOf(fields[2]));
-        body.setHeight(Double.parseDouble(fields[3]));
-        body.setWeight(Double.parseDouble(fields[4]));
-        body.setBust(Double.parseDouble(fields[5]));
-        body.setWaist(Double.parseDouble(fields[6]));
-        body.setThigh(Double.parseDouble(fields[7]));
-        body.setCalf(Double.parseDouble(fields[8]));
-        bodyList.add(body);
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        bodyList.add(Body.valueOfCsv(csvStr));
       }
       System.out.println("신체지수 로딩성공");
 
@@ -356,16 +280,7 @@ public class App {
   static void saveBodys() {
     try (BufferedWriter out = new BufferedWriter(new FileWriter("bodys.csv"))) {
       for (Body body : bodyList) {
-        out.write(String.format("%d,%s,%f,%f,%f,%f,%f,%f\n", 
-            body.getNo(),
-            body.getName(),
-            body.getDate(),
-            body.getHeight(),
-            body.getWeight(),
-            body.getBust(),
-            body.getWaist(),
-            body.getThigh(),
-            body.getCalf()));
+        out.write(body.toCsvString() + "\n");
       }
       System.out.println("신체지수 저장성공");
 
