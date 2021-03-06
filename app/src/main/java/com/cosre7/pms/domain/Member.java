@@ -1,17 +1,36 @@
 package com.cosre7.pms.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Member implements Serializable {
-  private static final long serialVersionUID = 1L;
-
+public class Member {
   private int no;
   private String name;
   private String password;
   private String photo;
   private String tel;
   private Date registeredDate;
+
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%s\n",
+        this.getNo(),
+        this.getName(),
+        this.getPassword(),
+        this.getPhoto(),
+        this.getTel(),
+        this.getRegisteredDate());
+  }
+
+  public static Member valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Member member = new Member();
+    member.setNo(Integer.parseInt(fields[0]));
+    member.setName(fields[1]);
+    member.setPassword(fields[2]);
+    member.setPhoto(fields[3]);
+    member.setTel(fields[4]);
+    member.setRegisteredDate(Date.valueOf(fields[5]));
+    return member;
+  }
 
   @Override
   public int hashCode() {

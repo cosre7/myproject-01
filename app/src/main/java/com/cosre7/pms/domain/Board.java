@@ -1,11 +1,8 @@
 package com.cosre7.pms.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Board implements Serializable {
-  private static final long serialVersionUID = 1L;
-
+public class Board {
   private int no;
   private String name;
   private String category;
@@ -13,6 +10,30 @@ public class Board implements Serializable {
   private String content;
   private Date registeredDate;
   private int likeCount;
+
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%s,%d\n", 
+        this.getNo(),
+        this.getName(),
+        this.getCategory(),
+        this.getTitle(),
+        this.getContent(),
+        this.getRegisteredDate(),
+        this.getLikeCount());
+  }
+
+  public static Board valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Board board = new Board();
+    board.setNo(Integer.parseInt(fields[0]));
+    board.setName(fields[1]);
+    board.setCategory(fields[2]);
+    board.setTitle(fields[3]);
+    board.setContent(fields[4]);
+    board.setRegisteredDate(Date.valueOf(fields[5]));
+    board.setLikeCount(Integer.parseInt(fields[6]));
+    return board;
+  }
 
   @Override
   public int hashCode() {

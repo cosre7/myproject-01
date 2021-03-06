@@ -1,11 +1,8 @@
 package com.cosre7.pms.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Training implements Serializable {
-  private static final long serialVersionUID = 1L;
-
+public class Training {
   private int no;
   private String name;
   private Date date;
@@ -14,6 +11,32 @@ public class Training implements Serializable {
   private int type;
   private int intensity;
   private double runTime;
+
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%d,%d,%d,%f\n", 
+        this.getNo(), 
+        this.getName(),
+        this.getDate(),
+        this.getList(),
+        this.getKind(),
+        this.getType(),
+        this.getIntensity(),
+        this.getRunTime());
+  }
+
+  public static Training valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Training training = new Training();
+    training.setNo(Integer.parseInt(fields[0]));
+    training.setName(fields[1]);
+    training.setDate(Date.valueOf(fields[2]));
+    training.setList(fields[3]);
+    training.setKind(Integer.parseInt(fields[4]));
+    training.setType(Integer.parseInt(fields[5]));
+    training.setIntensity(Integer.parseInt(fields[6]));
+    training.setRunTime(Double.parseDouble(fields[7]));
+    return training;
+  }
 
   @Override
   public int hashCode() {

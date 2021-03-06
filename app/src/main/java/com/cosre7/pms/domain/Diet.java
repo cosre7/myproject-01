@@ -1,11 +1,8 @@
 package com.cosre7.pms.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Diet implements Serializable {
-  private static final long serialVersionUID = 1L;
-
+public class Diet {
   private int no;
   private String name;
   private Date date;
@@ -13,6 +10,30 @@ public class Diet implements Serializable {
   private String food;
   private int status;
   private int choice;
+
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%d,%d", 
+        this.getNo(),
+        this.getName(),
+        this.getDate(),
+        this.getTime(),
+        this.getFood(),
+        this.getStatus(),
+        this.getChoice());
+  }
+
+  public static Diet valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Diet diet = new Diet();
+    diet.setNo(Integer.parseInt(fields[0]));
+    diet.setName(fields[1]);
+    diet.setDate(Date.valueOf(fields[2]));
+    diet.setTime(fields[3]);
+    diet.setFood(fields[4]);
+    diet.setStatus(Integer.parseInt(fields[5]));
+    diet.setChoice(Integer.parseInt(fields[6]));
+    return diet;
+  }
 
   @Override
   public int hashCode() {

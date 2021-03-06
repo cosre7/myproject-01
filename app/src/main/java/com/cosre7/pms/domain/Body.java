@@ -1,11 +1,8 @@
 package com.cosre7.pms.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Body implements Serializable {
-  private static final long serialVersionUID = 1L;
-
+public class Body {
   private int no;
   private String name;
   private Date date;
@@ -15,6 +12,34 @@ public class Body implements Serializable {
   private double waist;
   private double thigh;
   private double calf;
+
+  public String toCsvString() {
+    return String.format("%d,%s,%f,%f,%f,%f,%f,%f\n", 
+        this.getNo(),
+        this.getName(),
+        this.getDate(),
+        this.getHeight(),
+        this.getWeight(),
+        this.getBust(),
+        this.getWaist(),
+        this.getThigh(),
+        this.getCalf());
+  }
+
+  public static Body valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Body body = new Body();
+    body.setNo(Integer.parseInt(fields[0]));
+    body.setName(fields[1]);
+    body.setDate(Date.valueOf(fields[2]));
+    body.setHeight(Double.parseDouble(fields[3]));
+    body.setWeight(Double.parseDouble(fields[4]));
+    body.setBust(Double.parseDouble(fields[5]));
+    body.setWaist(Double.parseDouble(fields[6]));
+    body.setThigh(Double.parseDouble(fields[7]));
+    body.setCalf(Double.parseDouble(fields[8]));
+    return body;
+  }
 
   @Override
   public int hashCode() {
