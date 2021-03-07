@@ -45,6 +45,7 @@ import com.cosre7.pms.handler.TrainingDetailHandler;
 import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
 import com.cosre7.util.CsvObject;
+import com.cosre7.util.ObjectFactory;
 import com.cosre7.util.Prompt;
 
 public class App {
@@ -66,11 +67,11 @@ public class App {
 
   public static void main(String[] args) {
 
-    loadMembers();
-    loadBoards();
-    loadDiets();
-    loadTrainings();
-    loadBodys();
+    loadObjects(memberFile, memberList, Member::valueOfCsv);
+    loadObjects(boardFile, boardList, Board::valueOfCsv);
+    loadObjects(dietFile, dietList, Diet::valueOfCsv);
+    loadObjects(trainingFile, trainingList, Training::valueOfCsv);
+    loadObjects(bodyFile, bodyList, Body::valueOfCsv);
 
     HashMap<String, Command> commandMap = new HashMap<>();
 
@@ -169,16 +170,16 @@ public class App {
     }
   }
 
-  static void loadMembers() {
-    try (BufferedReader in = new BufferedReader(new FileReader("members.csv"))) {
+  static <T> void loadObjects(File file, List<T> list, ObjectFactory<T> objFactory) {
+    try (BufferedReader in = new BufferedReader(new FileReader(file))) {
       String csvStr = null;
       while ((csvStr = in.readLine()) != null) {
-        memberList.add(Member.valueOfCsv(csvStr));
+        list.add(objFactory.create(csvStr));
       }
-      System.out.println("멤버 로딩성공");
+      System.out.printf("%s 파일 로딩성공\n", file.getName());
 
     } catch (Exception e) {
-      System.out.println("멤버 로딩실패");
+      System.out.printf("%s 파일 로딩실패\n", file.getName());
     }
   }
 
@@ -191,61 +192,6 @@ public class App {
 
     } catch (Exception e) {
       System.out.printf("파일 %s 저장실패\n", file.getName());
-    }
-  }
-
-  static void loadBoards() {
-    try (BufferedReader in = new BufferedReader(new FileReader("boards.csv"))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        boardList.add(Board.valueOfCsv(csvStr));
-      }
-      System.out.println("게시글 로딩성공");
-
-    } catch (Exception e) {
-      System.out.println("게시글 로딩실패");
-    }
-  }
-
-  static void loadDiets() {
-    // 식단일지
-    try (BufferedReader in = new BufferedReader(new FileReader("diets.csv"))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        dietList.add(Diet.valueOfCsv(csvStr));
-      }
-      System.out.println("식단일지 로딩성공");
-
-    } catch (Exception e) {
-      System.out.println("식단일지 로딩실패");
-    }
-  }
-
-  static void loadTrainings() {
-    // 운동일지
-    try (BufferedReader in = new BufferedReader(new FileReader("trainings.csv"))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        trainingList.add(Training.valueOfCsv(csvStr));
-      }
-      System.out.println("운동일지 로딩성공");
-
-    } catch (Exception e) {
-      System.out.println("운동일지 로딩실패");
-    }
-  }
-
-  static void loadBodys() {
-    // 신체지수
-    try (BufferedReader in = new BufferedReader(new FileReader("bodys.csv"))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        bodyList.add(Body.valueOfCsv(csvStr));
-      }
-      System.out.println("신체지수 로딩성공");
-
-    } catch (Exception e) {
-      System.out.println("신체지수 로딩실패");
     }
   }
 }
