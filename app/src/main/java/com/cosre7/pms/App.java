@@ -67,11 +67,11 @@ public class App {
 
   public static void main(String[] args) {
 
-    loadObjects(memberFile, memberList, Member::valueOfCsv);
-    loadObjects(boardFile, boardList, Board::valueOfCsv);
-    loadObjects(dietFile, dietList, Diet::valueOfCsv);
-    loadObjects(trainingFile, trainingList, Training::valueOfCsv);
-    loadObjects(bodyFile, bodyList, Body::valueOfCsv);
+    loadObjects(memberFile, memberList, Member::new);
+    loadObjects(boardFile, boardList, Board::new);
+    loadObjects(dietFile, dietList, Diet::new);
+    loadObjects(trainingFile, trainingList, Training::new);
+    loadObjects(bodyFile, bodyList, Body::new);
 
     HashMap<String, Command> commandMap = new HashMap<>();
 
