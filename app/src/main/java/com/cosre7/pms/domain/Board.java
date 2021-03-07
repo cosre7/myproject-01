@@ -1,8 +1,9 @@
 package com.cosre7.pms.domain;
 
 import java.sql.Date;
+import com.cosre7.util.CsvObject;
 
-public class Board {
+public class Board implements CsvObject {
   private int no;
   private String name;
   private String category;
@@ -11,6 +12,20 @@ public class Board {
   private Date registeredDate;
   private int likeCount;
 
+  public Board() {}
+
+  public Board(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setName(fields[1]);
+    this.setCategory(fields[2]);
+    this.setTitle(fields[3]);
+    this.setContent(fields[4]);
+    this.setRegisteredDate(Date.valueOf(fields[5]));
+    this.setLikeCount(Integer.parseInt(fields[6]));
+  }
+
+  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%s,%d\n", 
         this.getNo(),

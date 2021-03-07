@@ -1,8 +1,9 @@
 package com.cosre7.pms.domain;
 
 import java.sql.Date;
+import com.cosre7.util.CsvObject;
 
-public class Training {
+public class Training implements CsvObject {
   private int no;
   private String name;
   private Date date;
@@ -12,6 +13,21 @@ public class Training {
   private int intensity;
   private double runTime;
 
+  public Training() {}
+
+  public Training(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setName(fields[1]);
+    this.setDate(Date.valueOf(fields[2]));
+    this.setList(fields[3]);
+    this.setKind(Integer.parseInt(fields[4]));
+    this.setType(Integer.parseInt(fields[5]));
+    this.setIntensity(Integer.parseInt(fields[6]));
+    this.setRunTime(Double.parseDouble(fields[7]));
+  }
+
+  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%d,%d,%d,%f\n", 
         this.getNo(), 

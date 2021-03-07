@@ -1,8 +1,9 @@
 package com.cosre7.pms.domain;
 
 import java.sql.Date;
+import com.cosre7.util.CsvObject;
 
-public class Diet {
+public class Diet implements CsvObject {
   private int no;
   private String name;
   private Date date;
@@ -11,6 +12,20 @@ public class Diet {
   private int status;
   private int choice;
 
+  public Diet() {}
+
+  public Diet(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setName(fields[1]);
+    this.setDate(Date.valueOf(fields[2]));
+    this.setTime(fields[3]);
+    this.setFood(fields[4]);
+    this.setStatus(Integer.parseInt(fields[5]));
+    this.setChoice(Integer.parseInt(fields[6]));
+  }
+
+  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%d,%d", 
         this.getNo(),

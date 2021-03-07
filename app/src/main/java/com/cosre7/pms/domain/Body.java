@@ -1,8 +1,9 @@
 package com.cosre7.pms.domain;
 
 import java.sql.Date;
+import com.cosre7.util.CsvObject;
 
-public class Body {
+public class Body implements CsvObject {
   private int no;
   private String name;
   private Date date;
@@ -13,6 +14,22 @@ public class Body {
   private double thigh;
   private double calf;
 
+  public Body() {}
+
+  public Body(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setName(fields[1]);
+    this.setDate(Date.valueOf(fields[2]));
+    this.setHeight(Double.parseDouble(fields[3]));
+    this.setWeight(Double.parseDouble(fields[4]));
+    this.setBust(Double.parseDouble(fields[5]));
+    this.setWaist(Double.parseDouble(fields[6]));
+    this.setThigh(Double.parseDouble(fields[7]));
+    this.setCalf(Double.parseDouble(fields[8]));
+  }
+
+  @Override
   public String toCsvString() {
     return String.format("%d,%s,%f,%f,%f,%f,%f,%f\n", 
         this.getNo(),

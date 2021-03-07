@@ -1,8 +1,9 @@
 package com.cosre7.pms.domain;
 
 import java.sql.Date;
+import com.cosre7.util.CsvObject;
 
-public class Member {
+public class Member implements CsvObject {
   private int no;
   private String name;
   private String password;
@@ -10,6 +11,19 @@ public class Member {
   private String tel;
   private Date registeredDate;
 
+  public Member() {}
+
+  public Member(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setName(fields[1]);
+    this.setPassword(fields[2]);
+    this.setPhoto(fields[3]);
+    this.setTel(fields[4]);
+    this.setRegisteredDate(Date.valueOf(fields[5]));
+  }
+
+  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%s\n",
         this.getNo(),
