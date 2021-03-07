@@ -2,6 +2,7 @@ package com.cosre7.pms;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayDeque;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.pms.domain.Diet;
@@ -42,6 +44,7 @@ import com.cosre7.pms.handler.TrainingDeleteHandler;
 import com.cosre7.pms.handler.TrainingDetailHandler;
 import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
+import com.cosre7.util.CsvObject;
 import com.cosre7.util.Prompt;
 
 public class App {
@@ -54,6 +57,12 @@ public class App {
   static ArrayList<Diet> dietList = new ArrayList<>();
   static ArrayList<Training> trainingList = new ArrayList<>();
   static ArrayList<Body> bodyList = new ArrayList<>();
+
+  static File memberFile = new File("members.csv");
+  static File boardFile = new File("boards.csv");
+  static File dietFile = new File("diets.csv");
+  static File trainingFile = new File("trainings.csv");
+  static File bodyFile = new File("bodys.csv");
 
   public static void main(String[] args) {
 
@@ -138,11 +147,11 @@ public class App {
         }
         System.out.println();
       }
-    saveMembers();
-    saveBoards();
-    saveDiets();
-    saveTrainings();
-    saveBodys();
+    saveObjects(memberFile, memberList);
+    saveObjects(boardFile, boardList);
+    saveObjects(dietFile, dietList);
+    saveObjects(trainingFile, trainingList);
+    saveObjects(bodyFile, bodyList);
 
     Prompt.close();    
   }
@@ -173,15 +182,15 @@ public class App {
     }
   }
 
-  static void saveMembers() {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter("members.csv"))) {
-      for (Member member : memberList) {
-        out.write(member.toCsvString() + "\n");
+  static <T extends CsvObject> void saveObjects(File file, List<T> list) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
+      for (CsvObject csvObj : list) {
+        out.write(csvObj.toCsvString() + "\n");
       }
-      System.out.println("멤버 저장성공");
+      System.out.printf("파일 %s 저장성공\n", file.getName());
 
     } catch (Exception e) {
-      System.out.println("멤버 저장실패");
+      System.out.printf("파일 %s 저장실패\n", file.getName());
     }
   }
 
@@ -195,18 +204,6 @@ public class App {
 
     } catch (Exception e) {
       System.out.println("게시글 로딩실패");
-    }
-  }
-
-  static void saveBoards() {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter("boards.csv"))) {
-      for (Board board : boardList) {
-        out.write(board.toCsvString() + "\n");
-      }
-      System.out.println("게시글 저장성공");
-
-    } catch (Exception e) {
-      System.out.println("게시글 저장실패");
     }
   }
 
@@ -224,18 +221,6 @@ public class App {
     }
   }
 
-  static void saveDiets() {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter("diets.csv"))) {
-      for (Diet diet : dietList) {
-        out.write(diet.toCsvString() + "\n");
-      }
-      System.out.println("식단일지 저장성공");
-
-    } catch (Exception e) {
-      System.out.println("식단일지 저장실패");
-    }
-  }
-
   static void loadTrainings() {
     // 운동일지
     try (BufferedReader in = new BufferedReader(new FileReader("trainings.csv"))) {
@@ -250,19 +235,6 @@ public class App {
     }
   }
 
-  static void saveTrainings() {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter("trainings.csv"))) {
-      for (Training training : trainingList) {
-        out.write(training.toCsvString() + "\n");
-      }
-      System.out.println("운동일지 저장성공");
-
-    } catch (Exception e) {
-      System.out.println("운동일지 저장실패");
-      e.printStackTrace();
-    }
-  }
-
   static void loadBodys() {
     // 신체지수
     try (BufferedReader in = new BufferedReader(new FileReader("bodys.csv"))) {
@@ -274,18 +246,6 @@ public class App {
 
     } catch (Exception e) {
       System.out.println("신체지수 로딩실패");
-    }
-  }
-
-  static void saveBodys() {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter("bodys.csv"))) {
-      for (Body body : bodyList) {
-        out.write(body.toCsvString() + "\n");
-      }
-      System.out.println("신체지수 저장성공");
-
-    } catch (Exception e) {
-      System.out.println("신체지수 저장실패");
     }
   }
 }
