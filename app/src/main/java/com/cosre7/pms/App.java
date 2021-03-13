@@ -5,8 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -45,8 +47,9 @@ import com.cosre7.pms.handler.TrainingDetailHandler;
 import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
 import com.cosre7.util.CsvObject;
-import com.cosre7.util.ObjectFactory;
 import com.cosre7.util.Prompt;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 public class App {
 
@@ -59,21 +62,21 @@ public class App {
   static ArrayList<Training> trainingList = new ArrayList<>();
   static ArrayList<Body> bodyList = new ArrayList<>();
 
-  static File memberFile = new File("members.csv");
-  static File boardFile = new File("boards.csv");
-  static File dietFile = new File("diets.csv");
-  static File trainingFile = new File("trainings.csv");
-  static File bodyFile = new File("bodys.csv");
+  static File memberFile = new File("members.json");
+  static File boardFile = new File("boards.json");
+  static File dietFile = new File("diets.json");
+  static File trainingFile = new File("trainings.json");
+  static File bodyFile = new File("bodys.json");
 
   public static void main(String[] args) {
 
-    loadObjects(memberFile, memberList, Member::new);
-    loadObjects(boardFile, boardList, Board::new);
-    loadObjects(dietFile, dietList, Diet::new);
-    loadObjects(trainingFile, trainingList, Training::new);
-    loadObjects(bodyFile, bodyList, Body::new);
+    loadObjects(memberFile, memberList, Member.class);
+    loadObjects(boardFile, boardList, Board.class);
+    loadObjects(dietFile, dietList, Diet.class);
+    loadObjects(trainingFile, trainingList, Training.class);
+    loadObjects(bodyFile, bodyList, Body.class);
 
-    HashMap<String, Command> commandMap = new HashMap<>();
+    HashMap<String,Command> commandMap = new HashMap<>();
 
     commandMap.put("/member/add", new MemberAddHandler(memberList));
     commandMap.put("/member/list", new MemberListHandler(memberList));
@@ -111,7 +114,6 @@ public class App {
       while (true) {
 
         String command = Prompt.inputString("메인> ");
-        System.out.println();
 
         if (command.length() == 0) 
           continue;
@@ -170,12 +172,22 @@ public class App {
     }
   }
 
-  static <T> void loadObjects(File file, List<T> list, ObjectFactory<T> objFactory) {
+  static <T> void loadObjects(File file, List<T> list, Class<T> elementType) {
     try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        list.add(objFactory.create(csvStr));
+
+      StringBuilder strBuilder = new StringBuilder();
+      String str = null;
+      while ((str = in.readLine()) != null) {
+        strBuilder.append(str);
       }
+
+      Gson gson = new Gson();
+
+      Type collectionType = TypeToken.getParameterized(Collection.class, elementType).getType();
+      Collection<T> collection = gson.fromJson(strBuilder.toString(), collectionType);
+
+      list.addAll(collection);
+
       System.out.printf("%s 파일 로딩성공\n", file.getName());
 
     } catch (Exception e) {
@@ -185,9 +197,7 @@ public class App {
 
   static <T extends CsvObject> void saveObjects(File file, List<T> list) {
     try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
-      for (CsvObject csvObj : list) {
-        out.write(csvObj.toCsvString() + "\n");
-      }
+      out.write(new Gson().toJson(list));
       System.out.printf("파일 %s 저장성공\n", file.getName());
 
     } catch (Exception e) {
