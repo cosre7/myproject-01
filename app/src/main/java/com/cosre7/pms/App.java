@@ -48,8 +48,8 @@ import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
 import com.cosre7.util.CsvObject;
 import com.cosre7.util.Prompt;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class App {
 
@@ -112,7 +112,6 @@ public class App {
 
     loop:
       while (true) {
-
         String command = Prompt.inputString("메인> ");
 
         if (command.length() == 0) 
