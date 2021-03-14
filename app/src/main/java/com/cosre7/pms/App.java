@@ -53,23 +53,27 @@ import com.google.gson.reflect.TypeToken;
 
 public class App {
 
-  static ArrayDeque<String> commandStack = new ArrayDeque<>();
-  static LinkedList<String> commandQueue = new LinkedList<>();
+  ArrayDeque<String> commandStack = new ArrayDeque<>();
+  LinkedList<String> commandQueue = new LinkedList<>();
 
-  static ArrayList<Member> memberList = new ArrayList<>();
-  static ArrayList<Board> boardList = new ArrayList<>();
-  static ArrayList<Diet> dietList = new ArrayList<>();
-  static ArrayList<Training> trainingList = new ArrayList<>();
-  static ArrayList<Body> bodyList = new ArrayList<>();
+  ArrayList<Member> memberList = new ArrayList<>();
+  ArrayList<Board> boardList = new ArrayList<>();
+  ArrayList<Diet> dietList = new ArrayList<>();
+  ArrayList<Training> trainingList = new ArrayList<>();
+  ArrayList<Body> bodyList = new ArrayList<>();
 
-  static File memberFile = new File("members.json");
-  static File boardFile = new File("boards.json");
-  static File dietFile = new File("diets.json");
-  static File trainingFile = new File("trainings.json");
-  static File bodyFile = new File("bodys.json");
+  File memberFile = new File("members.json");
+  File boardFile = new File("boards.json");
+  File dietFile = new File("diets.json");
+  File trainingFile = new File("trainings.json");
+  File bodyFile = new File("bodys.json");
 
   public static void main(String[] args) {
+    App app = new App();
+    app.service();
+  }
 
+  public void service() { 
     loadObjects(memberFile, memberList, Member.class);
     loadObjects(boardFile, boardList, Board.class);
     loadObjects(dietFile, dietList, Diet.class);
@@ -158,7 +162,7 @@ public class App {
     Prompt.close();    
   }
 
-  static void printCommandHistory(Iterator<String> iterator) {
+  private void printCommandHistory(Iterator<String> iterator) {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
@@ -171,7 +175,7 @@ public class App {
     }
   }
 
-  static <T> void loadObjects(File file, List<T> list, Class<T> elementType) {
+  private <T> void loadObjects(File file, List<T> list, Class<T> elementType) {
     try (BufferedReader in = new BufferedReader(new FileReader(file))) {
 
       StringBuilder strBuilder = new StringBuilder();
@@ -194,7 +198,7 @@ public class App {
     }
   }
 
-  static <T extends CsvObject> void saveObjects(File file, List<T> list) {
+  private <T extends CsvObject> void saveObjects(File file, List<T> list) {
     try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
       out.write(new Gson().toJson(list));
       System.out.printf("파일 %s 저장성공\n", file.getName());
