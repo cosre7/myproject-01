@@ -47,6 +47,7 @@ import com.cosre7.pms.handler.TrainingDeleteHandler;
 import com.cosre7.pms.handler.TrainingDetailHandler;
 import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
+import com.cosre7.pms.listener.AppListener;
 import com.cosre7.util.CsvObject;
 import com.cosre7.util.Prompt;
 import com.google.gson.Gson;
@@ -73,6 +74,7 @@ public class App {
 
   public static void main(String[] args) {
     App app = new App();
+    app.addApplicationContextListener(new AppListener());
     app.service();
   }
 
