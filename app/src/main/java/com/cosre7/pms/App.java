@@ -85,6 +85,9 @@ public class App {
   }
 
   public void service() { 
+
+    notifyOnServiceStarted();
+
     loadObjects(memberFile, memberList, Member.class);
     loadObjects(boardFile, boardList, Board.class);
     loadObjects(dietFile, dietList, Diet.class);
@@ -171,6 +174,20 @@ public class App {
     saveObjects(bodyFile, bodyList);
 
     Prompt.close();    
+
+    notifyOnServiceStopped();
+  }
+
+  private void notifyOnServiceStarted() {
+    for (ApplicationContextListener listener : listeners) {
+      listener.contextInitialized();
+    }
+  }
+
+  private void notifyOnServiceStopped() {
+    for (ApplicationContextListener listener : listeners) {
+      listener.contextDestroyed();
+    }
   }
 
   private void printCommandHistory(Iterator<String> iterator) {
