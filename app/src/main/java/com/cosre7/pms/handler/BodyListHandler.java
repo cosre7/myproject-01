@@ -18,7 +18,7 @@ public class BodyListHandler extends AbstractBodyHandler {
 
     while (iterator.hasNext()) {
       Body b = iterator.next();
-      System.out.printf("번호: %d 이름: %s 날짜: %s\n", 
+      System.out.printf("[%d] 이름: %s 날짜: %s\n", 
           b.getNo(), 
           b.getName(), 
           b.getDate()); 

@@ -19,7 +19,7 @@ public class MemberListHandler extends AbstractMemberHandler {
     while (iterator.hasNext()) {
       Member m = iterator.next();
       //번호, 이름, 전화, 가입일
-      System.out.printf("%d, %s, %s, %s\n",
+      System.out.printf("[%d], %s (%s) %s\n",
           m.getNo(), 
           m.getName(), 
           m.getTel(), 

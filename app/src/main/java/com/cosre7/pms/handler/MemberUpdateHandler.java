@@ -24,7 +24,7 @@ public class MemberUpdateHandler extends AbstractMemberHandler {
     }
 
     String name = Prompt.inputString(String.format("이름(%s) > ", member.getName()));
-    String photo = Prompt.inputString(String.format("사진 > ", member.getPhoto()));
+    String photo = Prompt.inputString(String.format("사진(%s) > ", member.getPhoto()));
     String tel = Prompt.inputString(String.format("전화(%s) > ", member.getTel()));
     Date registeredDate = Prompt.inputDate(String.format("가입일(%s) > ", member.getRegisteredDate()));
 

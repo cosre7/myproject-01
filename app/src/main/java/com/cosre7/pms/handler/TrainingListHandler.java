@@ -18,7 +18,7 @@ public class TrainingListHandler extends AbstractTrainingHandler {
 
     while (iterator.hasNext()) {
       Training t = iterator.next();
-      System.out.printf("번호: %d 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
+      System.out.printf("[%d] 이름: %s 날짜: %s\n", t.getNo(), t.getName(), t.getDate()); 
     }
   }
 }
