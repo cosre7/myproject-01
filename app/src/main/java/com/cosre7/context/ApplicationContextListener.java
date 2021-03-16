@@ -1,6 +1,6 @@
 package com.cosre7.context;
 
-public interface ApplicationContestListener {
+public interface ApplicationContextListener {
   void contextInitialized();
   void contextDestroyed();
 }

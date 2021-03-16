@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import com.cosre7.context.ApplicationContextListener;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
 import com.cosre7.pms.domain.Diet;
@@ -53,6 +54,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class App {
 
+  List<ApplicationContextListener> listeners = new ArrayList<>();
+
   ArrayDeque<String> commandStack = new ArrayDeque<>();
   LinkedList<String> commandQueue = new LinkedList<>();
 
@@ -71,6 +74,14 @@ public class App {
   public static void main(String[] args) {
     App app = new App();
     app.service();
+  }
+
+  public void addApplicationContextListener(ApplicationContextListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removeApplicationContextListener(ApplicationContextListener listener) {
+    listeners.remove(listener);
   }
 
   public void service() { 
@@ -184,10 +195,8 @@ public class App {
         strBuilder.append(str);
       }
 
-      Gson gson = new Gson();
-
       Type collectionType = TypeToken.getParameterized(Collection.class, elementType).getType();
-      Collection<T> collection = gson.fromJson(strBuilder.toString(), collectionType);
+      Collection<T> collection = new Gson().fromJson(strBuilder.toString(), collectionType);
 
       list.addAll(collection);
 
