@@ -1,18 +1,12 @@
 package com.cosre7.pms;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import com.cosre7.context.ApplicationContextListener;
 import com.cosre7.pms.domain.Board;
 import com.cosre7.pms.domain.Body;
@@ -48,10 +42,8 @@ import com.cosre7.pms.handler.TrainingDetailHandler;
 import com.cosre7.pms.handler.TrainingListHandler;
 import com.cosre7.pms.handler.TrainingUpdateHandler;
 import com.cosre7.pms.listener.AppListener;
-import com.cosre7.util.CsvObject;
+import com.cosre7.pms.listener.FileListener;
 import com.cosre7.util.Prompt;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class App {
 
@@ -60,21 +52,14 @@ public class App {
   ArrayDeque<String> commandStack = new ArrayDeque<>();
   LinkedList<String> commandQueue = new LinkedList<>();
 
-  ArrayList<Member> memberList = new ArrayList<>();
-  ArrayList<Board> boardList = new ArrayList<>();
-  ArrayList<Diet> dietList = new ArrayList<>();
-  ArrayList<Training> trainingList = new ArrayList<>();
-  ArrayList<Body> bodyList = new ArrayList<>();
-
-  File memberFile = new File("members.json");
-  File boardFile = new File("boards.json");
-  File dietFile = new File("diets.json");
-  File trainingFile = new File("trainings.json");
-  File bodyFile = new File("bodys.json");
+  Map<String,Object> appContext = new HashMap<>();
 
   public static void main(String[] args) {
     App app = new App();
+
     app.addApplicationContextListener(new AppListener());
+    app.addApplicationContextListener(new FileListener());
+
     app.service();
   }
 
@@ -86,15 +71,16 @@ public class App {
     listeners.remove(listener);
   }
 
+  @SuppressWarnings("unchecked")
   public void service() { 
 
     notifyOnServiceStarted();
 
-    loadObjects(memberFile, memberList, Member.class);
-    loadObjects(boardFile, boardList, Board.class);
-    loadObjects(dietFile, dietList, Diet.class);
-    loadObjects(trainingFile, trainingList, Training.class);
-    loadObjects(bodyFile, bodyList, Body.class);
+    List<Member> memberList = (List<Member>) appContext.get("memberList");
+    List<Board> boardList = (List<Board>) appContext.get("boardList");
+    List<Diet> dietList = (List<Diet>) appContext.get("dietList");
+    List<Training> trainingList = (List<Training>) appContext.get("trainingList");
+    List<Body> bodyList = (List<Body>) appContext.get("bodyList");
 
     HashMap<String,Command> commandMap = new HashMap<>();
 
@@ -169,11 +155,6 @@ public class App {
         }
         System.out.println();
       }
-    saveObjects(memberFile, memberList);
-    saveObjects(boardFile, boardList);
-    saveObjects(dietFile, dietList);
-    saveObjects(trainingFile, trainingList);
-    saveObjects(bodyFile, bodyList);
 
     Prompt.close();    
 
@@ -182,13 +163,13 @@ public class App {
 
   private void notifyOnServiceStarted() {
     for (ApplicationContextListener listener : listeners) {
-      listener.contextInitialized();
+      listener.contextInitialized(appContext);
     }
   }
 
   private void notifyOnServiceStopped() {
     for (ApplicationContextListener listener : listeners) {
-      listener.contextDestroyed();
+      listener.contextDestroyed(appContext);
     }
   }
 
@@ -205,34 +186,5 @@ public class App {
     }
   }
 
-  private <T> void loadObjects(File file, List<T> list, Class<T> elementType) {
-    try (BufferedReader in = new BufferedReader(new FileReader(file))) {
 
-      StringBuilder strBuilder = new StringBuilder();
-      String str = null;
-      while ((str = in.readLine()) != null) {
-        strBuilder.append(str);
-      }
-
-      Type collectionType = TypeToken.getParameterized(Collection.class, elementType).getType();
-      Collection<T> collection = new Gson().fromJson(strBuilder.toString(), collectionType);
-
-      list.addAll(collection);
-
-      System.out.printf("%s 파일 로딩성공\n", file.getName());
-
-    } catch (Exception e) {
-      System.out.printf("%s 파일 로딩실패\n", file.getName());
-    }
-  }
-
-  private <T extends CsvObject> void saveObjects(File file, List<T> list) {
-    try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
-      out.write(new Gson().toJson(list));
-      System.out.printf("파일 %s 저장성공\n", file.getName());
-
-    } catch (Exception e) {
-      System.out.printf("파일 %s 저장실패\n", file.getName());
-    }
-  }
 }
